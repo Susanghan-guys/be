@@ -1,5 +1,5 @@
 name: '✨ feature template'
-description: '기능 추가할 때 사용하는 템플릿입니다. 이슈는 Jira와 연동됩니다.'
+description: 'Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
 title: 'feat: '
 labels: ['✨feature']
 
