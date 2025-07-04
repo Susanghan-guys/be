@@ -65,5 +65,6 @@ public class Work extends BaseEntity {
 
     public void associateUser(User user) {
         this.user = user;
+        user.getWorkList().add(this);
     }
 }
