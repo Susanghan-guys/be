@@ -2,6 +2,7 @@ package com.susanghan_guys.server.user.domain;
 
 import com.susanghan_guys.server.global.domain.BaseEntity;
 import com.susanghan_guys.server.user.domain.type.Channel;
+import com.susanghan_guys.server.user.domain.type.Purpose;
 import com.susanghan_guys.server.user.domain.type.Role;
 import com.susanghan_guys.server.user.domain.type.SocialLogin;
 import jakarta.persistence.*;
@@ -21,13 +22,13 @@ public class User extends BaseEntity {
 
     private String name;
 
-    private String password;
-
-    private Integer age;
+    private String email;
 
     private Role Role;
 
     private Channel channel;
+
+    private Purpose purpose;
 
     private SocialLogin socialLogin;
 }
