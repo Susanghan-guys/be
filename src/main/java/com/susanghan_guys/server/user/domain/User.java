@@ -33,7 +33,7 @@ public class User extends BaseEntity {
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role Role;
+    private Role role;
 
     @Column(name = "channel", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -61,7 +61,7 @@ public class User extends BaseEntity {
     ) {
         this.name = name;
         this.email = email;
-        this.Role = role;
+        this.role = role;
         this.channel = channel;
         this.purpose = purpose;
         this.socialLogin = socialLogin;

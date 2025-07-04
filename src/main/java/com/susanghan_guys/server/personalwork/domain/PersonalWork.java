@@ -41,7 +41,6 @@ public class PersonalWork extends BaseEntity {
 
     @Builder
     public PersonalWork(
-            Long id,
             ItemType itemType,
             String title,
             String subtitle,
@@ -49,7 +48,6 @@ public class PersonalWork extends BaseEntity {
             Integer score,
             Work work
     ) {
-        this.id = id;
         this.itemType = itemType;
         this.title = title;
         this.subtitle = subtitle;

@@ -27,11 +27,9 @@ public class Critic extends BaseEntity {
 
     @Builder
     public Critic(
-            Long id,
             CriticType criticType,
             String title
     ) {
-        this.id = id;
         this.criticType = criticType;
         this.title = title;
     }
