@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<CommonResponse<Void>> handleBusinessException(BusinessException e) {
         ErrorCode errorCode =  e.getErrorCode();
         return ResponseEntity
-                .status(errorCode.getStatus())
+                .status(errorCode.getHttpStatus())
                 .body(CommonResponse.failure(errorCode));
     }
 
@@ -24,8 +24,8 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<CommonResponse<Void>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException e) {
         return ResponseEntity
-                .status(ErrorCode.BAE_REQUEST.getHttpStatus())
-                .body(CommonResponse.failure(ErrorCode.BAE_REQUEST));
+                .status(ErrorCode.BAD_REQUEST.getHttpStatus())
+                .body(CommonResponse.failure(ErrorCode.BAD_REQUEST));
     }
 
     @ExceptionHandler(Exception.class)
