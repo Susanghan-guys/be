@@ -17,16 +17,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<CommonResponse<Void>> handleBusinessException(BusinessException e) {
         ErrorCode errorCode =  e.getErrorCode();
-        log.info("⚠️ Business Exception occurred: {}", e.getMessage());
-
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
                 .body(CommonResponse.failure(errorCode));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<CommonResponse<Void>> handleMethodArgumentNotValidException(
-            MethodArgumentNotValidException e) {
+    protected ResponseEntity<CommonResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return ResponseEntity
                 .status(ErrorCode.BAD_REQUEST.getHttpStatus())
                 .body(CommonResponse.failure(ErrorCode.BAD_REQUEST));
