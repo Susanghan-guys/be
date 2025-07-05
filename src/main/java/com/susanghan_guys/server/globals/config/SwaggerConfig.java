@@ -10,7 +10,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 description = "수상한 녀석들 API 명세서",
                 version = "v1"
         ),
-        servers = @Server(description = "Default Server URL")
+        servers = @Server(
+                url = "/api",
+                description = "Default Server URL"
+        )
 )
 public class SwaggerConfig {
 }
