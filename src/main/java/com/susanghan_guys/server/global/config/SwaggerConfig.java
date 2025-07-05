@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.globals.config;
+package com.susanghan_guys.server.global.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;

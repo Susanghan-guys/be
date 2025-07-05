@@ -1,6 +1,6 @@
-package com.susanghan_guys.server.globals.exception;
+package com.susanghan_guys.server.global.exception;
 
-import com.susanghan_guys.server.globals.common.code.ErrorCode;
+import com.susanghan_guys.server.global.common.code.ErrorCode;
 import lombok.Getter;
 
 @Getter

@@ -1,8 +1,8 @@
-package com.susanghan_guys.server.globals.common;
+package com.susanghan_guys.server.global.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.susanghan_guys.server.globals.common.code.ErrorCode;
-import com.susanghan_guys.server.globals.common.code.SuccessCode;
+import com.susanghan_guys.server.global.common.code.ErrorCode;
+import com.susanghan_guys.server.global.common.code.SuccessCode;
 
 public record CommonResponse<T>(
         boolean isSuccess,

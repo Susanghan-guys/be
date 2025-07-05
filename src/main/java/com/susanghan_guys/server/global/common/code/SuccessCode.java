@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.globals.common.code;
+package com.susanghan_guys.server.global.common.code;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

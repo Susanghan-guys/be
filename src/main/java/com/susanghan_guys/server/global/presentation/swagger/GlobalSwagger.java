@@ -1,6 +1,6 @@
-package com.susanghan_guys.server.globals.presentation.swagger;
+package com.susanghan_guys.server.global.presentation.swagger;
 
-import com.susanghan_guys.server.globals.common.CommonResponse;
+import com.susanghan_guys.server.global.common.CommonResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

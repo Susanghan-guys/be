@@ -1,8 +1,8 @@
-package com.susanghan_guys.server.globals.exception.handler;
+package com.susanghan_guys.server.global.exception.handler;
 
-import com.susanghan_guys.server.globals.common.CommonResponse;
-import com.susanghan_guys.server.globals.common.code.ErrorCode;
-import com.susanghan_guys.server.globals.exception.BusinessException;
+import com.susanghan_guys.server.global.common.CommonResponse;
+import com.susanghan_guys.server.global.common.code.ErrorCode;
+import com.susanghan_guys.server.global.exception.BusinessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
