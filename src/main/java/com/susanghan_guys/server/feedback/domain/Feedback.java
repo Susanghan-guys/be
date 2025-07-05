@@ -1,0 +1,41 @@
+package com.susanghan_guys.server.feedback.domain;
+
+import com.susanghan_guys.server.global.domain.BaseEntity;
+import com.susanghan_guys.server.work.domain.Work;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Feedback extends BaseEntity {
+
+    @Id
+    @Column(name = "feedback_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "score", nullable = false)
+    private Integer score;
+
+    @Column(name = "content", nullable = false)
+    private String content;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "work_id", nullable = false, unique = true)
+    private Work work;
+
+    @Builder
+    public Feedback(
+            Integer score,
+            String content,
+            Work work
+    ) {
+        this.score = score;
+        this.content = content;
+        this.work = work;
+    }
+}
