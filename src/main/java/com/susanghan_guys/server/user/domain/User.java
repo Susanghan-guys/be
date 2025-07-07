@@ -31,7 +31,10 @@ public class User extends BaseEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "provider_id", nullable = false)
+    private String providerId;
+
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -54,6 +57,7 @@ public class User extends BaseEntity {
     public User(
             String name,
             String email,
+            String providerId,
             Role role,
             Channel channel,
             Purpose purpose,
@@ -61,6 +65,7 @@ public class User extends BaseEntity {
     ) {
         this.name = name;
         this.email = email;
+        this.providerId = providerId;
         this.role = role;
         this.channel = channel;
         this.purpose = purpose;
