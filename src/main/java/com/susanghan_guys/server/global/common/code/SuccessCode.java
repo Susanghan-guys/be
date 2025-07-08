@@ -15,7 +15,7 @@ public enum SuccessCode implements BaseCode {
     USER_LOGOUT_SUCCESS(HttpStatus.OK, 200, "User Logout Success"),
 
     // token
-    REFRESH_TOKEN_UPDATE_SUCCESS(HttpStatus.OK, 200, "Refresh Token Success"),
+    REFRESH_TOKEN_UPDATE_SUCCESS(HttpStatus.OK, 200, "Refresh Token Update Success"),
     ;
 
     private final HttpStatus httpStatus;
