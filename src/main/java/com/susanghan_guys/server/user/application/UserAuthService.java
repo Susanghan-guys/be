@@ -3,6 +3,7 @@ package com.susanghan_guys.server.user.application;
 import com.susanghan_guys.server.global.common.code.ErrorCode;
 import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.global.jwt.JwtProvider;
+import com.susanghan_guys.server.global.oauth2.application.TokenBlackListService;
 import com.susanghan_guys.server.global.oauth2.domain.RefreshToken;
 import com.susanghan_guys.server.global.oauth2.infrastructure.persistence.RefreshTokenRepository;
 import com.susanghan_guys.server.user.domain.User;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+
 @Service
 @RequiredArgsConstructor
 public class UserAuthService {
@@ -20,6 +23,7 @@ public class UserAuthService {
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final TokenBlackListService tokenBlackListService;
 
     @Transactional
     public void logout(String accessToken) {
@@ -30,6 +34,9 @@ public class UserAuthService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
 
         refreshTokenRepository.delete(refreshToken);
+
+        long expiration = claims.getExpiration().getTime() - System.currentTimeMillis();
+        tokenBlackListService.addBlackList(accessToken, "logout", Duration.ofMillis(expiration));
     }
 
     @Transactional
