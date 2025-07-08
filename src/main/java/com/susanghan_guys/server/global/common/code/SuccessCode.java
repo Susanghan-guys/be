@@ -10,6 +10,9 @@ public enum SuccessCode implements BaseCode {
 
     // health_check
     HEALTH_CHECK_SUCCESS(HttpStatus.OK, 200, "Health Check Success"),
+
+    // user
+    USER_LOGOUT_SUCCESS(HttpStatus.OK, 200, "User Logout Success"),
     ;
 
     private final HttpStatus httpStatus;
