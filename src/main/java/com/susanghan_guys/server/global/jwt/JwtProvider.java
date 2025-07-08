@@ -21,7 +21,7 @@ public class JwtProvider {
 
     public String createAccessToken(Long userId) {
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + jwtProperties.getAccessExpiration());
+        Date expiration = new Date(now.getTime() + jwtProperties.getAccessExp());
 
         return Jwts.builder()
                 .setSubject(userId.toString())
@@ -33,7 +33,7 @@ public class JwtProvider {
 
     public String createRefreshToken(Long userId) {
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + jwtProperties.getRefreshExpiration());
+        Date expiration = new Date(now.getTime() + jwtProperties.getRefreshExp());
 
         return Jwts.builder()
                 .setSubject(userId.toString())
@@ -57,8 +57,6 @@ public class JwtProvider {
 
     public boolean validateToken(String token) {
         try {
-            Claims claims = getClaims(token);
-
             Jwts.parserBuilder()
                     .setSigningKey(Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8)))
                     .build()

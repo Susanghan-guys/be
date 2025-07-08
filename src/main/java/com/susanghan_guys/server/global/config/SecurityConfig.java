@@ -6,6 +6,7 @@ import com.susanghan_guys.server.global.oauth2.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,6 +26,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -32,13 +34,14 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
-                                "/api/swagger-ui/**",
-                                "/api/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
                                 "/swagger-resources/**",
+                                "/swagger-ui.html",
                                 "/webjars/**",
-                                "/api/global/health-check"
+                                "/global/health-check",
+                                "/login/oauth2/**"
                         ).permitAll()
-                        .requestMatchers("/api/v1/oauth/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo

@@ -38,11 +38,11 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "channel", nullable = false)
+    @Column(name = "channel")
     @Enumerated(EnumType.STRING)
     private Channel channel;
 
-    @Column(name = "purpose", nullable = false)
+    @Column(name = "purpose")
     @Enumerated(EnumType.STRING)
     private Purpose purpose;
 
