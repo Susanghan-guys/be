@@ -2,10 +2,7 @@ package com.susanghan_guys.server.global.jwt;
 
 import com.susanghan_guys.server.global.common.code.ErrorCode;
 import com.susanghan_guys.server.global.exception.BusinessException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -63,7 +60,7 @@ public class JwtProvider {
                     .parseClaimsJws(token);
 
             return true;
-        } catch (ExpiredJwtException e) {
+        } catch (JwtException e) {
             throw new BusinessException(ErrorCode.INVALID_TOKEN);
         }
     }

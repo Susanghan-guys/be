@@ -18,7 +18,7 @@ public class SecurityUtils {
             !authentication.isAuthenticated() ||
             authentication instanceof AnonymousAuthenticationToken
         ) {
-            throw new BusinessException(ErrorCode.INVALID_TOKEN);
+            throw new BusinessException(ErrorCode.UNAUTHORIZED);
         }
         return ((CustomUserDetails) authentication.getPrincipal()).getUser();
     }
