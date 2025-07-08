@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "[사용자 회원가입/로그인]", description = "사용자 회원가입, 로그인 관련 API")
+@Tag(name = "[사용자 인증]", description = "사용자 로그아웃, 토큰 재발급 관련 API")
 public interface UserAuthSwagger {
     @Operation(
             summary = "사용자 로그아웃 API",

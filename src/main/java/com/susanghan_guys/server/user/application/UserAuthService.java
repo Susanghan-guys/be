@@ -36,6 +36,10 @@ public class UserAuthService {
         refreshTokenRepository.delete(refreshToken);
 
         long expiration = claims.getExpiration().getTime() - System.currentTimeMillis();
+
+        if (expiration <= 0) {
+            expiration = 1000;
+        }
         tokenBlackListService.addBlackList(accessToken, "logout", Duration.ofMillis(expiration));
     }
 
