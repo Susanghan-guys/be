@@ -4,7 +4,7 @@ import com.susanghan_guys.server.global.oauth2.domain.OAuth2UserInfo;
 import com.susanghan_guys.server.global.oauth2.infrastructure.userinfo.GoogleUserInfo;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.user.domain.User;
-import com.susanghan_guys.server.user.infrastructure.UserRepository;
+import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
 import com.susanghan_guys.server.user.infrastructure.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

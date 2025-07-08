@@ -7,7 +7,7 @@ import com.susanghan_guys.server.global.oauth2.domain.RefreshToken;
 import com.susanghan_guys.server.global.oauth2.infrastructure.persistence.RefreshTokenRepository;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.dto.response.RefreshTokenResponse;
-import com.susanghan_guys.server.user.infrastructure.UserRepository;
+import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
