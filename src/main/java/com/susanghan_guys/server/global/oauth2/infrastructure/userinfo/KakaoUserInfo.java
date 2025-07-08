@@ -7,27 +7,27 @@ import lombok.RequiredArgsConstructor;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class GoogleUserInfo implements OAuth2UserInfo {
+public class KakaoUserInfo implements OAuth2UserInfo {
 
     private final Map<String, Object> attributes;
 
     @Override
     public String getProviderId() {
-        return (String) attributes.get("sub");
+        return String.valueOf(attributes.get("id"));
     }
 
     @Override
     public String getEmail() {
-        return (String) attributes.get("email");
+        return (String) attributes.get("account_email");
     }
 
     @Override
     public String getName() {
-        return (String) attributes.get("name");
+        return (String) attributes.get("profile_nickname");
     }
 
     @Override
     public SocialLogin getProvider() {
-        return SocialLogin.GOOGLE;
+        return SocialLogin.KAKAO;
     }
 }
