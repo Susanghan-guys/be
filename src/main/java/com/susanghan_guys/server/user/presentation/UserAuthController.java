@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_LOGOUT_SUCCESS;
-import static com.susanghan_guys.server.global.common.code.SuccessCode.REFRESH_TOKEN_SUCCESS;
+import static com.susanghan_guys.server.global.common.code.SuccessCode.REFRESH_TOKEN_UPDATE_SUCCESS;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +36,6 @@ public class UserAuthController implements UserAuthSwagger {
     @PostMapping("/refresh-token")
     public CommonResponse<RefreshTokenResponse> updateRefreshToken(@RequestBody @Valid RefreshTokenRequest request) {
         RefreshTokenResponse refreshTokenResponse = userAuthService.refreshTokenResponse(request.refreshToken());
-        return CommonResponse.success(REFRESH_TOKEN_SUCCESS, refreshTokenResponse);
+        return CommonResponse.success(REFRESH_TOKEN_UPDATE_SUCCESS, refreshTokenResponse);
     }
 }
