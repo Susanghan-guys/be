@@ -2,6 +2,7 @@ package com.susanghan_guys.server.global.oauth2.application;
 
 import com.susanghan_guys.server.global.oauth2.domain.OAuth2UserInfo;
 import com.susanghan_guys.server.global.oauth2.infrastructure.userinfo.GoogleUserInfo;
+import com.susanghan_guys.server.global.oauth2.infrastructure.userinfo.NaverUserInfo;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.infrastructure.UserRepository;
@@ -32,9 +33,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
-        OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(registrationId, attributes);
+        log.info("🌐 OAuth2 provider: {}", registrationId);
+        log.info("📦 Received attributes: {}", attributes);
 
-        User user = userRepository.findByEmail(oAuth2UserInfo.getEmail())
+        OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(registrationId, attributes);
+        String email = oAuth2UserInfo.getEmail();
+
+        if (email == null || email.isBlank()) {
+            log.error("❌ 소셜 로그인 실패 - 이메일이 존재하지 않음. attributes = {}", attributes);
+            throw new OAuth2AuthenticationException("소셜 로그인에 이메일 정보가 없습니다.");
+        }
+
+        User user = userRepository.findByEmail(email)
                 .orElseGet(() -> {
                     User newUser = UserMapper.toDomain(oAuth2UserInfo);
                     return userRepository.save(newUser);
@@ -47,7 +57,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return switch (registrationId.toUpperCase()) {
             case "GOOGLE" -> new GoogleUserInfo(attributes);
             // case "KAKAO" -> new KakaoUserInfo(attributes);
-            // case "NAVER" -> new NaverUserInfo(attributes);
+            case "NAVER" -> new NaverUserInfo(attributes);
             default -> throw new OAuth2AuthenticationException("지원하지 않는 소셜 로그인입니다: " + registrationId);
         };
     }
