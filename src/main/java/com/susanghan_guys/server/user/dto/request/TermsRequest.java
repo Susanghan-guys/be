@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.terms.dto.request;
+package com.susanghan_guys.server.user.dto.request;
 
 public record TermsRequest(
         Boolean isServiceAgreement,

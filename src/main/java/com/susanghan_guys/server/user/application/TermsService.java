@@ -1,9 +1,9 @@
-package com.susanghan_guys.server.terms.application;
+package com.susanghan_guys.server.user.application;
 
 import com.susanghan_guys.server.global.common.code.ErrorCode;
 import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
-import com.susanghan_guys.server.terms.dto.request.TermsRequest;
+import com.susanghan_guys.server.user.dto.request.TermsRequest;
 import com.susanghan_guys.server.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

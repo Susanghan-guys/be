@@ -1,8 +1,8 @@
-package com.susanghan_guys.server.terms.presentation;
+package com.susanghan_guys.server.user.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
-import com.susanghan_guys.server.terms.application.TermsService;
-import com.susanghan_guys.server.terms.dto.request.TermsRequest;
+import com.susanghan_guys.server.user.application.TermsService;
+import com.susanghan_guys.server.user.dto.request.TermsRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
