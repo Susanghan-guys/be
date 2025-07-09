@@ -12,7 +12,7 @@ public class GoogleUserInfo implements OAuth2UserInfo {
     private final Map<String, Object> attributes;
 
     @Override
-    public String providerId() {
+    public String getProviderId() {
         return (String) attributes.get("sub");
     }
 
@@ -30,4 +30,7 @@ public class GoogleUserInfo implements OAuth2UserInfo {
     public SocialLogin getProvider() {
         return SocialLogin.GOOGLE;
     }
+
+    @Override
+    public String getProfileImage() { return (String) attributes.get("picture"); }
 }
