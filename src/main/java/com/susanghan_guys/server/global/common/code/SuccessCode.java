@@ -11,6 +11,11 @@ public enum SuccessCode implements BaseCode {
     // health_check
     HEALTH_CHECK_SUCCESS(HttpStatus.OK, 200, "Health Check Success"),
 
+    // token
+    REFRESH_TOKEN_UPDATE_SUCCESS(HttpStatus.OK, 200, "Refresh Token Update Success"),
+
+    // user
+    USER_LOGOUT_SUCCESS(HttpStatus.OK, 200, "User Logout Success"),
     USER_AGREEMENT_SUCCESS(HttpStatus.OK, 200, "User Agreement Success"),
     ;
 

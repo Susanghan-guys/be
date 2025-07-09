@@ -40,7 +40,8 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/webjars/**",
                                 "/global/health-check",
-                                "/login/oauth2/**"
+                                "/login/oauth2/**",
+                                "/v1/auth/refresh-token"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2
