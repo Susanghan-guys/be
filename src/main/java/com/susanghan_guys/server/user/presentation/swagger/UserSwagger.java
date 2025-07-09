@@ -1,6 +1,7 @@
 package com.susanghan_guys.server.user.presentation.swagger;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
+import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,5 +24,19 @@ public interface UserSwagger {
     })
     CommonResponse<String> saveUserAgreement(
             @RequestBody @Valid UserTermsRequest request
+    );
+
+    @Operation(
+            summary = "사용자 온보딩 API",
+            description = "사용자 온보딩을 진행합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "사용자 온보딩이 성공적으로 실행되었습니다."
+            )
+    })
+    CommonResponse<String> saveUserOnboarding (
+            @RequestBody @Valid UserOnboardingRequest request
     );
 }

@@ -43,17 +43,25 @@ public class User extends BaseEntity {
     @Column(name = "is_marketing_agreement")
     private Boolean isMarketingAgreement;
 
-    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private List<Role> roles;
 
     @Column(name = "channel")
     @Enumerated(EnumType.STRING)
     private Channel channel;
 
+    @Column(name = "channel_etc")
+    private String channelEtc;
+
     @Column(name = "purpose")
     @Enumerated(EnumType.STRING)
     private Purpose purpose;
+
+    @Column(name = "purpose_etc")
+    private String purposeEtc;
 
     @Column(name = "social_login", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -70,9 +78,11 @@ public class User extends BaseEntity {
             Boolean isServiceAgreement,
             Boolean isUserInfoAgreement,
             Boolean isMarketingAgreement,
-            Role role,
+            List<Role> roles,
             Channel channel,
+            String channelEtc,
             Purpose purpose,
+            String purposeEtc,
             SocialLogin socialLogin
     ) {
         this.name = name;
@@ -81,9 +91,11 @@ public class User extends BaseEntity {
         this.isServiceAgreement = isServiceAgreement;
         this.isUserInfoAgreement = isUserInfoAgreement;
         this.isMarketingAgreement = isMarketingAgreement;
-        this.role = role;
+        this.roles = roles;
         this.channel = channel;
+        this.channelEtc = channelEtc;
         this.purpose = purpose;
+        this.purposeEtc = purposeEtc;
         this.socialLogin = socialLogin;
     }
 
@@ -100,5 +112,19 @@ public class User extends BaseEntity {
         this.isServiceAgreement = isServiceAgreement;
         this.isUserInfoAgreement = isUserInfoAgreement;
         this.isMarketingAgreement = isMarketingAgreement;
+    }
+
+    public void updateUserOnboarding(
+            List<Role> roles,
+            Channel channel,
+            String channelEtc,
+            Purpose purpose,
+            String purposeEtc
+    ) {
+        this.roles = roles;
+        this.channel = channel;
+        this.channelEtc = channelEtc;
+        this.purpose = purpose;
+        this.purposeEtc = purposeEtc;
     }
 }
