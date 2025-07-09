@@ -18,6 +18,7 @@ public class TermsService {
     @Transactional
     public void saveUserAgreement(TermsRequest request) {
         User user = currentUserProvider.getCurrentUser();
+
         if (!request.isServiceAgreement() || !request.isUserInfoAgreement()) {
             throw new BusinessException(ErrorCode.REQUIRED_TERMS_NOT_AGREED);
         }
