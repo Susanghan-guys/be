@@ -34,6 +34,15 @@ public class User extends BaseEntity {
     @Column(name = "provider_id", nullable = false)
     private String providerId;
 
+    @Column(name = "is_service_agreement")
+    private boolean isServiceAgreement;
+
+    @Column(name = "is_user_info_agreement")
+    private boolean isUserInfoAgreement;
+
+    @Column(name = "is_marketing_agreement")
+    private boolean isMarketingAgreement;
+
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -58,6 +67,9 @@ public class User extends BaseEntity {
             String name,
             String email,
             String providerId,
+            boolean isServiceAgreement,
+            boolean isUserInfoAgreement,
+            boolean isMarketingAgreement,
             Role role,
             Channel channel,
             Purpose purpose,
@@ -66,6 +78,9 @@ public class User extends BaseEntity {
         this.name = name;
         this.email = email;
         this.providerId = providerId;
+        this.isServiceAgreement = isServiceAgreement;
+        this.isUserInfoAgreement = isUserInfoAgreement;
+        this.isMarketingAgreement = isMarketingAgreement;
         this.role = role;
         this.channel = channel;
         this.purpose = purpose;
