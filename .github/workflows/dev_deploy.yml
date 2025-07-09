@@ -2,8 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ develop ]  # develop 브랜치에 push가 일어날 때 실행
-
+    branches:
+      - develop
+      - feat/#30-cicd
 jobs:
   build:
     runs-on: ubuntu-latest
