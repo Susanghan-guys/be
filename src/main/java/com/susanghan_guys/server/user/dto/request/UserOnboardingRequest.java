@@ -4,7 +4,7 @@ import com.susanghan_guys.server.user.domain.type.Channel;
 import com.susanghan_guys.server.user.domain.type.Purpose;
 import com.susanghan_guys.server.user.domain.type.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
@@ -13,14 +13,14 @@ import java.util.List;
 @Builder
 @Schema(description = "사용자 온보딩")
 public record UserOnboardingRequest(
-        @NotBlank
+        @NotEmpty
         @Schema(
                 description = "주로 맡는 역할",
-                example = "STRUCTURE, DESIGN"
+                example = "[\"STRUCTURE\", \"DESIGN\"]"
         )
         List<Role> role,
 
-        @NotBlank
+        @NotNull
         @Schema(
                 description = "수녀들 활용 목적",
                 example = "AI_FEEDBACK"
@@ -33,7 +33,7 @@ public record UserOnboardingRequest(
         )
         String purposeEtc,
 
-        @NotBlank
+        @NotNull
         @Schema(
                 description = "수녀들 알게 된 경로",
                 example = "INSTA"

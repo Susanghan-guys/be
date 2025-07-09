@@ -20,7 +20,7 @@ import java.util.Collections;
                 version = "v1"
         ),
         servers = @Server(
-                url = "/api",
+                url = "/",
                 description = "Default Server URL"
         )
 )
