@@ -34,17 +34,34 @@ public class User extends BaseEntity {
     @Column(name = "provider_id", nullable = false)
     private String providerId;
 
-    @Column(name = "role")
+    @Column(name = "is_service_agreement")
+    private Boolean isServiceAgreement;
+
+    @Column(name = "is_user_info_agreement")
+    private Boolean isUserInfoAgreement;
+
+    @Column(name = "is_marketing_agreement")
+    private Boolean isMarketingAgreement;
+
+    @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
+    private List<Role> roles;
 
     @Column(name = "channel")
     @Enumerated(EnumType.STRING)
     private Channel channel;
 
+    @Column(name = "channel_etc")
+    private String channelEtc;
+
     @Column(name = "purpose")
     @Enumerated(EnumType.STRING)
     private Purpose purpose;
+
+    @Column(name = "purpose_etc")
+    private String purposeEtc;
 
     @Column(name = "social_login", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -58,22 +75,56 @@ public class User extends BaseEntity {
             String name,
             String email,
             String providerId,
-            Role role,
+            Boolean isServiceAgreement,
+            Boolean isUserInfoAgreement,
+            Boolean isMarketingAgreement,
+            List<Role> roles,
             Channel channel,
+            String channelEtc,
             Purpose purpose,
+            String purposeEtc,
             SocialLogin socialLogin
     ) {
         this.name = name;
         this.email = email;
         this.providerId = providerId;
-        this.role = role;
+        this.isServiceAgreement = isServiceAgreement;
+        this.isUserInfoAgreement = isUserInfoAgreement;
+        this.isMarketingAgreement = isMarketingAgreement;
+        this.roles = roles;
         this.channel = channel;
+        this.channelEtc = channelEtc;
         this.purpose = purpose;
+        this.purposeEtc = purposeEtc;
         this.socialLogin = socialLogin;
     }
 
     public void addWork(Work work) {
         workList.add(work);
         work.associateUser(this);
+    }
+
+    public void updateUserAgreement(
+            Boolean isServiceAgreement,
+            Boolean isUserInfoAgreement,
+            Boolean isMarketingAgreement
+    ) {
+        this.isServiceAgreement = isServiceAgreement;
+        this.isUserInfoAgreement = isUserInfoAgreement;
+        this.isMarketingAgreement = isMarketingAgreement;
+    }
+
+    public void updateUserOnboarding(
+            List<Role> roles,
+            Purpose purpose,
+            String purposeEtc,
+            Channel channel,
+            String channelEtc
+    ) {
+        this.roles = roles;
+        this.purpose = purpose;
+        this.purposeEtc = purposeEtc;
+        this.channel = channel;
+        this.channelEtc = channelEtc;
     }
 }
