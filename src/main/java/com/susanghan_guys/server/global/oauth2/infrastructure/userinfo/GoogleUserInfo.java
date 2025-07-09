@@ -30,4 +30,7 @@ public class GoogleUserInfo implements OAuth2UserInfo {
     public SocialLogin getProvider() {
         return SocialLogin.GOOGLE;
     }
+
+    @Override
+    public String getProfileImage() { return (String) attributes.get("picture"); }
 }
