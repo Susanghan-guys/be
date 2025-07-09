@@ -9,7 +9,7 @@ public class UserMapper {
         return User.builder()
                 .email(oAuth2UserInfo.getEmail())
                 .name(oAuth2UserInfo.getName())
-                .providerId(oAuth2UserInfo.providerId())
+                .providerId(oAuth2UserInfo.getProviderId())
                 .socialLogin(oAuth2UserInfo.getProvider())
                 .build();
     }

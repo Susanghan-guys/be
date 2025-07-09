@@ -12,7 +12,7 @@ public class GoogleUserInfo implements OAuth2UserInfo {
     private final Map<String, Object> attributes;
 
     @Override
-    public String providerId() {
+    public String getProviderId() {
         return (String) attributes.get("sub");
     }
 

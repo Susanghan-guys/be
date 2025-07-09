@@ -2,6 +2,7 @@ package com.susanghan_guys.server.global.oauth2.application;
 
 import com.susanghan_guys.server.global.oauth2.domain.OAuth2UserInfo;
 import com.susanghan_guys.server.global.oauth2.infrastructure.userinfo.GoogleUserInfo;
+import com.susanghan_guys.server.global.oauth2.infrastructure.userinfo.KakaoUserInfo;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.infrastructure.UserRepository;
@@ -46,7 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
         return switch (registrationId.toUpperCase()) {
             case "GOOGLE" -> new GoogleUserInfo(attributes);
-            // case "KAKAO" -> new KakaoUserInfo(attributes);
+            case "KAKAO" -> new KakaoUserInfo(attributes);
             // case "NAVER" -> new NaverUserInfo(attributes);
             default -> throw new OAuth2AuthenticationException("지원하지 않는 소셜 로그인입니다: " + registrationId);
         };
