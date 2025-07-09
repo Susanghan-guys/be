@@ -35,13 +35,13 @@ public class User extends BaseEntity {
     private String providerId;
 
     @Column(name = "is_service_agreement")
-    private boolean isServiceAgreement;
+    private Boolean isServiceAgreement;
 
     @Column(name = "is_user_info_agreement")
-    private boolean isUserInfoAgreement;
+    private Boolean isUserInfoAgreement;
 
     @Column(name = "is_marketing_agreement")
-    private boolean isMarketingAgreement;
+    private Boolean isMarketingAgreement;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
@@ -67,9 +67,9 @@ public class User extends BaseEntity {
             String name,
             String email,
             String providerId,
-            boolean isServiceAgreement,
-            boolean isUserInfoAgreement,
-            boolean isMarketingAgreement,
+            Boolean isServiceAgreement,
+            Boolean isUserInfoAgreement,
+            Boolean isMarketingAgreement,
             Role role,
             Channel channel,
             Purpose purpose,
@@ -90,5 +90,15 @@ public class User extends BaseEntity {
     public void addWork(Work work) {
         workList.add(work);
         work.associateUser(this);
+    }
+
+    public void updateUserAgreement(
+            Boolean isServiceAgreement,
+            Boolean isUserInfoAgreement,
+            Boolean isMarketingAgreement
+    ) {
+        this.isServiceAgreement = isServiceAgreement;
+        this.isUserInfoAgreement = isUserInfoAgreement;
+        this.isMarketingAgreement = isMarketingAgreement;
     }
 }

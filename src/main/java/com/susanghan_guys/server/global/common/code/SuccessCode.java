@@ -10,6 +10,8 @@ public enum SuccessCode implements BaseCode {
 
     // health_check
     HEALTH_CHECK_SUCCESS(HttpStatus.OK, 200, "Health Check Success"),
+
+    USER_AGREEMENT_SUCCESS(HttpStatus.OK, 200, "User Agreement Success"),
     ;
 
     private final HttpStatus httpStatus;
