@@ -33,10 +33,10 @@ public class UserService {
 
         user.updateUserOnboarding(
                 request.role(),
-                request.channel(),
-                request.channelEtc(),
                 request.purpose(),
-                request.purposeEtc()
+                request.purposeEtc(),
+                request.channel(),
+                request.channelEtc()
         );
     }
 }

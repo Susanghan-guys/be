@@ -116,15 +116,15 @@ public class User extends BaseEntity {
 
     public void updateUserOnboarding(
             List<Role> roles,
-            Channel channel,
-            String channelEtc,
             Purpose purpose,
-            String purposeEtc
+            String purposeEtc,
+            Channel channel,
+            String channelEtc
     ) {
         this.roles = roles;
-        this.channel = channel;
-        this.channelEtc = channelEtc;
         this.purpose = purpose;
         this.purposeEtc = purposeEtc;
+        this.channel = channel;
+        this.channelEtc = channelEtc;
     }
 }
