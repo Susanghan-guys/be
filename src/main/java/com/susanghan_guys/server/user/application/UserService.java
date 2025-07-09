@@ -45,13 +45,13 @@ public class UserService {
     }
 
     private void validateUserOnboarding(UserOnboardingRequest request) {
-        if (request.channel().equals(Channel.ETC)) {
+        if (Channel.ETC.equals(request.channel())) {
             if (request.channelEtc() == null || request.channelEtc().isBlank()) {
                 throw new BusinessException(ErrorCode.ETC_DETAIL_REQUIRED);
             }
         }
 
-        if (request.purpose().equals(Purpose.ETC)) {
+        if (Purpose.ETC.equals(request.purpose())) {
             if (request.purposeEtc() == null || request.purposeEtc().isBlank()) {
                 throw new BusinessException(ErrorCode.ETC_DETAIL_REQUIRED);
             }
