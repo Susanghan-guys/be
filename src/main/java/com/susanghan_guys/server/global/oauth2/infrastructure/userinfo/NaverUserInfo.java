@@ -2,17 +2,39 @@ package com.susanghan_guys.server.global.oauth2.infrastructure.userinfo;
 
 import com.susanghan_guys.server.global.oauth2.domain.OAuth2UserInfo;
 import com.susanghan_guys.server.user.domain.type.SocialLogin;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NaverUserInfo implements OAuth2UserInfo {
 
     private final Map<String, Object> attributes;
 
-    private Map<String, Object> getResponse() {
-        return (Map<String, Object>) attributes.get("response");
+    private Map<String, Object> getResponseMap() {
+        Object response = attributes.get("response");
+        if (response instanceof Map<?, ?>) {
+            return (Map<String, Object>) response;
+        }
+        return null;
+    }
+
+    @Override
+    public String getProviderId() {
+        Map<String, Object> responseMap = getResponseMap();
+        return responseMap != null ? (String) responseMap.get("id") : null;
+    }
+
+    @Override
+    public String getEmail() {
+        Map<String, Object> responseMap = getResponseMap();
+        return responseMap != null ? (String) responseMap.get("email") : null;
+    }
+
+    @Override
+    public String getName() {
+        Map<String, Object> responseMap = getResponseMap();
+        return responseMap != null ? (String) responseMap.get("name") : null;
     }
 
     @Override
@@ -21,17 +43,8 @@ public class NaverUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public String providerId() {
-        return (String) getResponse().get("id");
-    }
-
-    @Override
-    public String getEmail() {
-        return (String) getResponse().get("email");
-    }
-
-    @Override
-    public String getName() {
-        return (String) getResponse().get("name");
+    public String getProfileImage() {
+        Map<String, Object> responseMap = getResponseMap();
+        return responseMap != null ? (String) responseMap.get("profile_image") : null;
     }
 }
