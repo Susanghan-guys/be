@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.user.infrastructure;
+package com.susanghan_guys.server.user.infrastructure.persistence;
 
 import com.susanghan_guys.server.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
