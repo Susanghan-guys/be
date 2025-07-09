@@ -1,8 +1,9 @@
 package com.susanghan_guys.server.user.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
-import com.susanghan_guys.server.user.application.TermsService;
-import com.susanghan_guys.server.user.dto.request.TermsRequest;
+import com.susanghan_guys.server.user.application.UserService;
+import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
+import com.susanghan_guys.server.user.presentation.swagger.UserSwagger;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,12 +16,13 @@ import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_AGRE
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/user")
-public class TermsController {
+public class UserController implements UserSwagger {
 
-    private final TermsService termsService;
+    private final UserService termsService;
 
+    @Override
     @PostMapping("/agreement")
-    public CommonResponse<String> saveUserAgreement(@RequestBody @Valid TermsRequest request) {
+    public CommonResponse<String> saveUserAgreement(@RequestBody @Valid UserTermsRequest request) {
         termsService.saveUserAgreement(request);
         return CommonResponse.success(USER_AGREEMENT_SUCCESS, "OK");
     }
