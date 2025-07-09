@@ -1,5 +1,6 @@
 package com.susanghan_guys.server.global.jwt;
 
+import com.susanghan_guys.server.global.oauth2.application.TokenBlackListService;
 import com.susanghan_guys.server.global.security.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -21,6 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
     private final CustomUserDetailService customUserDetailService;
+    private final TokenBlackListService tokenBlackListService;
 
     @Override
     protected void doFilterInternal(
@@ -28,9 +30,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        String token = resolveToken(request);
+        String token = jwtProvider.resolveToken(request);
 
         if (token != null && jwtProvider.validateToken(token)) {
+
+            if (tokenBlackListService.isBlackListed(token)) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"error\": \"로그아웃된 토큰입니다.\"}");
+                return;
+            }
             Claims claims = jwtProvider.getClaims(token);
             String userId = claims.getSubject();
             UserDetails userDetails = customUserDetailService.loadUserByUsername(userId);
@@ -43,14 +52,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         }
         filterChain.doFilter(request, response);
-    }
-
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
     }
 }
