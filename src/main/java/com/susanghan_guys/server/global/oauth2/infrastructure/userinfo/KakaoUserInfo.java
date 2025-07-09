@@ -42,4 +42,18 @@ public class KakaoUserInfo implements OAuth2UserInfo {
     public SocialLogin getProvider() {
         return SocialLogin.KAKAO;
     }
+
+    @Override
+    public String getProfileImage() {
+        Map<String, Object> accountMap = (Map<String, Object>) attributes.get("kakao_account");
+        if (accountMap == null) {
+            return null;
+        }
+        Map<String, Object> profileMap = (Map<String, Object>) accountMap.get("profile");
+        if (profileMap == null) {
+            return null;
+        }
+        return (String) profileMap.get("profile_image_url");
+    }
+
 }
