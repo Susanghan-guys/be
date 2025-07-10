@@ -34,22 +34,31 @@ jobs:
         with:
           arguments: build
 
-      - name: Upload build artifact
+      - name: Rename JAR for deployment
+        run: |
+          mv build/libs/*.jar build/libs/soosanghan.jar
+
+      - name: Upload deployment files
         uses: actions/upload-artifact@v4
         with:
-          path: build/libs/*.jar
+          name: deployment-files
+          path: |
+            build/libs/soosanghan.jar
+            Dockerfile
+            docker-compose.yml
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download build artifact
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          path: build/libs/
+          name: deployment-files
+          path: deployment
 
-      - name: Deploy to EC2
+      - name: Deploy to EC2 using Docker
         env:
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
           EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
@@ -57,11 +66,19 @@ jobs:
         run: |
           echo "$EC2_SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
-          jar_file=$(find build/libs -name '*.jar' ! -name '*plain.jar' | head -n 1)
-          scp -i private_key.pem -o StrictHostKeyChecking=no "$jar_file" $EC2_USERNAME@$EC2_HOST:/home/$EC2_USERNAME/soosanghan.jar
+
+          # Upload jar, Dockerfile, and docker-compose.yml
+          scp -i private_key.pem -o StrictHostKeyChecking=no \
+            deployment/soosanghan.jar \
+            deployment/Dockerfile \
+            deployment/docker-compose.yml \
+            $EC2_USERNAME@$EC2_HOST:/home/$EC2_USERNAME/
+
+          # Restart Docker container
           ssh -i private_key.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST "
-          pgrep java | xargs -r kill -15 || true
-          sleep 5
-          nohup java -jar /home/$EC2_USERNAME/soosanghan.jar > app.log 2>&1 &
+            cd /home/$EC2_USERNAME/
+            docker-compose down
+            docker-compose up --build -d
           "
+
           rm -f private_key.pem
