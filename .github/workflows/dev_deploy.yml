@@ -54,11 +54,11 @@ jobs:
         with:
           name: deployment-files
           path: deployment
-          
+
       - name: Debug Check downloaded files
         run: ls -R deployment
 
-      - name: Deploy to EC2 using Docker
+      - name: Deploy to EC2 using Docker (rsync)
         env:
           EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
           EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
@@ -67,14 +67,16 @@ jobs:
           echo "$EC2_SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
 
-          scp -i private_key.pem -o StrictHostKeyChecking=no \
-            deployment/build/libs/server-0.0.1-SNAPSHOT.jar \
-            $EC2_USERNAME@$EC2_HOST:/home/$EC2_USERNAME/
+          function sync_file() {
+            local source_file=$1
+            local target_path="/home/$EC2_USERNAME/"
+            rsync -avz -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" \
+              "$source_file" "$EC2_USERNAME@$EC2_HOST:$target_path"
+          }
 
-          scp -i private_key.pem -o StrictHostKeyChecking=no \
-            deployment/Dockerfile \
-            deployment/docker-compose.yml \
-            $EC2_USERNAME@$EC2_HOST:/home/$EC2_USERNAME/
+          sync_file deployment/build/libs/server-0.0.1-SNAPSHOT.jar
+          sync_file deployment/Dockerfile
+          sync_file deployment/docker-compose.yml
 
           ssh -i private_key.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST "
             cd /home/$EC2_USERNAME/
