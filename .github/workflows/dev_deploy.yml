@@ -48,11 +48,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: deployment-files
           path: deployment
+          
+      - name: Debug Check downloaded files
+        run: ls -R deployment
 
       - name: Deploy to EC2 using Docker
         env:
