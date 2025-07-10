@@ -36,21 +36,18 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         User user = customUserDetails.getUser();
 
-        String provider = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
-
         String accessToken = jwtProvider.createAccessToken(user.getId());
         String refreshToken = jwtProvider.createRefreshToken(user.getId());
 
         refreshTokenRepository.save(new RefreshToken(user.getId(), refreshToken));
 
-        String redirectUri = createRedirectUri(provider, accessToken, refreshToken);
+        String redirectUri = createRedirectUri(accessToken, refreshToken);
         response.sendRedirect(redirectUri);
     }
 
-    private String createRedirectUri(String provider, String accessToken, String refreshToken) {
+    private String createRedirectUri(String accessToken, String refreshToken) {
         return UriComponentsBuilder
                 .fromUriString(redirectUri)
-                .queryParam("provider", provider)
                 .queryParam("accessToken", accessToken)
                 .queryParam("refreshToken", refreshToken)
                 .build()
