@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - develop
-      - feat/#35-deploy-refactor
 
 jobs:
   build:
