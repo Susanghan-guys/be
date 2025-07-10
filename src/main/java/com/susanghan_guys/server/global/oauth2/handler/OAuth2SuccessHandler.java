@@ -41,6 +41,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         refreshTokenRepository.save(new RefreshToken(user.getId(), refreshToken));
 
+        // TODO: accessToken, refreshToken 보안 관련 수정
+
         String redirectUri = createRedirectUri(accessToken, refreshToken);
         response.sendRedirect(redirectUri);
     }
