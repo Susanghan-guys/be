@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y wget
 RUN wget -O /usr/local/bin/wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && \
     chmod +x /usr/local/bin/wait-for-it.sh
 
+
 COPY server-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080

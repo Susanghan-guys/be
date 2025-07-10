@@ -67,18 +67,15 @@ jobs:
           echo "$EC2_SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
 
-          # Upload JAR
           scp -i private_key.pem -o StrictHostKeyChecking=no \
-            deployment/server-0.0.1-SNAPSHOT.jar \
+            deployment/build/libs/server-0.0.1-SNAPSHOT.jar \
             $EC2_USERNAME@$EC2_HOST:/home/$EC2_USERNAME/
 
-          # Upload Dockerfile and docker-compose.yml
           scp -i private_key.pem -o StrictHostKeyChecking=no \
             deployment/Dockerfile \
             deployment/docker-compose.yml \
             $EC2_USERNAME@$EC2_HOST:/home/$EC2_USERNAME/
 
-          # Restart Docker container
           ssh -i private_key.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST "
             cd /home/$EC2_USERNAME/
             docker-compose down
