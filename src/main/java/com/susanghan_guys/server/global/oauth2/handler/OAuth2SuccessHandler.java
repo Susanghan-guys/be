@@ -1,21 +1,25 @@
 package com.susanghan_guys.server.global.oauth2.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.susanghan_guys.server.global.jwt.JwtProvider;
 import com.susanghan_guys.server.global.oauth2.domain.RefreshToken;
 import com.susanghan_guys.server.global.oauth2.infrastructure.persistence.RefreshTokenRepository;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
+import com.susanghan_guys.server.global.util.RedisUtil;
 import com.susanghan_guys.server.user.domain.User;
+import io.lettuce.core.RedisClient;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -23,6 +27,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final ObjectMapper objectMapper;
+    private final RedisUtil redisUtil;
 
     @Value("${frontend.oauth2.redirect-uri}")
     private String redirectUri;
@@ -41,18 +47,15 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         refreshTokenRepository.save(new RefreshToken(user.getId(), refreshToken));
 
-        // TODO: accessToken, refreshToken 보안 관련 수정
+        String tempCode = UUID.randomUUID().toString();
 
-        String redirectUri = createRedirectUri(accessToken, refreshToken);
-        response.sendRedirect(redirectUri);
-    }
+        redisUtil.setValue("auth:" + tempCode,
+                objectMapper.writeValueAsString(Map.of(
+                        "accessToken", accessToken,
+                        "refreshToken", refreshToken)
+                ), 1000 * 60L);
 
-    private String createRedirectUri(String accessToken, String refreshToken) {
-        return UriComponentsBuilder
-                .fromUriString(redirectUri)
-                .queryParam("accessToken", accessToken)
-                .queryParam("refreshToken", refreshToken)
-                .build()
-                .toString();
+        String callbackUri = redirectUri + tempCode;
+        response.sendRedirect(callbackUri);
     }
 }
