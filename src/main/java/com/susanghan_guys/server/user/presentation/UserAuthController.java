@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import static com.susanghan_guys.server.global.common.code.SuccessCode.EXCHANGE_TOKEN_SUCCESS;
 import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_LOGOUT_SUCCESS;
 import static com.susanghan_guys.server.global.common.code.SuccessCode.REFRESH_TOKEN_UPDATE_SUCCESS;
 
@@ -27,7 +28,7 @@ public class UserAuthController implements UserAuthSwagger {
     @Override
     @GetMapping("/exchange")
     public CommonResponse<ExchangeTokenResponse> exchangeToken(@RequestParam String code) throws JsonProcessingException {
-        return CommonResponse.success(USER_LOGOUT_SUCCESS, userAuthService.exchangeToken(code));
+        return CommonResponse.success(EXCHANGE_TOKEN_SUCCESS, userAuthService.exchangeToken(code));
     }
 
     @Override
