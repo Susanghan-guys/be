@@ -43,6 +43,9 @@ public class User extends BaseEntity {
     @Column(name = "is_marketing_agreement")
     private Boolean isMarketingAgreement;
 
+    @Column(name = "is_onboarded")
+    private boolean isOnboarded = false;
+
     @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
@@ -78,6 +81,7 @@ public class User extends BaseEntity {
             Boolean isServiceAgreement,
             Boolean isUserInfoAgreement,
             Boolean isMarketingAgreement,
+            boolean isOnboarded,
             List<Role> roles,
             Channel channel,
             String channelEtc,
@@ -91,6 +95,7 @@ public class User extends BaseEntity {
         this.isServiceAgreement = isServiceAgreement;
         this.isUserInfoAgreement = isUserInfoAgreement;
         this.isMarketingAgreement = isMarketingAgreement;
+        this.isOnboarded = isOnboarded;
         this.roles = roles;
         this.channel = channel;
         this.channelEtc = channelEtc;
@@ -115,12 +120,14 @@ public class User extends BaseEntity {
     }
 
     public void updateUserOnboarding(
+            Boolean isOnboarded,
             List<Role> roles,
             Purpose purpose,
             String purposeEtc,
             Channel channel,
             String channelEtc
     ) {
+        this.isOnboarded = isOnboarded;
         this.roles = roles;
         this.purpose = purpose;
         this.purposeEtc = purposeEtc;

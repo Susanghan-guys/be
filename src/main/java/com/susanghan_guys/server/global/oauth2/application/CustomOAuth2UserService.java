@@ -17,7 +17,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -44,14 +46,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             log.error("❌ 소셜 로그인 실패 - 이메일이 존재하지 않음. attributes = {}", attributes);
             throw new OAuth2AuthenticationException("소셜 로그인에 이메일 정보가 없습니다.");
         }
+        boolean isSignUp;
+        User user;
 
-        User user = userRepository.findByEmail(email)
-                .orElseGet(() -> {
-                    User newUser = UserMapper.toDomain(oAuth2UserInfo);
-                    return userRepository.save(newUser);
-                });
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
-        return new CustomUserDetails(user, attributes);
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+            isSignUp = false;
+        } else {
+            user = userRepository.save(UserMapper.toDomain(oAuth2UserInfo));
+            isSignUp = true;
+        }
+        Map<String, Object> updatedAttributes = new HashMap<>(attributes);
+        updatedAttributes.put("isSignUp", isSignUp);
+
+        return new CustomUserDetails(user, updatedAttributes);
     }
 
     private static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
