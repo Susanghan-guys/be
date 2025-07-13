@@ -36,6 +36,7 @@ public class UserService {
         validateUserOnboarding(request);
 
         user.updateUserOnboarding(
+                true,
                 request.role(),
                 request.purpose(),
                 request.purposeEtc(),

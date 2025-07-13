@@ -26,6 +26,7 @@ public record UserInfoResponse(
                 .name(user.getName())
                 .email(user.getEmail())
                 .isSignUp(isSignUp)
+                .isOnboarded(user.isOnboarded())
                 .build();
     }
 }
