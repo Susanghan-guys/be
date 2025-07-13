@@ -40,7 +40,6 @@ public class UserAuthController implements UserAuthSwagger {
     @Override
     @PostMapping("/refresh-token")
     public CommonResponse<RefreshTokenResponse> updateRefreshToken(@RequestBody @Valid RefreshTokenRequest request) {
-        RefreshTokenResponse refreshTokenResponse = userAuthService.refreshTokenResponse(request.refreshToken());
-        return CommonResponse.success(REFRESH_TOKEN_UPDATE_SUCCESS, refreshTokenResponse);
+        return CommonResponse.success(REFRESH_TOKEN_UPDATE_SUCCESS, userAuthService.refreshTokenResponse(request.refreshToken()));
     }
 }
