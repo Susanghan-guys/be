@@ -24,7 +24,7 @@ public class UserAuthController implements UserAuthSwagger {
     private final JwtProvider jwtProvider;
     private final UserAuthService userAuthService;
 
-    // @Override
+    @Override
     @GetMapping("/exchange")
     public CommonResponse<ExchangeTokenResponse> exchangeToken(@RequestParam String code) throws JsonProcessingException {
         return CommonResponse.success(USER_LOGOUT_SUCCESS, userAuthService.exchangeToken(code));
