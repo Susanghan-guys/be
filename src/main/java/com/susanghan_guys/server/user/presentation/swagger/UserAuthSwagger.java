@@ -28,7 +28,7 @@ public interface UserAuthSwagger {
     })
     CommonResponse<ExchangeTokenResponse> exchangeToken(
             @RequestParam String code
-    ) throws JsonProcessingException;
+    );
 
     @Operation(
             summary = "사용자 로그아웃 API",

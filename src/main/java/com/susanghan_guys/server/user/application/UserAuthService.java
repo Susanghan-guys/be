@@ -34,24 +34,33 @@ public class UserAuthService {
     private final ObjectMapper objectMapper;
     private final RedisUtil redisUtil;
 
-    public ExchangeTokenResponse exchangeToken(String code) throws JsonProcessingException {
+    public ExchangeTokenResponse exchangeToken(String code) {
         String key = "auth:" + code;
         String json = redisUtil.getValue(key);
 
-        Map<String, String> data = objectMapper.readValue(json, new TypeReference<>() {});
-        String accessToken = data.get("accessToken");
-        String refreshToken = data.get("refreshToken");
-        boolean isSignUp = Boolean.parseBoolean(data.get("isSignUp"));
+        if (json == null) {
+            throw new BusinessException(ErrorCode.INVALID_AUTH_CODE);
+        }
 
-        Claims claims = jwtProvider.getClaims(accessToken);
-        String userId = claims.getSubject();
+        try {
+            Map<String, String> data = objectMapper.readValue(json, new TypeReference<>() {});
+            String accessToken = data.get("accessToken");
+            String refreshToken = data.get("refreshToken");
+            boolean isSignUp = Boolean.parseBoolean(data.get("isSignUp"));
 
-        User user = userRepository.findById(Long.valueOf(userId))
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+            Claims claims = jwtProvider.getClaims(accessToken);
+            String userId = claims.getSubject();
 
-        redisUtil.deleteValue(key);
+            User user = userRepository.findById(Long.valueOf(userId))
+                    .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        return ExchangeTokenResponse.of(accessToken, refreshToken, user, isSignUp);
+            redisUtil.deleteValue(key);
+
+            return ExchangeTokenResponse.of(accessToken, refreshToken, user, isSignUp);
+        } catch (JsonProcessingException e) {
+            redisUtil.deleteValue(key);
+            throw new BusinessException(ErrorCode.TOKEN_PARSE_FAILED);
+        }
     }
 
     @Transactional
