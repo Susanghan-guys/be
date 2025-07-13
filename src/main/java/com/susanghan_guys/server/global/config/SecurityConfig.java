@@ -41,7 +41,8 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/global/health-check",
                                 "/login/oauth2/**",
-                                "/v1/auth/refresh-token"
+                                "/v1/auth/refresh-token",
+                                "/v1/auth/user-info"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2

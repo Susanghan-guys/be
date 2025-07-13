@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 @Service
@@ -45,11 +47,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationException("소셜 로그인에 이메일 정보가 없습니다.");
         }
 
-        User user = userRepository.findByEmail(email)
-                .orElseGet(() -> {
-                    User newUser = UserMapper.toDomain(oAuth2UserInfo);
-                    return userRepository.save(newUser);
-                });
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        AtomicBoolean isSignUp = new AtomicBoolean(false);
+
+        User user = optionalUser.orElseGet(() -> {
+            isSignUp.set(true);
+            User newUser = UserMapper.toDomain(oAuth2UserInfo);
+            return userRepository.save(newUser);
+        });
 
         return new CustomUserDetails(user, attributes);
     }

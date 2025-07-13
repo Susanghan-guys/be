@@ -7,7 +7,6 @@ import com.susanghan_guys.server.global.oauth2.infrastructure.persistence.Refres
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.global.util.RedisUtil;
 import com.susanghan_guys.server.user.domain.User;
-import io.lettuce.core.RedisClient;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,6 +41,11 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         User user = customUserDetails.getUser();
 
+        Map<String, Object> attributes = customUserDetails.getAttributes();
+        boolean isSignUp = Boolean.parseBoolean(
+                String.valueOf(attributes.getOrDefault("isSignUp", "false"))
+        );
+
         String accessToken = jwtProvider.createAccessToken(user.getId());
         String refreshToken = jwtProvider.createRefreshToken(user.getId());
 
@@ -52,8 +56,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         redisUtil.setValue("auth:" + tempCode,
                 objectMapper.writeValueAsString(Map.of(
                         "accessToken", accessToken,
-                        "refreshToken", refreshToken)
-                ), 1000 * 60L);
+                        "refreshToken", refreshToken,
+                        "isSignUp", String.valueOf(isSignUp)
+                )), 1000 * 60L);
 
         String callbackUri = redirectUri + tempCode;
         response.sendRedirect(callbackUri);

@@ -1,18 +1,17 @@
 package com.susanghan_guys.server.user.presentation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.global.jwt.JwtProvider;
 import com.susanghan_guys.server.user.application.UserAuthService;
 import com.susanghan_guys.server.user.dto.request.RefreshTokenRequest;
 import com.susanghan_guys.server.user.dto.response.RefreshTokenResponse;
+import com.susanghan_guys.server.user.dto.response.UserInfoResponse;
 import com.susanghan_guys.server.user.presentation.swagger.UserAuthSwagger;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_LOGOUT_SUCCESS;
 import static com.susanghan_guys.server.global.common.code.SuccessCode.REFRESH_TOKEN_UPDATE_SUCCESS;
@@ -24,6 +23,12 @@ public class UserAuthController implements UserAuthSwagger {
 
     private final JwtProvider jwtProvider;
     private final UserAuthService userAuthService;
+
+    // @Override
+    @GetMapping("/user-info")
+    public CommonResponse<UserInfoResponse> getUserInfo(@RequestParam String code) throws JsonProcessingException {
+        return CommonResponse.success(USER_LOGOUT_SUCCESS, userAuthService.getUserInfo(code));
+    }
 
     @Override
     @PostMapping("/logout")
