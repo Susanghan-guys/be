@@ -8,6 +8,7 @@ import com.susanghan_guys.server.user.domain.type.Purpose;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import com.susanghan_guys.server.user.domain.User;
+import com.susanghan_guys.server.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,14 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final CurrentUserProvider currentUserProvider;
+    private final UserValidator userValidator;
 
     @Transactional
     public void saveUserAgreement(UserTermsRequest request) {
         User user = currentUserProvider.getCurrentUser();
 
-        if (!request.isServiceAgreement() || !request.isUserInfoAgreement()) {
-            throw new BusinessException(ErrorCode.REQUIRED_TERMS_NOT_AGREED);
-        }
+        userValidator.validateUserAgreement(request);
+
         user.updateUserAgreement(true, true, request.isMarketingAgreement());
     }
 
@@ -33,7 +34,7 @@ public class UserService {
     public void saveUserOnboarding(UserOnboardingRequest request) {
         User user = currentUserProvider.getCurrentUser();
 
-        validateUserOnboarding(request);
+        userValidator.validateUserOnboarding(request);
 
         user.updateUserOnboarding(
                 true,
@@ -43,19 +44,5 @@ public class UserService {
                 request.channel(),
                 request.channelEtc()
         );
-    }
-
-    private void validateUserOnboarding(UserOnboardingRequest request) {
-        if (Channel.ETC.equals(request.channel())) {
-            if (request.channelEtc() == null || request.channelEtc().isBlank()) {
-                throw new BusinessException(ErrorCode.ETC_DETAIL_REQUIRED);
-            }
-        }
-
-        if (Purpose.ETC.equals(request.purpose())) {
-            if (request.purposeEtc() == null || request.purposeEtc().isBlank()) {
-                throw new BusinessException(ErrorCode.ETC_DETAIL_REQUIRED);
-            }
-        }
     }
 }
