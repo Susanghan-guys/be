@@ -6,7 +6,7 @@ import com.susanghan_guys.server.global.jwt.JwtProvider;
 import com.susanghan_guys.server.user.application.UserAuthService;
 import com.susanghan_guys.server.user.dto.request.RefreshTokenRequest;
 import com.susanghan_guys.server.user.dto.response.RefreshTokenResponse;
-import com.susanghan_guys.server.user.dto.response.UserInfoResponse;
+import com.susanghan_guys.server.user.dto.response.ExchangeTokenResponse;
 import com.susanghan_guys.server.user.presentation.swagger.UserAuthSwagger;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -25,9 +25,9 @@ public class UserAuthController implements UserAuthSwagger {
     private final UserAuthService userAuthService;
 
     // @Override
-    @GetMapping("/user-info")
-    public CommonResponse<UserInfoResponse> getUserInfo(@RequestParam String code) throws JsonProcessingException {
-        return CommonResponse.success(USER_LOGOUT_SUCCESS, userAuthService.getUserInfo(code));
+    @GetMapping("/exchange")
+    public CommonResponse<ExchangeTokenResponse> exchangeToken(@RequestParam String code) throws JsonProcessingException {
+        return CommonResponse.success(USER_LOGOUT_SUCCESS, userAuthService.exchangeToken(code));
     }
 
     @Override

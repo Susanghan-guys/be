@@ -4,7 +4,7 @@ import com.susanghan_guys.server.user.domain.User;
 import lombok.Builder;
 
 @Builder
-public record UserInfoResponse(
+public record ExchangeTokenResponse(
         String accessToken,
         String refreshToken,
         Long userId,
@@ -13,13 +13,13 @@ public record UserInfoResponse(
         boolean isSignUp,
         boolean isOnboarded
 ) {
-    public static UserInfoResponse of(
+    public static ExchangeTokenResponse of(
             String accessToken,
             String refreshToken,
             User user,
             boolean isSignUp
     ) {
-        return UserInfoResponse.builder()
+        return ExchangeTokenResponse.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .userId(user.getId())

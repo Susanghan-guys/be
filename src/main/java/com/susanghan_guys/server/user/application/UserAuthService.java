@@ -12,7 +12,7 @@ import com.susanghan_guys.server.global.oauth2.infrastructure.persistence.Refres
 import com.susanghan_guys.server.global.util.RedisUtil;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.dto.response.RefreshTokenResponse;
-import com.susanghan_guys.server.user.dto.response.UserInfoResponse;
+import com.susanghan_guys.server.user.dto.response.ExchangeTokenResponse;
 import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class UserAuthService {
     private final ObjectMapper objectMapper;
     private final RedisUtil redisUtil;
 
-    public UserInfoResponse getUserInfo(String code) throws JsonProcessingException {
+    public ExchangeTokenResponse exchangeToken(String code) throws JsonProcessingException {
         String key = "auth:" + code;
         String json = redisUtil.getValue(key);
 
@@ -51,7 +51,7 @@ public class UserAuthService {
 
         redisUtil.deleteValue(key);
 
-        return UserInfoResponse.of(accessToken, refreshToken, user, isSignUp);
+        return ExchangeTokenResponse.of(accessToken, refreshToken, user, isSignUp);
     }
 
     @Transactional
