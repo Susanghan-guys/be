@@ -10,6 +10,7 @@ public record ExchangeTokenResponse(
         Long userId,
         String name,
         String email,
+        String profileImage,
         boolean isSignUp,
         boolean isOnboarded
 ) {
@@ -25,6 +26,7 @@ public record ExchangeTokenResponse(
                 .userId(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
+                .profileImage(user.getProfileImage())
                 .isSignUp(isSignUp)
                 .isOnboarded(user.isOnboarded())
                 .build();
