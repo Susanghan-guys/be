@@ -31,6 +31,9 @@ public class User extends BaseEntity {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "profile_image")
+    private String profileImage;
+
     @Column(name = "provider_id", nullable = false)
     private String providerId;
 
@@ -77,6 +80,7 @@ public class User extends BaseEntity {
     public User(
             String name,
             String email,
+            String profileImage,
             String providerId,
             Boolean isServiceAgreement,
             Boolean isUserInfoAgreement,
@@ -91,6 +95,7 @@ public class User extends BaseEntity {
     ) {
         this.name = name;
         this.email = email;
+        this.profileImage = profileImage;
         this.providerId = providerId;
         this.isServiceAgreement = isServiceAgreement;
         this.isUserInfoAgreement = isUserInfoAgreement;
