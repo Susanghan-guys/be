@@ -8,6 +8,7 @@ import com.susanghan_guys.server.user.domain.type.Purpose;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import com.susanghan_guys.server.user.domain.User;
+import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
 import com.susanghan_guys.server.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,11 @@ public class UserService {
                 request.channel(),
                 request.channelEtc()
         );
+    }
+
+    public MyPageInfoResponse getMyPageInfo() {
+        User user = currentUserProvider.getCurrentUser();
+
+        return MyPageInfoResponse.from(user);
     }
 }
