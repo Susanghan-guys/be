@@ -1,10 +1,6 @@
 package com.susanghan_guys.server.user.application;
 
-import com.susanghan_guys.server.global.common.code.ErrorCode;
-import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
-import com.susanghan_guys.server.user.domain.type.Channel;
-import com.susanghan_guys.server.user.domain.type.Purpose;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import com.susanghan_guys.server.user.domain.User;
