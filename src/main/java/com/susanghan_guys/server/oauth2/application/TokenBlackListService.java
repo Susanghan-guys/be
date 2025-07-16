@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.global.oauth2.application;
+package com.susanghan_guys.server.oauth2.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

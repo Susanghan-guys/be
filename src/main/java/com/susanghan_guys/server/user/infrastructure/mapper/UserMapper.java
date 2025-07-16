@@ -1,6 +1,6 @@
 package com.susanghan_guys.server.user.infrastructure.mapper;
 
-import com.susanghan_guys.server.global.oauth2.domain.OAuth2UserInfo;
+import com.susanghan_guys.server.oauth2.domain.OAuth2UserInfo;
 import com.susanghan_guys.server.user.domain.User;
 
 public class UserMapper {

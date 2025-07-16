@@ -1,9 +1,9 @@
-package com.susanghan_guys.server.global.oauth2.application;
+package com.susanghan_guys.server.oauth2.application;
 
-import com.susanghan_guys.server.global.oauth2.domain.OAuth2UserInfo;
-import com.susanghan_guys.server.global.oauth2.infrastructure.userinfo.GoogleUserInfo;
-import com.susanghan_guys.server.global.oauth2.infrastructure.userinfo.NaverUserInfo;
-import com.susanghan_guys.server.global.oauth2.infrastructure.userinfo.KakaoUserInfo;
+import com.susanghan_guys.server.oauth2.domain.OAuth2UserInfo;
+import com.susanghan_guys.server.oauth2.infrastructure.userinfo.GoogleUserInfo;
+import com.susanghan_guys.server.oauth2.infrastructure.userinfo.NaverUserInfo;
+import com.susanghan_guys.server.oauth2.infrastructure.userinfo.KakaoUserInfo;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;

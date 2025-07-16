@@ -1,8 +1,8 @@
 package com.susanghan_guys.server.global.config;
 
 import com.susanghan_guys.server.global.jwt.JwtAuthenticationFilter;
-import com.susanghan_guys.server.global.oauth2.application.CustomOAuth2UserService;
-import com.susanghan_guys.server.global.oauth2.handler.OAuth2SuccessHandler;
+import com.susanghan_guys.server.oauth2.application.CustomOAuth2UserService;
+import com.susanghan_guys.server.oauth2.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

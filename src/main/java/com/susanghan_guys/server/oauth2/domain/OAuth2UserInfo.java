@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.global.oauth2.domain;
+package com.susanghan_guys.server.oauth2.domain;
 
 import com.susanghan_guys.server.user.domain.type.SocialLogin;
 
