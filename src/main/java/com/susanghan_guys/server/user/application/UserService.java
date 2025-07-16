@@ -44,8 +44,6 @@ public class UserService {
     }
 
     public MyPageInfoResponse getMyPageInfo() {
-        User user = currentUserProvider.getCurrentUser();
-
-        return MyPageInfoResponse.from(user);
+        return MyPageInfoResponse.from(currentUserProvider.getCurrentUser());
     }
 }
