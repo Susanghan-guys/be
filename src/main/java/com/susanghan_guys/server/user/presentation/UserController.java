@@ -36,11 +36,13 @@ public class UserController implements UserSwagger {
         return CommonResponse.success(USER_ONBOARDING_SUCCESS, "OK");
     }
 
+    @Override
     @GetMapping("/me")
     public CommonResponse<MyPageInfoResponse> getMyPageInfo() {
         return CommonResponse.success(USER_INFO_SUCCESS, userService.getMyPageInfo());
     }
 
+    @Override
     @PatchMapping("/me")
     public CommonResponse<MyPageInfoResponse> updateMyPageInfo(@RequestBody @Valid MyPageInfoRequest request) {
         return CommonResponse.success(USER_INFO_SUCCESS, userService.updateMyPageInfo(request));
