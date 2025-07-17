@@ -11,9 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_AGREEMENT_SUCCESS;
-import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_ONBOARDING_SUCCESS;
-import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_INFO_SUCCESS;
+import static com.susanghan_guys.server.global.common.code.SuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,6 +43,6 @@ public class UserController implements UserSwagger {
     @Override
     @PatchMapping("/me")
     public CommonResponse<MyPageInfoResponse> updateMyPageInfo(@RequestBody @Valid MyPageInfoRequest request) {
-        return CommonResponse.success(USER_INFO_SUCCESS, userService.updateMyPageInfo(request));
+        return CommonResponse.success(USER_INFO_UPDATE_SUCCESS, userService.updateMyPageInfo(request));
     }
 }
