@@ -1,6 +1,7 @@
 package com.susanghan_guys.server.user.application;
 
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
+import com.susanghan_guys.server.user.dto.request.MyPageInfoRequest;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import com.susanghan_guys.server.user.domain.User;
@@ -41,6 +42,15 @@ public class UserService {
                 request.channel(),
                 request.channelEtc()
         );
+    }
+
+    @Transactional
+    public MyPageInfoResponse updateMyPageInfo(MyPageInfoRequest request) {
+        User user = currentUserProvider.getCurrentUser();
+
+        user.updateUserInfo(request.name());
+
+        return MyPageInfoResponse.from(user);
     }
 
     public MyPageInfoResponse getMyPageInfo() {

@@ -2,6 +2,7 @@ package com.susanghan_guys.server.user.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.user.application.UserService;
+import com.susanghan_guys.server.user.dto.request.MyPageInfoRequest;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
@@ -38,5 +39,10 @@ public class UserController implements UserSwagger {
     @GetMapping("/me")
     public CommonResponse<MyPageInfoResponse> getMyPageInfo() {
         return CommonResponse.success(USER_INFO_SUCCESS, userService.getMyPageInfo());
+    }
+
+    @PatchMapping("/me")
+    public CommonResponse<MyPageInfoResponse> updateMyPageInfo(@RequestBody @Valid MyPageInfoRequest request) {
+        return CommonResponse.success(USER_INFO_SUCCESS, userService.updateMyPageInfo(request));
     }
 }
