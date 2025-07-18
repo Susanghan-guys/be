@@ -1,8 +1,10 @@
 package com.susanghan_guys.server.user.presentation.swagger;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
+import com.susanghan_guys.server.user.dto.request.MyPageInfoRequest;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
+import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -38,5 +40,31 @@ public interface UserSwagger {
     })
     CommonResponse<String> saveUserOnboarding (
             @RequestBody @Valid UserOnboardingRequest request
+    );
+
+    @Operation(
+            summary = "사용자 마이 페이지 조회 API",
+            description = "사용자 마이 페이지를 조회합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "사용자 마이 페이지 조회를 성공적으로 실행하였습니다."
+            )
+    })
+    CommonResponse<MyPageInfoResponse> getMyPageInfo ();
+
+    @Operation(
+            summary = "사용자 마이 페이지 수정 API",
+            description = "사용자 마이 페이지를 수정합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "사용자 마이 페이지 수정을 성공적으로 실행하였습니다."
+            )
+    })
+    CommonResponse<MyPageInfoResponse> updateMyPageInfo (
+            @RequestBody @Valid MyPageInfoRequest request
     );
 }

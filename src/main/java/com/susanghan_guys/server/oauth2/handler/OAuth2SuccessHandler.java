@@ -1,9 +1,9 @@
-package com.susanghan_guys.server.global.oauth2.handler;
+package com.susanghan_guys.server.oauth2.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.susanghan_guys.server.global.jwt.JwtProvider;
-import com.susanghan_guys.server.global.oauth2.domain.RefreshToken;
-import com.susanghan_guys.server.global.oauth2.infrastructure.persistence.RefreshTokenRepository;
+import com.susanghan_guys.server.oauth2.domain.RefreshToken;
+import com.susanghan_guys.server.oauth2.infrastructure.persistence.RefreshTokenRepository;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.global.util.RedisUtil;
 import com.susanghan_guys.server.user.domain.User;

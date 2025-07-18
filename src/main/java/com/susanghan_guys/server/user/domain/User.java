@@ -139,4 +139,8 @@ public class User extends BaseEntity {
         this.channel = channel;
         this.channelEtc = channelEtc;
     }
+
+    public void updateUserInfo(String name) {
+        this.name = name;
+    }
 }

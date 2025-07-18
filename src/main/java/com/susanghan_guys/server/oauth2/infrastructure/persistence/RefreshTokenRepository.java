@@ -1,6 +1,6 @@
-package com.susanghan_guys.server.global.oauth2.infrastructure.persistence;
+package com.susanghan_guys.server.oauth2.infrastructure.persistence;
 
-import com.susanghan_guys.server.global.oauth2.domain.RefreshToken;
+import com.susanghan_guys.server.oauth2.domain.RefreshToken;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

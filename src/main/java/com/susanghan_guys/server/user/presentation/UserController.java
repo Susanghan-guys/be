@@ -2,18 +2,16 @@ package com.susanghan_guys.server.user.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.user.application.UserService;
+import com.susanghan_guys.server.user.dto.request.MyPageInfoRequest;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
+import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
 import com.susanghan_guys.server.user.presentation.swagger.UserSwagger;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_AGREEMENT_SUCCESS;
-import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_ONBOARDING_SUCCESS;
+import static com.susanghan_guys.server.global.common.code.SuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,5 +32,17 @@ public class UserController implements UserSwagger {
     public CommonResponse<String> saveUserOnboarding(@RequestBody @Valid UserOnboardingRequest request) {
         userService.saveUserOnboarding(request);
         return CommonResponse.success(USER_ONBOARDING_SUCCESS, "OK");
+    }
+
+    @Override
+    @GetMapping("/me")
+    public CommonResponse<MyPageInfoResponse> getMyPageInfo() {
+        return CommonResponse.success(USER_INFO_SUCCESS, userService.getMyPageInfo());
+    }
+
+    @Override
+    @PatchMapping("/me")
+    public CommonResponse<MyPageInfoResponse> updateMyPageInfo(@RequestBody @Valid MyPageInfoRequest request) {
+        return CommonResponse.success(USER_INFO_UPDATE_SUCCESS, userService.updateMyPageInfo(request));
     }
 }

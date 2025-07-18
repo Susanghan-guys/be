@@ -1,6 +1,6 @@
 package com.susanghan_guys.server.global.jwt;
 
-import com.susanghan_guys.server.global.oauth2.application.TokenBlackListService;
+import com.susanghan_guys.server.oauth2.application.TokenBlackListService;
 import com.susanghan_guys.server.global.security.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
