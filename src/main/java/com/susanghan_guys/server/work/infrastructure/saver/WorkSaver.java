@@ -37,38 +37,28 @@ public class WorkSaver {
         }
     }
 
-
-    public void saveAdditionalFiles(Work work, String youtubeUrl, MultipartFile additionalFile, FilesType filesType, String uploadedUrl) {
+    public void saveAdditionalFiles(
+            Work work,
+            String youtubeUrl,
+            MultipartFile additionalFile,
+            String uploadedUrl
+    ) {
         List<AdditionalFile> additionalFiles = new ArrayList<>();
 
-        // 영상인 경우: 유튜브 링크는 필수로 추가
-        if (filesType == FilesType.VIDEO) {
-            if (StringUtils.isBlank(youtubeUrl)) {
-                throw new WorkException(WorkErrorCode.YOUTUBE_URL_REQUIRED);
-            }
+        if (StringUtils.isNotBlank(youtubeUrl)) {
             additionalFiles.add(AdditionalFile.builder()
                     .work(work)
                     .type(FilesType.VIDEO)
                     .value(youtubeUrl)
                     .build());
+        }
 
-            if (additionalFile != null && !additionalFile.isEmpty()) {
-                additionalFiles.add(AdditionalFile.builder()
-                        .work(work)
-                        .type(FilesType.PLAN)
-                        .value(uploadedUrl)
-                        .build());
-            }
-
-        } else if (filesType == FilesType.PLAN) {
-            // 비영상이면 파일만 저장
-            if (additionalFile != null && !additionalFile.isEmpty()) {
-                additionalFiles.add(AdditionalFile.builder()
-                        .work(work)
-                        .type(FilesType.PLAN)
-                        .value(uploadedUrl)
-                        .build());
-            }
+        if (additionalFile != null && !additionalFile.isEmpty()) {
+            additionalFiles.add(AdditionalFile.builder()
+                    .work(work)
+                    .type(FilesType.PLAN)
+                    .value(uploadedUrl)
+                    .build());
         }
 
         if (!additionalFiles.isEmpty()) {

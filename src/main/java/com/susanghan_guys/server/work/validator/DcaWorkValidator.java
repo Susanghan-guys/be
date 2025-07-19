@@ -48,26 +48,27 @@ public class DcaWorkValidator {
         }
     }
 
-    public void validateAdditionalSubmission(MultipartFile additionalFile, String youtubeUrl, String category) {
+    public void validateAdditionalSubmission(
+            String category,
+            String youtubeUrl,
+            MultipartFile additionalFile
+    ) {
         boolean isFilm = "FILM".equalsIgnoreCase(category);
-        boolean hasFile = additionalFile != null && !additionalFile.isEmpty();
-        boolean hasYoutubeUrl = StringUtils.isNotBlank(youtubeUrl);
-
-        if (!hasFile && !hasYoutubeUrl) return;
+        boolean hasYoutube = StringUtils.isNotBlank(youtubeUrl);
+        boolean hasPlanFile = additionalFile != null && !additionalFile.isEmpty();
 
         if (isFilm) {
-            if (!hasYoutubeUrl) throw new WorkException(WorkErrorCode.YOUTUBE_URL_REQUIRED);
-            if (!youtubeUrl.matches(YOUTUBE_REGEX)) throw new WorkException(WorkErrorCode.INVALID_YOUTUBE_URL);
-
-            if (hasFile && (!isValidPlanFile(additionalFile) || additionalFile.getSize() > MAX_FILE_SIZE)) {
+            if (!hasYoutube)
+                throw new WorkException(WorkErrorCode.YOUTUBE_URL_REQUIRED);
+            if (!youtubeUrl.matches(YOUTUBE_REGEX))
+                throw new WorkException(WorkErrorCode.INVALID_YOUTUBE_URL);
+            if (hasPlanFile && (!isValidPlanFile(additionalFile) || additionalFile.getSize() > MAX_FILE_SIZE))
                 throw new WorkException(WorkErrorCode.INVALID_ADDITIONAL_FILE_TYPE);
-            }
         } else {
-            if (hasYoutubeUrl) throw new WorkException(WorkErrorCode.YOUTUBE_NOT_ALLOWED_FOR_NON_FILM);
-
-            if (!hasFile || !isValidPlanFile(additionalFile) || additionalFile.getSize() > MAX_FILE_SIZE) {
+            if (hasYoutube)
+                throw new WorkException(WorkErrorCode.YOUTUBE_NOT_ALLOWED_FOR_NON_FILM);
+            if (hasPlanFile && (!isValidPlanFile(additionalFile) || additionalFile.getSize() > MAX_FILE_SIZE))
                 throw new WorkException(WorkErrorCode.INVALID_ADDITIONAL_FILE_TYPE);
-            }
         }
     }
 
@@ -86,11 +87,16 @@ public class DcaWorkValidator {
     }
 
     private boolean isValidPlanFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) return false;
+
         String contentType = file.getContentType();
-        return contentType != null && (
-                contentType.equals("application/pdf") ||
+        String name = file.getOriginalFilename();
+
+        return contentType != null &&
+                name != null &&
+                name.matches("(?i).*\\.(pdf|ppt|pptx)$") &&
+                (contentType.equals("application/pdf") ||
                         contentType.equals("application/vnd.ms-powerpoint") ||
-                        contentType.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")
-        );
+                        contentType.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation"));
     }
 }

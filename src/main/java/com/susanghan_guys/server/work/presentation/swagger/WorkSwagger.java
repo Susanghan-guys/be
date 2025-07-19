@@ -23,7 +23,29 @@ public interface WorkSwagger {
 
     @Operation(
             summary = "DCA 공모전 작품 제출",
-            description = "브리프보드와 추가자료(링크 또는 파일)를 함께 제출합니다."
+            description = """
+    **공통 필수 필드:**
+    - title: 작품 제목
+    - number: 출품 번호
+    - category: 작품 카테고리 (예: FILM, VISUAL 등)
+    - brand: 브랜드명
+    - members: 팀원 정보 목록(없다면 필드 없애면 됩니다)
+    - briefBoardFile: 브리프보드 이미지 (JPG, 최대 3508x4960px, 10MB)
+    
+    **추가자료 조건 분기:**
+    
+    [FILM 카테고리일 경우]
+    - 유튜브 링크(youtubeUrl): **필수**
+    - 기획서 파일 (additionalFile): 선택
+                    
+    [FILM 외 카테고리일 경우]
+    - **youtubeUrl 필드 사용 금지 (있으면 오류)**
+    - 기획서 파일 (additionalFile): 선택
+                    
+    ※ youtubeUrl, additionalFile의 존재 여부에 따라 자동으로 검증됩니다.
+    \n※ 유튜브 링크와 기획서 파일은 유효성 검증을 거칩니다.
+    \n※ 복잡한 부분이 있으므로 궁금한 점이 생기면 바로 문의해주세요.
+    """
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "DCA 작품 제출 성공")

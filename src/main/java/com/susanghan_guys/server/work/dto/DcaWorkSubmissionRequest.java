@@ -28,12 +28,6 @@ public record DcaWorkSubmissionRequest(
         )
         String brand,
 
-        @Schema(
-                description = "추가자료 유형 (PLAN - 기획서, VIDEO - 영상 링크)",
-                example = "VIDEO"
-        )
-        String filesType,
-
         @Schema(description = "유튜브 링크(영상일 경우 필수)", example = "https://youtube.com/**")
         String youtubeUrl,
 

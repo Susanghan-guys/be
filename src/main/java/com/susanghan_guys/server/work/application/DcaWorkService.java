@@ -39,20 +39,30 @@ public class DcaWorkService {
 
         validator.validateDuplicateSubmission(contest.getId(), dto.number());
         validator.validateBriefBoard(briefBoardFile);
-        validator.validateAdditionalSubmission(additionalFile, dto.youtubeUrl(), dto.category());
+
+        // hasVideo 제거 → youtubeUrl 유무로 판단
+        validator.validateAdditionalSubmission(
+                dto.category(),
+                dto.youtubeUrl(),
+                additionalFile
+        );
 
         String briefBoardUrl = s3Service.uploadFile(briefBoardFile, "dca");
         Work work = mapper.toEntity(dto, user, contest, briefBoardUrl);
         Work savedWork = workRepository.save(work);
-
         workSaver.saveTeamMembers(savedWork, dto.members());
 
-        FilesType filesType = FilesType.valueOf(dto.filesType().toUpperCase());
         String uploadedAdditionalUrl = null;
-
         if (additionalFile != null && !additionalFile.isEmpty()) {
             uploadedAdditionalUrl = s3Service.uploadFile(additionalFile, "dca");
         }
-        workSaver.saveAdditionalFiles(savedWork, dto.youtubeUrl(), additionalFile, filesType, uploadedAdditionalUrl);
+
+        // hasVideo 제거 → youtubeUrl 로 판단
+        workSaver.saveAdditionalFiles(
+                savedWork,
+                dto.youtubeUrl(),
+                additionalFile,
+                uploadedAdditionalUrl
+        );
     }
 }
