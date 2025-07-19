@@ -21,6 +21,7 @@ public class UserService {
 
     private final CurrentUserProvider currentUserProvider;
     private final UserValidator userValidator;
+    private final UserAuthService userAuthService;
 
     @Transactional
     public void saveUserAgreement(UserTermsRequest request) {
@@ -59,10 +60,13 @@ public class UserService {
     @Transactional
     public void withdrawalUser(UserWithdrawalRequest request) {
         User user = currentUserProvider.getCurrentUser();
+        String accessToken = currentUserProvider.getCurrentAccessToken();
 
         userValidator.validateUserWithdrawal(user, request);
 
         user.withdrawalUser(LocalDateTime.now(), request.withdrawalReasons());
+
+        userAuthService.logout(accessToken);
     }
 
     public MyPageInfoResponse getMyPageInfo() {
