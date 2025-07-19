@@ -17,7 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface UserSwagger {
     @Operation(
             summary = "사용자 이용 약관 동의 API",
-            description = "사용자 이용 약관 동의를 진행합니다."
+            description = """
+                          ### RequestBody
+                          ---
+                          `isServiceAgreement`: 서비스 이용 약관 동의 (boolean) \n
+                          `isUserInfoAgreement`: 사용자 정보 수집 동의 (boolean) \n
+                          `isMarketingAgreement`: 마케팅 수신 동의 (boolean)
+                          """
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -31,7 +37,15 @@ public interface UserSwagger {
 
     @Operation(
             summary = "사용자 온보딩 API",
-            description = "사용자 온보딩을 진행합니다."
+            description = """
+                          ### RequestBody
+                          ---
+                          `role`: 주로 맡는 역할 (String) \n
+                          `purpose`: 활용 목적 (ENUM) \n
+                          `purposeEtc`: 활용 목적 - 기타일 경우, 작성 (String) \n
+                          `channel`: 알게 된 경로 (ENUM) \n
+                          `channelEtc`: 알게 된 경로 - 기타일 경우, 작성 (String)
+                          """
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -57,7 +71,11 @@ public interface UserSwagger {
 
     @Operation(
             summary = "사용자 마이 페이지 수정 API",
-            description = "사용자 마이 페이지를 수정합니다."
+            description = """
+                          ### RequestBody
+                          ---
+                          `name`: 사용자 이름 (String)
+                          """
     )
     @ApiResponses(value = {
             @ApiResponse(
