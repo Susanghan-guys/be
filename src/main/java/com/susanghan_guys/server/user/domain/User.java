@@ -157,4 +157,8 @@ public class User extends BaseEntity {
         this.deletedAt = deletedAt;
         this.withdrawalReason = withdrawalReason;
     }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
+    }
 }

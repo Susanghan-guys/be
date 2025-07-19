@@ -7,6 +7,8 @@ import com.susanghan_guys.server.oauth2.infrastructure.userinfo.KakaoUserInfo;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.domain.type.SocialLogin;
+import com.susanghan_guys.server.user.exception.UserException;
+import com.susanghan_guys.server.user.exception.code.UserErrorCode;
 import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
 import com.susanghan_guys.server.user.infrastructure.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +57,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
+
+            if (user.isDeleted()) {
+                throw new UserException(UserErrorCode.USER_NOT_FOUND);
+            }
             isSignUp = false;
         } else {
             user = userRepository.save(UserMapper.toDomain(oAuth2UserInfo));
