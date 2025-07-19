@@ -1,10 +1,7 @@
 package com.susanghan_guys.server.user.domain;
 
 import com.susanghan_guys.server.global.domain.BaseEntity;
-import com.susanghan_guys.server.user.domain.type.Channel;
-import com.susanghan_guys.server.user.domain.type.Purpose;
-import com.susanghan_guys.server.user.domain.type.Role;
-import com.susanghan_guys.server.user.domain.type.SocialLogin;
+import com.susanghan_guys.server.user.domain.type.*;
 import com.susanghan_guys.server.work.domain.Work;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -73,6 +70,10 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SocialLogin socialLogin;
 
+    @Column(name = "withdrawal_reason")
+    @Enumerated(EnumType.STRING)
+    private WithdrawalReason withdrawalReason;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Work> workList = new ArrayList<>();
 
@@ -91,7 +92,8 @@ public class User extends BaseEntity {
             String channelEtc,
             Purpose purpose,
             String purposeEtc,
-            SocialLogin socialLogin
+            SocialLogin socialLogin,
+             WithdrawalReason withdrawalReason
     ) {
         this.name = name;
         this.email = email;
@@ -107,6 +109,7 @@ public class User extends BaseEntity {
         this.purpose = purpose;
         this.purposeEtc = purposeEtc;
         this.socialLogin = socialLogin;
+        this.withdrawalReason = withdrawalReason;
     }
 
     public void addWork(Work work) {
