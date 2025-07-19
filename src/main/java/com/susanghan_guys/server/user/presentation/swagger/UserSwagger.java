@@ -4,6 +4,7 @@ import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.user.dto.request.MyPageInfoRequest;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
+import com.susanghan_guys.server.user.dto.request.UserWithdrawalRequest;
 import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -66,5 +67,24 @@ public interface UserSwagger {
     })
     CommonResponse<MyPageInfoResponse> updateMyPageInfo (
             @RequestBody @Valid MyPageInfoRequest request
+    );
+
+    @Operation(
+            summary = "사용자 탈퇴 API",
+            description = """
+                          ### RequestBody
+                          ---
+                          `withdrawalReason`: 사용자 탈퇴 이유 (ENUM) \n
+                          `etc`: 기타를 선택할 시, 작성 (String)
+                          """
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "사용자 탈퇴가 성공적으로 실행되었습니다."
+            )
+    })
+    CommonResponse<String> withdrawUser(
+            @RequestBody @Valid UserWithdrawalRequest request
     );
 }

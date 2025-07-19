@@ -47,6 +47,7 @@ public class UserController implements UserSwagger {
         return CommonResponse.success(USER_INFO_UPDATE_SUCCESS, userService.updateMyPageInfo(request));
     }
 
+    @Override
     @PatchMapping("/me/withdrawal")
     public CommonResponse<String> withdrawUser(@RequestBody @Valid UserWithdrawalRequest request) {
         userService.withdrawalUser(request);
