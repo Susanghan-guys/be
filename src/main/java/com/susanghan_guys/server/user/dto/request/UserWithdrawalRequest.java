@@ -11,7 +11,7 @@ public record UserWithdrawalRequest(
         @NotNull
         @Schema(
                 description = "사용자 탈퇴 이유",
-                example = "어떤 무언가"
+                example = "UNKNOWN"
         )
         WithdrawalReason withdrawalReason,
 
