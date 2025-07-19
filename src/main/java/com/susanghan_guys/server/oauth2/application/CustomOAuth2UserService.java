@@ -6,6 +6,7 @@ import com.susanghan_guys.server.oauth2.infrastructure.userinfo.NaverUserInfo;
 import com.susanghan_guys.server.oauth2.infrastructure.userinfo.KakaoUserInfo;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.user.domain.User;
+import com.susanghan_guys.server.user.domain.type.SocialLogin;
 import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
 import com.susanghan_guys.server.user.infrastructure.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -34,22 +35,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        Map<String, Object> attributes = oAuth2User.getAttributes();
+        SocialLogin socialLogin = SocialLogin.valueOf(registrationId.toUpperCase());
 
+        Map<String, Object> attributes = oAuth2User.getAttributes();
         log.info("🌐 OAuth2 provider: {}", registrationId);
         log.info("📦 Received attributes: {}", attributes);
 
-        OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(registrationId, attributes);
-        String email = oAuth2UserInfo.getEmail();
+        OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(socialLogin, attributes);
+        String providerId = oAuth2UserInfo.getProviderId();
 
-        if (email == null || email.isBlank()) {
-            log.error("❌ 소셜 로그인 실패 - 이메일이 존재하지 않음. attributes = {}", attributes);
-            throw new OAuth2AuthenticationException("소셜 로그인에 이메일 정보가 없습니다.");
+        if (providerId == null || providerId.isBlank()) {
+            log.error("❌ 소셜 로그인 실패 - providerId 없음. attributes = {}", attributes);
+            throw new OAuth2AuthenticationException("소셜 로그인에 providerId 정보가 없습니다.");
         }
         boolean isSignUp;
         User user;
 
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+        Optional<User> optionalUser = userRepository.findByProviderIdAndSocialLogin(providerId, socialLogin);
 
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
@@ -64,12 +66,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return new CustomUserDetails(user, updatedAttributes);
     }
 
-    private static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
-        return switch (registrationId.toUpperCase()) {
-            case "GOOGLE" -> new GoogleUserInfo(attributes);
-            case "NAVER" -> new NaverUserInfo(attributes);
-            case "KAKAO" -> new KakaoUserInfo(attributes);
-            default -> throw new OAuth2AuthenticationException("지원하지 않는 소셜 로그인입니다: " + registrationId);
+    private static OAuth2UserInfo getOAuth2UserInfo(SocialLogin socialLogin, Map<String, Object> attributes) {
+        return switch (socialLogin) {
+            case GOOGLE -> new GoogleUserInfo(attributes);
+            case NAVER -> new NaverUserInfo(attributes);
+            case KAKAO -> new KakaoUserInfo(attributes);
         };
     }
 }
