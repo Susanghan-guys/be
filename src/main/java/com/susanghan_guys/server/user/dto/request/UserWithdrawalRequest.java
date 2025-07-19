@@ -5,15 +5,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
 @Schema(description = "사용자 탈퇴")
 public record UserWithdrawalRequest(
         @NotNull
         @Schema(
                 description = "사용자 탈퇴 이유",
-                example = "UNKNOWN"
+                example = "[\"UNKNOWN\", \"SECURITY\"]"
         )
-        WithdrawalReason withdrawalReason,
+        List<WithdrawalReason> withdrawalReasons,
 
         @Schema(
                 description = "사용자 탈퇴 이유 - 기타일 경우, 작성",

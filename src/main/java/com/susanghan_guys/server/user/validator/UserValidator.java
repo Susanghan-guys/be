@@ -11,6 +11,8 @@ import com.susanghan_guys.server.user.exception.UserException;
 import com.susanghan_guys.server.user.exception.code.UserErrorCode;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class UserValidator {
 
@@ -39,7 +41,12 @@ public class UserValidator {
             throw new UserException(UserErrorCode.USER_ALREADY_DELETED);
         }
 
-        if (WithdrawalReason.ETC.equals(request.withdrawalReason())) {
+        List<WithdrawalReason> reasons = request.withdrawalReasons();
+        if (reasons == null || reasons.isEmpty()) {
+            throw new UserException(UserErrorCode.WITHDRAWAL_REASON_REQUIRED);
+        }
+
+        if (reasons.contains(WithdrawalReason.ETC)) {
             if (request.etc() == null || request.etc().isBlank()) {
                 throw new UserException(UserErrorCode.ETC_DETAIL_REQUIRED);
             }

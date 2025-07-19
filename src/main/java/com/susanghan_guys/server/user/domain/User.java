@@ -71,9 +71,11 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SocialLogin socialLogin;
 
-    @Column(name = "withdrawal_reason")
+    @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
-    private WithdrawalReason withdrawalReason;
+    @CollectionTable(name = "user_withdrawal_reasons", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "withdrawal_reason")
+    private List<WithdrawalReason> withdrawalReasons;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
@@ -97,7 +99,7 @@ public class User extends BaseEntity {
             Purpose purpose,
             String purposeEtc,
             SocialLogin socialLogin,
-            WithdrawalReason withdrawalReason,
+            List<WithdrawalReason> withdrawalReasons,
             LocalDateTime deletedAt
     ) {
         this.name = name;
@@ -114,7 +116,7 @@ public class User extends BaseEntity {
         this.purpose = purpose;
         this.purposeEtc = purposeEtc;
         this.socialLogin = socialLogin;
-        this.withdrawalReason = withdrawalReason;
+        this.withdrawalReasons = withdrawalReasons;
         this.deletedAt = deletedAt;
     }
 
@@ -153,9 +155,9 @@ public class User extends BaseEntity {
         this.name = name;
     }
 
-    public void withdrawalUser(LocalDateTime deletedAt, WithdrawalReason withdrawalReason) {
+    public void withdrawalUser(LocalDateTime deletedAt, List<WithdrawalReason> withdrawalReasons) {
         this.deletedAt = deletedAt;
-        this.withdrawalReason = withdrawalReason;
+        this.withdrawalReasons = withdrawalReasons;
     }
 
     public boolean isDeleted() {
