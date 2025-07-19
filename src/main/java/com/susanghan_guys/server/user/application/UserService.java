@@ -61,6 +61,9 @@ public class UserService {
     @Transactional
     public void withdrawalUser(UserWithdrawalRequest request) {
         User user = currentUserProvider.getCurrentUser();
+
+        userValidator.validateUserWithdrawal(request);
+
         user.withdrawalUser(LocalDateTime.now(), request.withdrawalReason());
     }
 
