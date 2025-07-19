@@ -50,7 +50,7 @@ public class UserController implements UserSwagger {
     @Override
     @PatchMapping("/me/withdrawal")
     public CommonResponse<String> withdrawUser(@RequestBody @Valid UserWithdrawalRequest request) {
-        userService.withdrawalUser(request);
+        userService.withdrawUser(request);
         return CommonResponse.success(USER_WITHDRAWAL_SUCCESS, "OK");
     }
 }

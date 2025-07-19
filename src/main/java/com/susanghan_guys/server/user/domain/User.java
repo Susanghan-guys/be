@@ -71,15 +71,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SocialLogin socialLogin;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_withdrawal_reasons", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "withdrawal_reason")
-    private List<WithdrawalReason> withdrawalReasons;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Work> workList = new ArrayList<>();
 
@@ -98,9 +89,7 @@ public class User extends BaseEntity {
             String channelEtc,
             Purpose purpose,
             String purposeEtc,
-            SocialLogin socialLogin,
-            List<WithdrawalReason> withdrawalReasons,
-            LocalDateTime deletedAt
+            SocialLogin socialLogin
     ) {
         this.name = name;
         this.email = email;
@@ -116,8 +105,6 @@ public class User extends BaseEntity {
         this.purpose = purpose;
         this.purposeEtc = purposeEtc;
         this.socialLogin = socialLogin;
-        this.withdrawalReasons = withdrawalReasons;
-        this.deletedAt = deletedAt;
     }
 
     public void addWork(Work work) {
@@ -153,14 +140,5 @@ public class User extends BaseEntity {
 
     public void updateUserInfo(String name) {
         this.name = name;
-    }
-
-    public void withdrawalUser(LocalDateTime deletedAt, List<WithdrawalReason> withdrawalReasons) {
-        this.deletedAt = deletedAt;
-        this.withdrawalReasons = withdrawalReasons;
-    }
-
-    public boolean isDeleted() {
-        return this.deletedAt != null;
     }
 }

@@ -1,17 +1,12 @@
 package com.susanghan_guys.server.user.validator;
 
-import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.domain.type.Channel;
 import com.susanghan_guys.server.user.domain.type.Purpose;
-import com.susanghan_guys.server.user.domain.type.WithdrawalReason;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
-import com.susanghan_guys.server.user.dto.request.UserWithdrawalRequest;
 import com.susanghan_guys.server.user.exception.UserException;
 import com.susanghan_guys.server.user.exception.code.UserErrorCode;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class UserValidator {
@@ -31,23 +26,6 @@ public class UserValidator {
 
         if (Purpose.ETC.equals(request.purpose())) {
             if (request.purposeEtc() == null || request.purposeEtc().isBlank()) {
-                throw new UserException(UserErrorCode.ETC_DETAIL_REQUIRED);
-            }
-        }
-    }
-
-    public void validateUserWithdrawal(User user, UserWithdrawalRequest request) {
-        if (user.isDeleted()) {
-            throw new UserException(UserErrorCode.USER_ALREADY_DELETED);
-        }
-
-        List<WithdrawalReason> reasons = request.withdrawalReasons();
-        if (reasons == null || reasons.isEmpty()) {
-            throw new UserException(UserErrorCode.WITHDRAWAL_REASON_REQUIRED);
-        }
-
-        if (reasons.contains(WithdrawalReason.ETC)) {
-            if (request.etc() == null || request.etc().isBlank()) {
                 throw new UserException(UserErrorCode.ETC_DETAIL_REQUIRED);
             }
         }
