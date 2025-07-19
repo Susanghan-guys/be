@@ -38,7 +38,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         SocialLogin socialLogin = SocialLogin.valueOf(registrationId.toUpperCase());
 
         Map<String, Object> attributes = oAuth2User.getAttributes();
-        log.info("🌐 OAuth2 provider: {}", registrationId);
+        log.info("🌐 OAuth2 provider: {}", socialLogin);
         log.info("📦 Received attributes: {}", attributes);
 
         OAuth2UserInfo oAuth2UserInfo = getOAuth2UserInfo(socialLogin, attributes);
