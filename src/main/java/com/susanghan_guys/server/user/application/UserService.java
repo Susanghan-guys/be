@@ -1,17 +1,19 @@
 package com.susanghan_guys.server.user.application;
 
-import com.susanghan_guys.server.global.common.code.ErrorCode;
-import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
-import com.susanghan_guys.server.user.domain.type.Channel;
-import com.susanghan_guys.server.user.domain.type.Purpose;
+import com.susanghan_guys.server.user.dto.request.MyPageInfoRequest;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import com.susanghan_guys.server.user.domain.User;
+import com.susanghan_guys.server.user.dto.request.UserWithdrawalRequest;
+import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
+import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
 import com.susanghan_guys.server.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +46,27 @@ public class UserService {
                 request.channel(),
                 request.channelEtc()
         );
+    }
+
+    @Transactional
+    public MyPageInfoResponse updateMyPageInfo(MyPageInfoRequest request) {
+        User user = currentUserProvider.getCurrentUser();
+
+        user.updateUserInfo(request.name());
+
+        return MyPageInfoResponse.from(user);
+    }
+
+    @Transactional
+    public void withdrawalUser(UserWithdrawalRequest request) {
+        User user = currentUserProvider.getCurrentUser();
+
+        userValidator.validateUserWithdrawal(user, request);
+
+        user.withdrawalUser(LocalDateTime.now(), request.withdrawalReason());
+    }
+
+    public MyPageInfoResponse getMyPageInfo() {
+        return MyPageInfoResponse.from(currentUserProvider.getCurrentUser());
     }
 }

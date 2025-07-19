@@ -1,7 +1,8 @@
 package com.susanghan_guys.server.global.jwt;
 
-import com.susanghan_guys.server.global.common.code.ErrorCode;
-import com.susanghan_guys.server.global.exception.BusinessException;
+import com.susanghan_guys.server.user.exception.UserAuthException;
+import com.susanghan_guys.server.user.exception.UserException;
+import com.susanghan_guys.server.user.exception.code.UserAuthErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,7 +63,7 @@ public class JwtProvider {
 
             return true;
         } catch (JwtException e) {
-            throw new BusinessException(ErrorCode.INVALID_TOKEN);
+            throw new UserAuthException(UserAuthErrorCode.INVALID_TOKEN);
         }
     }
 

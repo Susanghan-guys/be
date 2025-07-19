@@ -1,6 +1,7 @@
 package com.susanghan_guys.server.user.dto.response;
 
 import com.susanghan_guys.server.user.domain.User;
+import com.susanghan_guys.server.user.domain.type.SocialLogin;
 import lombok.Builder;
 
 @Builder
@@ -10,6 +11,8 @@ public record ExchangeTokenResponse(
         Long userId,
         String name,
         String email,
+        String profileImage,
+        SocialLogin socialLogin,
         boolean isSignUp,
         boolean isOnboarded
 ) {
@@ -25,6 +28,8 @@ public record ExchangeTokenResponse(
                 .userId(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
+                .profileImage(user.getProfileImage())
+                .socialLogin(user.getSocialLogin())
                 .isSignUp(isSignUp)
                 .isOnboarded(user.isOnboarded())
                 .build();

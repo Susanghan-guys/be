@@ -1,6 +1,6 @@
-package com.susanghan_guys.server.global.oauth2.infrastructure.userinfo;
+package com.susanghan_guys.server.oauth2.infrastructure.userinfo;
 
-import com.susanghan_guys.server.global.oauth2.domain.OAuth2UserInfo;
+import com.susanghan_guys.server.oauth2.domain.OAuth2UserInfo;
 import com.susanghan_guys.server.user.domain.type.SocialLogin;
 import lombok.RequiredArgsConstructor;
 

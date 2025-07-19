@@ -1,10 +1,7 @@
 package com.susanghan_guys.server.user.domain;
 
 import com.susanghan_guys.server.global.domain.BaseEntity;
-import com.susanghan_guys.server.user.domain.type.Channel;
-import com.susanghan_guys.server.user.domain.type.Purpose;
-import com.susanghan_guys.server.user.domain.type.Role;
-import com.susanghan_guys.server.user.domain.type.SocialLogin;
+import com.susanghan_guys.server.user.domain.type.*;
 import com.susanghan_guys.server.work.domain.Work;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +28,9 @@ public class User extends BaseEntity {
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "profile_image")
+    private String profileImage;
 
     @Column(name = "provider_id", nullable = false)
     private String providerId;
@@ -70,6 +71,13 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SocialLogin socialLogin;
 
+    @Column(name = "withdrawal_reason")
+    @Enumerated(EnumType.STRING)
+    private WithdrawalReason withdrawalReason;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Work> workList = new ArrayList<>();
 
@@ -77,6 +85,7 @@ public class User extends BaseEntity {
     public User(
             String name,
             String email,
+            String profileImage,
             String providerId,
             Boolean isServiceAgreement,
             Boolean isUserInfoAgreement,
@@ -87,10 +96,13 @@ public class User extends BaseEntity {
             String channelEtc,
             Purpose purpose,
             String purposeEtc,
-            SocialLogin socialLogin
+            SocialLogin socialLogin,
+            WithdrawalReason withdrawalReason,
+            LocalDateTime deletedAt
     ) {
         this.name = name;
         this.email = email;
+        this.profileImage = profileImage;
         this.providerId = providerId;
         this.isServiceAgreement = isServiceAgreement;
         this.isUserInfoAgreement = isUserInfoAgreement;
@@ -102,6 +114,8 @@ public class User extends BaseEntity {
         this.purpose = purpose;
         this.purposeEtc = purposeEtc;
         this.socialLogin = socialLogin;
+        this.withdrawalReason = withdrawalReason;
+        this.deletedAt = deletedAt;
     }
 
     public void addWork(Work work) {
@@ -133,5 +147,18 @@ public class User extends BaseEntity {
         this.purposeEtc = purposeEtc;
         this.channel = channel;
         this.channelEtc = channelEtc;
+    }
+
+    public void updateUserInfo(String name) {
+        this.name = name;
+    }
+
+    public void withdrawalUser(LocalDateTime deletedAt, WithdrawalReason withdrawalReason) {
+        this.deletedAt = deletedAt;
+        this.withdrawalReason = withdrawalReason;
+    }
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
     }
 }

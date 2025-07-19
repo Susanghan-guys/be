@@ -1,6 +1,5 @@
 package com.susanghan_guys.server.user.presentation.swagger;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.user.dto.request.RefreshTokenRequest;
 import com.susanghan_guys.server.user.dto.response.ExchangeTokenResponse;
@@ -18,7 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface UserAuthSwagger {
     @Operation(
             summary = "사용자 토큰 및 정보 조회 API",
-            description = "발급된 임시 코드를 통해 사용자의 accessToken, refreshToken 및 정보를 반환합니다."
+            description = """
+                          ## 발급된 임시 코드를 통해 사용자의 accessToken, refreshToken 및 정보를 반환합니다.
+                          ### RequestParam
+                          ---
+                          `code`: 발급된 임시 코드 (String)
+                          """
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -44,7 +48,12 @@ public interface UserAuthSwagger {
 
     @Operation(
             summary = "refreshToken 재발급 API",
-            description = "refreshToken 재발급을 진행합니다."
+            description = """
+                          ## accessToken 만료 후, 유효한 refreshToken을 통해 refreshToken 재발급을 진행합니다.
+                          ### RequestBody
+                          ---
+                          `refreshToken`: 사용자 리프레시 토큰 (String)
+                          """
     )
     @ApiResponses(value = {
             @ApiResponse(
