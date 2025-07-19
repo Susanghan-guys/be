@@ -11,6 +11,7 @@ import com.susanghan_guys.server.global.util.RedisUtil;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.dto.response.RefreshTokenResponse;
 import com.susanghan_guys.server.user.dto.response.ExchangeTokenResponse;
+import com.susanghan_guys.server.user.exception.UserAuthException;
 import com.susanghan_guys.server.user.exception.code.UserAuthErrorCode;
 import com.susanghan_guys.server.user.exception.UserException;
 import com.susanghan_guys.server.user.exception.code.UserErrorCode;
@@ -40,7 +41,7 @@ public class UserAuthService {
         String json = redisUtil.getValue(key);
 
         if (json == null) {
-            throw new UserException(UserAuthErrorCode.INVALID_AUTH_CODE);
+            throw new UserAuthException(UserAuthErrorCode.INVALID_AUTH_CODE);
         }
 
         try {
@@ -60,7 +61,7 @@ public class UserAuthService {
             return ExchangeTokenResponse.of(accessToken, refreshToken, user, isSignUp);
         } catch (JsonProcessingException e) {
             redisUtil.deleteValue(key);
-            throw new UserException(UserAuthErrorCode.TOKEN_PARSE_FAILED);
+            throw new UserAuthException(UserAuthErrorCode.TOKEN_PARSE_FAILED);
         }
     }
 
@@ -70,7 +71,7 @@ public class UserAuthService {
         String userId = claims.getSubject();
 
         RefreshToken refreshToken = refreshTokenRepository.findByUserId(Long.valueOf(userId))
-                .orElseThrow(() -> new UserException(UserAuthErrorCode.REFRESH_TOKEN_NOT_FOUND));
+                .orElseThrow(() -> new UserAuthException(UserAuthErrorCode.REFRESH_TOKEN_NOT_FOUND));
 
         refreshTokenRepository.delete(refreshToken);
 
@@ -92,7 +93,7 @@ public class UserAuthService {
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
 
         RefreshToken savedToken = refreshTokenRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new UserException(UserAuthErrorCode.REFRESH_TOKEN_NOT_FOUND));
+                .orElseThrow(() -> new UserAuthException(UserAuthErrorCode.REFRESH_TOKEN_NOT_FOUND));
 
         String newAccessToken = jwtProvider.createAccessToken(user.getId());
         String newRefreshToken = jwtProvider.createRefreshToken(user.getId());

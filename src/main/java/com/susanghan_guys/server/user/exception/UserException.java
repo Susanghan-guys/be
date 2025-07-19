@@ -1,11 +1,12 @@
 package com.susanghan_guys.server.user.exception;
 
-import com.susanghan_guys.server.global.common.code.BaseCode;
+import com.susanghan_guys.server.global.exception.BusinessException;
+import com.susanghan_guys.server.user.exception.code.UserErrorCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
-public class UserException extends RuntimeException {
-    private final BaseCode baseCode;
+public class UserException extends BusinessException {
+    public UserException(UserErrorCode errorCode) {
+        super(errorCode);
+    }
 }
