@@ -20,8 +20,8 @@ public class Reason extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_name", nullable = false)
-    private String userName;
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
@@ -37,11 +37,11 @@ public class Reason extends BaseEntity {
 
     @Builder
     public Reason(
-            String userName,
+            String email,
             List<ReasonType> reasonTypes,
             String etc
     ) {
-        this.userName = userName;
+        this.email = email;
         this.reasonTypes = reasonTypes;
         this.etc = etc;
     }

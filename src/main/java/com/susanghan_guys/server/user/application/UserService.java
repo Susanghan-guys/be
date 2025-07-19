@@ -69,7 +69,7 @@ public class UserService {
         reasonValidator.validateWithdrawalReason(request);
 
         reasonService.saveWithdrawalReason(
-                user.getName(),
+                user.getEmail(),
                 request.withdrawalReasons(),
                 request.etc()
         );

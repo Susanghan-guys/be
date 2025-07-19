@@ -7,9 +7,9 @@ import java.util.List;
 
 public class ReasonMapper {
 
-    public static Reason toEntity(String name, List<ReasonType> reasonTypes, String etc) {
+    public static Reason toEntity(String email, List<ReasonType> reasonTypes, String etc) {
         return Reason.builder()
-                .userName(name)
+                .email(email)
                 .reasonTypes(reasonTypes)
                 .etc(etc)
                 .build();

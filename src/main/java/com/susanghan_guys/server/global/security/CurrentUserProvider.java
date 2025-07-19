@@ -23,6 +23,9 @@ public class CurrentUserProvider {
 
     public String getCurrentAccessToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null ? (String) authentication.getDetails() : null;
+        if (authentication != null && authentication.getDetails() instanceof String) {
+            return (String) authentication.getDetails();
+        }
+        return null;
     }
 }

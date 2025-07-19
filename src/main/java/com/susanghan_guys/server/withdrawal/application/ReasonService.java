@@ -18,8 +18,8 @@ public class ReasonService {
     private final ReasonRepository reasonRepository;
 
     @Transactional
-    public void saveWithdrawalReason(String name, List<ReasonType> reasonTypes, String etc) {
-        Reason reason = ReasonMapper.toEntity(name, reasonTypes, etc);
+    public void saveWithdrawalReason(String email, List<ReasonType> reasonTypes, String etc) {
+        Reason reason = ReasonMapper.toEntity(email, reasonTypes, etc);
         reasonRepository.save(reason);
     }
 }
