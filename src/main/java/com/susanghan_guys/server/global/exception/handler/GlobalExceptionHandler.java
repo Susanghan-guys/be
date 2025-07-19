@@ -1,6 +1,7 @@
 package com.susanghan_guys.server.global.exception.handler;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
+import com.susanghan_guys.server.global.common.code.BaseCode;
 import com.susanghan_guys.server.global.common.code.ErrorCode;
 import com.susanghan_guys.server.global.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<CommonResponse<Void>> handleBusinessException(BusinessException e) {
-        ErrorCode errorCode =  e.getErrorCode();
+        BaseCode errorCode =  e.getErrorCode();
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
                 .body(CommonResponse.failure(errorCode));
