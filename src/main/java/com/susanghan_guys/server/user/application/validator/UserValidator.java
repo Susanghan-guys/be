@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.user.validator;
+package com.susanghan_guys.server.user.application.validator;
 
 import com.susanghan_guys.server.user.domain.type.Channel;
 import com.susanghan_guys.server.user.domain.type.Purpose;

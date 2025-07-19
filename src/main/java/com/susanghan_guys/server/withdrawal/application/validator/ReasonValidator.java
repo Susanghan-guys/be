@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.withdrawal.validator;
+package com.susanghan_guys.server.withdrawal.application.validator;
 
 import com.susanghan_guys.server.user.dto.request.UserWithdrawalRequest;
 import com.susanghan_guys.server.withdrawal.domain.type.ReasonType;
