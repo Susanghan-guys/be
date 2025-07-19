@@ -1,5 +1,6 @@
 package com.susanghan_guys.server.user.validator;
 
+import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.domain.type.Channel;
 import com.susanghan_guys.server.user.domain.type.Purpose;
 import com.susanghan_guys.server.user.domain.type.WithdrawalReason;
@@ -33,7 +34,11 @@ public class UserValidator {
         }
     }
 
-    public void validateUserWithdrawal(UserWithdrawalRequest request) {
+    public void validateUserWithdrawal(User user, UserWithdrawalRequest request) {
+        if (user.isDeleted()) {
+            throw new UserException(UserErrorCode.USER_ALREADY_DELETED);
+        }
+
         if (WithdrawalReason.ETC.equals(request.withdrawalReason())) {
             if (request.etc() == null || request.etc().isBlank()) {
                 throw new UserException(UserErrorCode.ETC_DETAIL_REQUIRED);
