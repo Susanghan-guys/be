@@ -7,8 +7,6 @@ import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.dto.request.UserWithdrawalRequest;
 import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
-import com.susanghan_guys.server.user.exception.UserException;
-import com.susanghan_guys.server.user.exception.code.UserErrorCode;
 import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
 import com.susanghan_guys.server.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,6 @@ public class UserService {
 
     private final CurrentUserProvider currentUserProvider;
     private final UserValidator userValidator;
-    private final UserRepository userRepository;
 
     @Transactional
     public void saveUserAgreement(UserTermsRequest request) {
