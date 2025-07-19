@@ -17,7 +17,7 @@ public class YccWorkMapper {
 
         return Work.builder()
                 .title(dto.title())
-                .filesType(FilesType.PLAN) // 기획서는 DOCUMENT 타입으로 고정
+                .filesType(FilesType.PLAN)
                 .work(planFileUrl)
                 .user(user)
                 .contest(contest)

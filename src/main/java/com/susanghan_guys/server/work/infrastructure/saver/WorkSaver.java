@@ -1,14 +1,13 @@
 package com.susanghan_guys.server.work.infrastructure.saver;
 
-import com.nimbusds.oauth2.sdk.util.StringUtils;
+import jakarta.transaction.Transactional;
+import org.apache.commons.lang3.StringUtils;
 import com.susanghan_guys.server.work.domain.AdditionalFile;
 import com.susanghan_guys.server.work.domain.Member;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.domain.WorkMember;
 import com.susanghan_guys.server.work.domain.type.FilesType;
 import com.susanghan_guys.server.work.dto.TeamMemberDto;
-import com.susanghan_guys.server.work.exception.WorkException;
-import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.AdditionalFileRepository;
 import com.susanghan_guys.server.work.infrastructure.persistence.MemberRepository;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkMemberRepository;
@@ -37,6 +36,7 @@ public class WorkSaver {
         }
     }
 
+    @Transactional
     public void saveAdditionalFiles(
             Work work,
             String youtubeUrl,

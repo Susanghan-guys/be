@@ -12,6 +12,7 @@ import com.susanghan_guys.server.work.infrastructure.mapper.DcaWorkMapper;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import com.susanghan_guys.server.work.infrastructure.saver.WorkSaver;
 import com.susanghan_guys.server.work.validator.DcaWorkValidator;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,7 @@ public class DcaWorkService {
 
     private static final String DCA_CONTEST_NAME = "DCA";
 
+    @Transactional
     public void submit(DcaWorkSubmissionRequest dto,
                        MultipartFile briefBoardFile,
                        MultipartFile additionalFile) {

@@ -11,6 +11,7 @@ import com.susanghan_guys.server.work.infrastructure.mapper.YccWorkMapper;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import com.susanghan_guys.server.work.infrastructure.saver.WorkSaver;
 import com.susanghan_guys.server.work.validator.YccWorkValidator;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +30,7 @@ public class YccWorkService {
 
     private static final String YCC_CONTEST_NAME = "YCC";
 
+    @Transactional
     public void submit(YccWorkSubmissionRequest dto, MultipartFile planFile) {
 
         User user = currentUserProvider.getCurrentUser();

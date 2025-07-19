@@ -35,7 +35,14 @@ public class S3Service {
     }
 
     public String uploadFile(MultipartFile file, String dir) {
-        String fileName = dir + "/" + UUID.randomUUID();
+        String originalFilename = file.getOriginalFilename();
+        String extension = "";
+
+        if (originalFilename != null && originalFilename.contains(".")) {
+            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        }
+
+        String fileName = dir + "/" + UUID.randomUUID() + extension;
         String contentType = file.getContentType();
 
         try {

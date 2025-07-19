@@ -1,14 +1,7 @@
 package com.susanghan_guys.server.work.domain;
 
-import com.susanghan_guys.server.contest.domain.Contest;
-import com.susanghan_guys.server.global.domain.BaseEntity;
-import com.susanghan_guys.server.user.domain.User;
-import com.susanghan_guys.server.work.domain.type.Brand;
-import com.susanghan_guys.server.work.domain.type.Category;
-import com.susanghan_guys.server.work.domain.type.FilesType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
