@@ -5,6 +5,7 @@ import com.susanghan_guys.server.user.application.UserService;
 import com.susanghan_guys.server.user.dto.request.MyPageInfoRequest;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
+import com.susanghan_guys.server.user.dto.request.UserWithdrawalRequest;
 import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
 import com.susanghan_guys.server.user.presentation.swagger.UserSwagger;
 import jakarta.validation.Valid;
@@ -44,5 +45,11 @@ public class UserController implements UserSwagger {
     @PatchMapping("/me")
     public CommonResponse<MyPageInfoResponse> updateMyPageInfo(@RequestBody @Valid MyPageInfoRequest request) {
         return CommonResponse.success(USER_INFO_UPDATE_SUCCESS, userService.updateMyPageInfo(request));
+    }
+
+    @PatchMapping("/me/withdrawal")
+    public CommonResponse<String> withdrawUser(@RequestBody @Valid UserWithdrawalRequest request) {
+        userService.withdrawalUser(request);
+        return CommonResponse.success(USER_WITHDRAWAL_SUCCESS, "OK");
     }
 }

@@ -5,11 +5,15 @@ import com.susanghan_guys.server.user.dto.request.MyPageInfoRequest;
 import com.susanghan_guys.server.user.dto.request.UserOnboardingRequest;
 import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import com.susanghan_guys.server.user.domain.User;
+import com.susanghan_guys.server.user.dto.request.UserWithdrawalRequest;
 import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
+import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
 import com.susanghan_guys.server.user.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +22,7 @@ public class UserService {
 
     private final CurrentUserProvider currentUserProvider;
     private final UserValidator userValidator;
+    private final UserRepository userRepository;
 
     @Transactional
     public void saveUserAgreement(UserTermsRequest request) {
@@ -51,6 +56,12 @@ public class UserService {
         user.updateUserInfo(request.name());
 
         return MyPageInfoResponse.from(user);
+    }
+
+    @Transactional
+    public void withdrawalUser(UserWithdrawalRequest request) {
+        User user = currentUserProvider.getCurrentUser();
+        user.withdrawalUser(LocalDateTime.now(), request.withdrawalReason());
     }
 
     public MyPageInfoResponse getMyPageInfo() {
