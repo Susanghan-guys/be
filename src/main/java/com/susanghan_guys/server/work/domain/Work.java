@@ -5,11 +5,15 @@ import com.susanghan_guys.server.global.domain.BaseEntity;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.type.Brand;
 import com.susanghan_guys.server.work.domain.type.Category;
+import com.susanghan_guys.server.work.domain.type.FilesType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,19 +28,23 @@ public class Work extends BaseEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "number", nullable = false)
-    private String number;
+    @Column(name = "work", nullable = false)
+    private String work;
 
-    @Column(name = "member", nullable = false)
-    private String member;
+    @Column(name = "number")
+    private String number; // DCA
 
     @Column(name = "brand")
     @Enumerated(EnumType.STRING)
-    private Brand brand;
+    private Brand brand; // DCA
 
     @Column(name = "category")
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private Category category; // DCA
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "files_type")
+    private FilesType filesType; // DCA
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -46,21 +54,35 @@ public class Work extends BaseEntity {
     @JoinColumn(name = "contest_id", nullable = false)
     private Contest contest;
 
+    @OneToMany(mappedBy = "work", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AdditionalFile> additionalFiles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "work", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WorkMember> workMembers = new ArrayList<>();
+
     @Builder
     public Work(
             String title,
             String number,
-            String member,
             Brand brand,
             Category category,
+            String work,
+            FilesType filesType,
+            User user,
             Contest contest
     ) {
         this.title = title;
         this.number = number;
-        this.member = member;
         this.brand = brand;
         this.category = category;
+        this.work = work;
+        this.filesType = filesType;
+        this.user = user;
         this.contest = contest;
+    }
+
+    public void addWorkMember(WorkMember workMember) {
+        this.workMembers.add(workMember);
     }
 
     public void associateUser(User user) {
