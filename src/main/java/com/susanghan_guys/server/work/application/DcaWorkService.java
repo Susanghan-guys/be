@@ -52,7 +52,7 @@ public class DcaWorkService {
         String briefBoardUrl = s3Service.uploadFile(briefBoardFile, "dca");
         Work work = mapper.toEntity(dto, user, contest, briefBoardUrl);
         Work savedWork = workRepository.save(work);
-        workSaver.saveTeamMembers(savedWork, dto.members());
+        workSaver.saveTeamMembers(savedWork, dto.teamMembers());
 
         String uploadedAdditionalUrl = null;
         if (additionalFile != null && !additionalFile.isEmpty()) {

@@ -19,13 +19,13 @@ public class WorkMember {
     private Work work;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @JoinColumn(name = "team_member_id", nullable = false)
+    private TeamMember teamMember;
 
-    public WorkMember(Work work, Member member) {
+    public WorkMember(Work work, TeamMember teamMember) {
         this.work = work;
-        this.member = member;
+        this.teamMember = teamMember;
         this.work.addWorkMember(this);
-        this.member.getWorkMembers().add(this);
+        this.teamMember.getWorkMembers().add(this);
     }
 }

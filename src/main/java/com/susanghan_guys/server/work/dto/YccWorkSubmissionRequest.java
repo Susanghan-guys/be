@@ -15,6 +15,6 @@ public record YccWorkSubmissionRequest(
 
         @NotEmpty
         @Schema(description = "팀원 정보 리스트")
-        List<TeamMemberDto> members
+        List<TeamMemberResponse> members
 
 ) {}

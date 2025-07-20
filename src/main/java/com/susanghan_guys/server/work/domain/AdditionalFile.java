@@ -7,8 +7,6 @@ import lombok.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 @Table(name = "additional_files")
 public class AdditionalFile {
 
@@ -26,4 +24,11 @@ public class AdditionalFile {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private FilesType type;
+
+    @Builder
+    public AdditionalFile(Work work, String value, FilesType type) {
+        this.work = work;
+        this.value = value;
+        this.type = type;
+    }
 }
