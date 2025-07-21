@@ -11,11 +11,11 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class TeamMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
+    @Column(name = "team_member_id")
     private Long id;
 
     @Column(nullable = false)
@@ -24,10 +24,10 @@ public class Member {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "teamMember", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkMember> workMembers = new ArrayList<>();
 
-    public Member(String name, String email) {
+    public TeamMember(String name, String email) {
         this.name = name;
         this.email = email;
     }

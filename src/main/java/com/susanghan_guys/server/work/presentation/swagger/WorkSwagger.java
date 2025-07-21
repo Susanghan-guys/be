@@ -29,7 +29,7 @@ public interface WorkSwagger {
     - number: 출품 번호
     - category: 작품 카테고리 (예: FILM, VISUAL 등)
     - brand: 브랜드명
-    - members: 팀원 정보 목록(없다면 필드 없애면 됩니다)
+    - teamMembers: 팀원 정보 목록(없다면 필드 없애면 됩니다)
     - briefBoardFile: 브리프보드 이미지 (JPG, 최대 3508x4960px, 10MB)
     
     **추가자료 조건 분기:**

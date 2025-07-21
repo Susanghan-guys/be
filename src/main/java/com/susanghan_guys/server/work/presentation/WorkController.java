@@ -6,6 +6,7 @@ import com.susanghan_guys.server.work.application.YccWorkService;
 import com.susanghan_guys.server.work.dto.DcaWorkSubmissionRequest;
 import com.susanghan_guys.server.work.dto.YccWorkSubmissionRequest;
 import com.susanghan_guys.server.work.presentation.swagger.WorkSwagger;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class WorkController implements WorkSwagger {
     @Override
     @PostMapping(value = "/dca", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CommonResponse<String> submitDca(
-            @RequestPart DcaWorkSubmissionRequest request,
+            @RequestPart @Valid DcaWorkSubmissionRequest request,
             @RequestPart MultipartFile briefBoardFile,
             @RequestPart(required = false) MultipartFile additionalFile
     ) {
@@ -35,7 +36,7 @@ public class WorkController implements WorkSwagger {
     @Override
     @PostMapping(value = "/ycc", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CommonResponse<String> submitYcc(
-            @RequestPart YccWorkSubmissionRequest request,
+            @RequestPart @Valid YccWorkSubmissionRequest request,
             @RequestPart MultipartFile planFile
     ) {
         yccWorkService.submit(request, planFile);
