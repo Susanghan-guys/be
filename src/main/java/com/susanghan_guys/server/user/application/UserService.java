@@ -44,6 +44,7 @@ public class UserService {
 
         user.updateUserOnboarding(
                 true,
+                request.name(),
                 request.role(),
                 request.purpose(),
                 request.purposeEtc(),

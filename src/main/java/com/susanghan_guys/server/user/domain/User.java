@@ -124,6 +124,7 @@ public class User extends BaseEntity {
 
     public void updateUserOnboarding(
             Boolean isOnboarded,
+            String name,
             List<Role> roles,
             Purpose purpose,
             String purposeEtc,
@@ -131,6 +132,7 @@ public class User extends BaseEntity {
             String channelEtc
     ) {
         this.isOnboarded = isOnboarded;
+        this.name = name;
         this.roles = roles;
         this.purpose = purpose;
         this.purposeEtc = purposeEtc;
