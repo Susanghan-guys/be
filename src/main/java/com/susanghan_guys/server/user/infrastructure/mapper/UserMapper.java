@@ -5,7 +5,7 @@ import com.susanghan_guys.server.user.domain.User;
 
 public class UserMapper {
 
-    public static User toDomain(OAuth2UserInfo oAuth2UserInfo) {
+    public static User toEntity(OAuth2UserInfo oAuth2UserInfo) {
         return User.builder()
                 .email(oAuth2UserInfo.getEmail())
                 .name(oAuth2UserInfo.getName())

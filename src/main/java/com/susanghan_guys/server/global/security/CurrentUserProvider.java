@@ -5,6 +5,8 @@ import com.susanghan_guys.server.user.exception.UserException;
 import com.susanghan_guys.server.user.exception.code.UserErrorCode;
 import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,5 +19,13 @@ public class CurrentUserProvider {
         Long userId = SecurityUtils.getCurrentUserId();
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
+    }
+
+    public String getCurrentAccessToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getDetails() instanceof String) {
+            return (String) authentication.getDetails();
+        }
+        return null;
     }
 }

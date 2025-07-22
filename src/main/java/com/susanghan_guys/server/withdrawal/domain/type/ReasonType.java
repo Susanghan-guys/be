@@ -1,9 +1,9 @@
-package com.susanghan_guys.server.user.domain.type;
+package com.susanghan_guys.server.withdrawal.domain.type;
 
 import lombok.Getter;
 
 @Getter
-public enum WithdrawalReason {
+public enum ReasonType {
     LOW_EFFECT("학습 효과 미비"),
     USABILITY("서비스 사용성"),
     OTHER_SERVICE("다른 서비스 사용"),
@@ -14,7 +14,7 @@ public enum WithdrawalReason {
 
     private final String label;
 
-    WithdrawalReason(String label) {
+    ReasonType(String label) {
         this.label = label;
     }
 }

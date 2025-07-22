@@ -67,7 +67,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 
     @Override
     public boolean isEnabled() {
-        return !user.isDeleted();
+        return true;
     }
 
     @Override

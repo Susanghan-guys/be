@@ -7,12 +7,13 @@ import com.susanghan_guys.server.user.dto.request.UserTermsRequest;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.user.dto.request.UserWithdrawalRequest;
 import com.susanghan_guys.server.user.dto.response.MyPageInfoResponse;
-import com.susanghan_guys.server.user.validator.UserValidator;
+import com.susanghan_guys.server.user.infrastructure.persistence.UserRepository;
+import com.susanghan_guys.server.withdrawal.application.ReasonService;
+import com.susanghan_guys.server.user.application.validator.UserValidator;
+import com.susanghan_guys.server.withdrawal.application.validator.ReasonValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,10 @@ public class UserService {
 
     private final CurrentUserProvider currentUserProvider;
     private final UserValidator userValidator;
+    private final UserAuthService userAuthService;
+    private final UserRepository userRepository;
+    private final ReasonService reasonService;
+    private final ReasonValidator reasonValidator;
 
     @Transactional
     public void saveUserAgreement(UserTermsRequest request) {
@@ -58,12 +63,20 @@ public class UserService {
     }
 
     @Transactional
-    public void withdrawalUser(UserWithdrawalRequest request) {
+    public void withdrawUser(UserWithdrawalRequest request) {
         User user = currentUserProvider.getCurrentUser();
+        String accessToken = currentUserProvider.getCurrentAccessToken();
 
-        userValidator.validateUserWithdrawal(user, request);
+        reasonValidator.validateWithdrawalReason(request);
 
-        user.withdrawalUser(LocalDateTime.now(), request.withdrawalReason());
+        reasonService.saveWithdrawalReason(
+                user.getEmail(),
+                request.withdrawalReasons(),
+                request.etc()
+        );
+
+        userAuthService.logout(accessToken);
+        userRepository.delete(user);
     }
 
     public MyPageInfoResponse getMyPageInfo() {

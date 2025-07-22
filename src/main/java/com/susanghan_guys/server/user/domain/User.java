@@ -71,13 +71,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SocialLogin socialLogin;
 
-    @Column(name = "withdrawal_reason")
-    @Enumerated(EnumType.STRING)
-    private WithdrawalReason withdrawalReason;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Work> workList = new ArrayList<>();
 
@@ -96,9 +89,7 @@ public class User extends BaseEntity {
             String channelEtc,
             Purpose purpose,
             String purposeEtc,
-            SocialLogin socialLogin,
-            WithdrawalReason withdrawalReason,
-            LocalDateTime deletedAt
+            SocialLogin socialLogin
     ) {
         this.name = name;
         this.email = email;
@@ -114,8 +105,6 @@ public class User extends BaseEntity {
         this.purpose = purpose;
         this.purposeEtc = purposeEtc;
         this.socialLogin = socialLogin;
-        this.withdrawalReason = withdrawalReason;
-        this.deletedAt = deletedAt;
     }
 
     public void addWork(Work work) {
@@ -153,14 +142,5 @@ public class User extends BaseEntity {
 
     public void updateUserInfo(String name) {
         this.name = name;
-    }
-
-    public void withdrawalUser(LocalDateTime deletedAt, WithdrawalReason withdrawalReason) {
-        this.deletedAt = deletedAt;
-        this.withdrawalReason = withdrawalReason;
-    }
-
-    public boolean isDeleted() {
-        return this.deletedAt != null;
     }
 }
