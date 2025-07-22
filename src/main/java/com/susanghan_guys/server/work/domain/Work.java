@@ -42,10 +42,6 @@ public class Work extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category; // DCA
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "files_type")
-    private FilesType filesType; // DCA
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -76,7 +72,6 @@ public class Work extends BaseEntity {
         this.brand = brand;
         this.category = category;
         this.work = work;
-        this.filesType = filesType;
         this.user = user;
         this.contest = contest;
     }
