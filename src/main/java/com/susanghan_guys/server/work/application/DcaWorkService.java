@@ -6,7 +6,6 @@ import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.application.support.WorkHelper;
 import com.susanghan_guys.server.work.domain.Work;
-import com.susanghan_guys.server.work.domain.type.FilesType;
 import com.susanghan_guys.server.work.dto.DcaWorkSubmissionRequest;
 import com.susanghan_guys.server.work.infrastructure.mapper.DcaWorkMapper;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;

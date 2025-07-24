@@ -1,7 +1,10 @@
 package com.susanghan_guys.server.work.dto;
 
+import com.susanghan_guys.server.work.domain.type.Brand;
+import com.susanghan_guys.server.work.domain.type.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 import java.util.List;
@@ -18,21 +21,20 @@ public record DcaWorkSubmissionRequest(
         @Schema(description = "작품 접수 번호", example = "P-004")
         String number,
 
-        @NotBlank
+        @NotNull
         @Schema(
                 description = "카테고리 (VISUAL, FILM, DIGICON, EXP, OUTACT)",
                 example = "FILM"
         )
-        String category,
+        Category category,
 
-        @NotBlank
+        @NotNull
         @Schema(
                 description = "브랜드(BBABBARO, TAMS, KRUSH, AIRISM, LOTTE_WORLD, " +
                         "LOTTE_GIANTS, LOTTERIA, NEXEN_TIRE, SBI_BANK)",
                 example = "LOTTERIA"
         )
-        String brand,
-
+        Brand brand,
 
         @Schema(description = "유튜브 링크(영상일 경우 필수)", example = "https://youtube.com/**")
         String youtubeUrl,
