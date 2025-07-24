@@ -1,6 +1,7 @@
 package com.susanghan_guys.server.work.validator;
 
 import com.susanghan_guys.server.work.domain.Work;
+import com.susanghan_guys.server.work.domain.type.Category;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
@@ -49,11 +50,11 @@ public class DcaWorkValidator {
     }
 
     public void validateAdditionalSubmission(
-            String category,
+            Category category,
             String youtubeUrl,
             MultipartFile additionalFile
     ) {
-        boolean isFilm = "FILM".equalsIgnoreCase(category);
+        boolean isFilm = Category.FILM.equals(category);
         boolean hasYoutube = StringUtils.isNotBlank(youtubeUrl);
         boolean hasPlanFile = additionalFile != null && !additionalFile.isEmpty();
 

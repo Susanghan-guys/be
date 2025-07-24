@@ -1,5 +1,7 @@
 package com.susanghan_guys.server.work.dto;
 
+import com.susanghan_guys.server.work.domain.type.Brand;
+import com.susanghan_guys.server.work.domain.type.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -23,7 +25,7 @@ public record DcaWorkSubmissionRequest(
                 description = "카테고리 (VISUAL, FILM, DIGICON, EXP, OUTACT)",
                 example = "FILM"
         )
-        String category,
+        Category category,
 
         @NotBlank
         @Schema(
@@ -31,8 +33,7 @@ public record DcaWorkSubmissionRequest(
                         "LOTTE_GIANTS, LOTTERIA, NEXEN_TIRE, SBI_BANK)",
                 example = "LOTTERIA"
         )
-        String brand,
-
+        Brand brand,
 
         @Schema(description = "유튜브 링크(영상일 경우 필수)", example = "https://youtube.com/**")
         String youtubeUrl,
