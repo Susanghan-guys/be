@@ -47,9 +47,9 @@ public class SecurityConfig {
                                 "/v1/auth/exchange"
                         ).permitAll()
                         .anyRequest().authenticated())
-                .exceptionHandling(exceptions -> {exceptions
-                            .authenticationEntryPoint(jwtAuthenticationEntryPoint);
-                        })
+                .exceptionHandling(exceptions -> exceptions
+                            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService))
