@@ -1,7 +1,6 @@
-package com.susanghan_guys.server.global.jwt;
+package com.susanghan_guys.server.global.security.jwt;
 
 import com.susanghan_guys.server.user.exception.UserAuthException;
-import com.susanghan_guys.server.user.exception.UserException;
 import com.susanghan_guys.server.user.exception.code.UserAuthErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

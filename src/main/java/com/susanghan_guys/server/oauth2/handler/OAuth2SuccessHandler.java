@@ -1,7 +1,7 @@
 package com.susanghan_guys.server.oauth2.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.susanghan_guys.server.global.jwt.JwtProvider;
+import com.susanghan_guys.server.global.security.jwt.JwtProvider;
 import com.susanghan_guys.server.oauth2.domain.RefreshToken;
 import com.susanghan_guys.server.oauth2.infrastructure.persistence.RefreshTokenRepository;
 import com.susanghan_guys.server.global.security.CustomUserDetails;

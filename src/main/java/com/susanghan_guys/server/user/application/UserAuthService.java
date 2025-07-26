@@ -3,7 +3,7 @@ package com.susanghan_guys.server.user.application;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.susanghan_guys.server.global.jwt.JwtProvider;
+import com.susanghan_guys.server.global.security.jwt.JwtProvider;
 import com.susanghan_guys.server.oauth2.application.TokenBlackListService;
 import com.susanghan_guys.server.oauth2.domain.RefreshToken;
 import com.susanghan_guys.server.oauth2.infrastructure.persistence.RefreshTokenRepository;

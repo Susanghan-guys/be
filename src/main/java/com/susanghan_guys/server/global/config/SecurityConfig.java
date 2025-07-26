@@ -1,8 +1,8 @@
 package com.susanghan_guys.server.global.config;
 
-import com.susanghan_guys.server.global.jwt.JwtAccessDeniedHandler;
-import com.susanghan_guys.server.global.jwt.JwtAuthenticationEntryPoint;
-import com.susanghan_guys.server.global.jwt.JwtAuthenticationFilter;
+import com.susanghan_guys.server.global.security.handler.JwtAccessDeniedHandler;
+import com.susanghan_guys.server.global.security.handler.JwtAuthenticationEntryPoint;
+import com.susanghan_guys.server.global.security.jwt.JwtAuthenticationFilter;
 import com.susanghan_guys.server.oauth2.application.CustomOAuth2UserService;
 import com.susanghan_guys.server.oauth2.handler.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
