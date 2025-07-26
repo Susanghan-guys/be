@@ -17,7 +17,7 @@ import static com.susanghan_guys.server.global.common.code.SuccessCode.MY_REPORT
 @RequestMapping("/v1/reports")
 public class ReportController implements ReportSwagger {
 
-    private final ReportService totalWorkService;
+    private final ReportService reportService;
 
     @Override
     @GetMapping
@@ -25,6 +25,6 @@ public class ReportController implements ReportSwagger {
             @RequestParam(name = "page") Integer page,
             @RequestParam(required = false) String name
     ) {
-        return CommonResponse.success(MY_REPORTS_RETRIEVED_SUCCESS, totalWorkService.getMyReports(name, page));
+        return CommonResponse.success(MY_REPORTS_RETRIEVED_SUCCESS, reportService.getMyReports(name, page));
     }
 }
