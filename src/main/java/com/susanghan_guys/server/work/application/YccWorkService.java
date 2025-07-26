@@ -6,7 +6,7 @@ import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.application.support.WorkHelper;
 import com.susanghan_guys.server.work.domain.Work;
-import com.susanghan_guys.server.work.dto.YccWorkSubmissionRequest;
+import com.susanghan_guys.server.work.dto.request.YccWorkSubmissionRequest;
 import com.susanghan_guys.server.work.infrastructure.mapper.YccWorkMapper;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import com.susanghan_guys.server.work.infrastructure.saver.WorkSaver;
