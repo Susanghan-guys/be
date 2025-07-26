@@ -65,7 +65,6 @@ public class UserService {
     @Transactional
     public void withdrawUser(UserWithdrawalRequest request) {
         User user = currentUserProvider.getCurrentUser();
-        String accessToken = currentUserProvider.getCurrentAccessToken();
 
         reasonValidator.validateWithdrawalReason(request);
 
@@ -74,8 +73,6 @@ public class UserService {
                 request.withdrawalReasons(),
                 request.etc()
         );
-
-        userAuthService.logout(accessToken);
         userRepository.delete(user);
     }
 
