@@ -2,11 +2,9 @@ package com.susanghan_guys.server.work.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.work.application.DcaWorkService;
-import com.susanghan_guys.server.work.application.TotalWorkService;
 import com.susanghan_guys.server.work.application.YccWorkService;
 import com.susanghan_guys.server.work.dto.DcaWorkSubmissionRequest;
 import com.susanghan_guys.server.work.dto.YccWorkSubmissionRequest;
-import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import com.susanghan_guys.server.work.presentation.swagger.WorkSwagger;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +21,6 @@ public class WorkController implements WorkSwagger {
 
     private final DcaWorkService dcaWorkService;
     private final YccWorkService yccWorkService;
-    private final TotalWorkService totalWorkService;
 
     @Override
     @PostMapping(value = "/dca", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -44,14 +41,5 @@ public class WorkController implements WorkSwagger {
     ) {
         yccWorkService.submit(request, planFile);
         return CommonResponse.success(WORK_YCC_SUBMIT_SUCCESS, "OK");
-    }
-
-    @Override
-    @GetMapping
-    public CommonResponse<MyReportListResponse> getMyReports(
-            @RequestParam(name = "page") Integer page,
-            @RequestParam(required = false) String name
-    ) {
-        return CommonResponse.success(MY_REPORTS_RETRIEVED_SUCCESS, totalWorkService.getMyReports(name, page));
     }
 }

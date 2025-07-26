@@ -84,19 +84,4 @@ public interface WorkSwagger {
             @RequestPart("request") YccWorkSubmissionRequest request,
             @RequestPart("planFile") MultipartFile planFile
     );
-
-    @Operation(
-            summary = "내 리포트 조회 API",
-            description = "제출된 내 리포트를 조회합니다."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "내 리포트 조회가 성공적으로 실행되었습니다."
-            )
-    })
-    CommonResponse<MyReportListResponse> getMyReports(
-            @RequestParam(name = "page") Integer page,
-            @RequestParam(required = false) String name
-    );
 }
