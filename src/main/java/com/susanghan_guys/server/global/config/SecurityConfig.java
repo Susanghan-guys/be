@@ -1,5 +1,6 @@
 package com.susanghan_guys.server.global.config;
 
+import com.susanghan_guys.server.global.jwt.JwtAuthenticationEntryPoint;
 import com.susanghan_guys.server.global.jwt.JwtAuthenticationFilter;
 import com.susanghan_guys.server.oauth2.application.CustomOAuth2UserService;
 import com.susanghan_guys.server.oauth2.handler.OAuth2SuccessHandler;
@@ -22,6 +23,7 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -45,6 +47,9 @@ public class SecurityConfig {
                                 "/v1/auth/exchange"
                         ).permitAll()
                         .anyRequest().authenticated())
+                .exceptionHandling(exceptions -> {exceptions
+                            .authenticationEntryPoint(jwtAuthenticationEntryPoint);
+                        })
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService))
