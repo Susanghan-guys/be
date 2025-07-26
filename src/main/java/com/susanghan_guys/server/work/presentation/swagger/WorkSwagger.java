@@ -3,6 +3,7 @@ package com.susanghan_guys.server.work.presentation.swagger;
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.work.dto.DcaWorkSubmissionRequest;
 import com.susanghan_guys.server.work.dto.YccWorkSubmissionRequest;
+import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Encoding;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,11 +39,11 @@ public interface WorkSwagger {
     [FILM 카테고리일 경우]
     - 유튜브 링크(youtubeUrl): **필수**
     - 기획서 파일 (additionalFile): 선택
-                    
+ 
     [FILM 외 카테고리일 경우]
     - **youtubeUrl 필드 사용 금지 (있으면 오류)**
     - 기획서 파일 (additionalFile): 선택
-                    
+
     ※ youtubeUrl, additionalFile의 존재 여부에 따라 자동으로 검증됩니다.
     \n※ 유튜브 링크와 기획서 파일은 유효성 검증을 거칩니다.
     \n※ 복잡한 부분이 있으므로 궁금한 점이 생기면 바로 문의해주세요.
@@ -65,7 +67,7 @@ public interface WorkSwagger {
     );
 
     @Operation(
-            summary = "YCC(HASD) 공모전 작품 제출",
+            summary = "YCC(HSAD) 공모전 작품 제출",
             description = "기획서 파일만 제출합니다 (pdf/ppt/pptx, 최대 10MB)."
     )
     @ApiResponses(value = {
@@ -81,5 +83,20 @@ public interface WorkSwagger {
     CommonResponse<String> submitYcc(
             @RequestPart("request") YccWorkSubmissionRequest request,
             @RequestPart("planFile") MultipartFile planFile
+    );
+
+    @Operation(
+            summary = "내 리포트 조회 API",
+            description = "제출된 내 리포트를 조회합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "내 리포트 조회가 성공적으로 실행되었습니다."
+            )
+    })
+    CommonResponse<MyReportListResponse> getMyReports(
+            @RequestParam(name = "page") Integer page,
+            @RequestParam(required = false) String name
     );
 }

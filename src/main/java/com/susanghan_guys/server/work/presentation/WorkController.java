@@ -46,6 +46,7 @@ public class WorkController implements WorkSwagger {
         return CommonResponse.success(WORK_YCC_SUBMIT_SUCCESS, "OK");
     }
 
+    @Override
     @GetMapping
     public CommonResponse<MyReportListResponse> getMyReports(
             @RequestParam(name = "page") Integer page,
