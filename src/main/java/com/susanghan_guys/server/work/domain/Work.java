@@ -5,6 +5,7 @@ import com.susanghan_guys.server.global.domain.BaseEntity;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.type.Brand;
 import com.susanghan_guys.server.work.domain.type.Category;
+import com.susanghan_guys.server.work.domain.type.ReportStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -41,6 +42,10 @@ public class Work extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category; // DCA
 
+    @Column(name = "report_status")
+    @Enumerated(EnumType.STRING)
+    private ReportStatus reportStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -61,6 +66,7 @@ public class Work extends BaseEntity {
             String number,
             Brand brand,
             Category category,
+            ReportStatus reportStatus,
             String work,
             User user,
             Contest contest
@@ -69,6 +75,7 @@ public class Work extends BaseEntity {
         this.number = number;
         this.brand = brand;
         this.category = category;
+        this.reportStatus = reportStatus;
         this.work = work;
         this.user = user;
         this.contest = contest;
