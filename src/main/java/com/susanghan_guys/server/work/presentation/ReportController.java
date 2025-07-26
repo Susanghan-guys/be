@@ -4,6 +4,7 @@ import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.work.application.ReportService;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import com.susanghan_guys.server.work.presentation.swagger.ReportSwagger;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class ReportController implements ReportSwagger {
     @Override
     @GetMapping
     public CommonResponse<MyReportListResponse> getMyReports(
-            @RequestParam(name = "page") Integer page,
+            @RequestParam(name = "page") @Min(0) Integer page,
             @RequestParam(required = false) String name
     ) {
         return CommonResponse.success(MY_REPORTS_RETRIEVED_SUCCESS, reportService.getMyReports(name, page));

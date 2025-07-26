@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "[리포트]", description = "리포트 관련 API")
@@ -21,7 +22,7 @@ public interface ReportSwagger {
             )
     })
     CommonResponse<MyReportListResponse> getMyReports(
-            @RequestParam(name = "page") Integer page,
+            @RequestParam(name = "page") @Min(0) Integer page,
             @RequestParam(required = false) String name
     );
 }
