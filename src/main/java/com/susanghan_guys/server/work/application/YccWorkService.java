@@ -10,7 +10,7 @@ import com.susanghan_guys.server.work.dto.request.YccWorkSubmissionRequest;
 import com.susanghan_guys.server.work.infrastructure.mapper.YccWorkMapper;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import com.susanghan_guys.server.work.infrastructure.saver.WorkSaver;
-import com.susanghan_guys.server.work.validator.YccWorkValidator;
+import com.susanghan_guys.server.work.application.validator.YccWorkValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
