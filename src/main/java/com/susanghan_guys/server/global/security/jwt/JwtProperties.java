@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.global.jwt;
+package com.susanghan_guys.server.global.security.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

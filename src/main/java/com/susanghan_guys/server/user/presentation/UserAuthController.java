@@ -1,8 +1,7 @@
 package com.susanghan_guys.server.user.presentation;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.susanghan_guys.server.global.common.CommonResponse;
-import com.susanghan_guys.server.global.jwt.JwtProvider;
+import com.susanghan_guys.server.global.security.jwt.JwtProvider;
 import com.susanghan_guys.server.user.application.UserAuthService;
 import com.susanghan_guys.server.user.dto.request.RefreshTokenRequest;
 import com.susanghan_guys.server.user.dto.response.RefreshTokenResponse;

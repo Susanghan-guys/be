@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.global.jwt;
+package com.susanghan_guys.server.global.security.jwt;
 
 import com.susanghan_guys.server.oauth2.application.TokenBlackListService;
 import com.susanghan_guys.server.global.security.CustomUserDetailService;
