@@ -17,7 +17,6 @@ public class YccWorkMapper {
 
         return Work.builder()
                 .title(dto.title())
-                .filesType(FilesType.PLAN)
                 .work(planFileUrl)
                 .user(user)
                 .contest(contest)

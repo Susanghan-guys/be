@@ -5,7 +5,6 @@ import com.susanghan_guys.server.global.domain.BaseEntity;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.type.Brand;
 import com.susanghan_guys.server.work.domain.type.Category;
-import com.susanghan_guys.server.work.domain.type.FilesType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -63,7 +62,6 @@ public class Work extends BaseEntity {
             Brand brand,
             Category category,
             String work,
-            FilesType filesType,
             User user,
             Contest contest
     ) {
