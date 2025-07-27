@@ -5,7 +5,7 @@ import com.susanghan_guys.server.work.domain.TeamMember;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.domain.WorkMember;
 import com.susanghan_guys.server.work.domain.type.FilesType;
-import com.susanghan_guys.server.work.dto.TeamMemberResponse;
+import com.susanghan_guys.server.work.dto.response.TeamMemberResponse;
 import com.susanghan_guys.server.work.infrastructure.persistence.AdditionalFileRepository;
 import com.susanghan_guys.server.work.infrastructure.persistence.TeamMemberRepository;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkMemberRepository;

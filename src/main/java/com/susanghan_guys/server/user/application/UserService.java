@@ -22,7 +22,6 @@ public class UserService {
 
     private final CurrentUserProvider currentUserProvider;
     private final UserValidator userValidator;
-    private final UserAuthService userAuthService;
     private final UserRepository userRepository;
     private final ReasonService reasonService;
     private final ReasonValidator reasonValidator;

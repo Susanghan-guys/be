@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.work.dto;
+package com.susanghan_guys.server.work.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
