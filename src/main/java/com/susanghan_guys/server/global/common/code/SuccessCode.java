@@ -26,7 +26,8 @@ public enum SuccessCode implements BaseCode {
 
     // work
     WORK_DCA_SUBMIT_SUCCESS(HttpStatus.OK, 200, "DCA Work Submission Success"),
-    WORK_YCC_SUBMIT_SUCCESS(HttpStatus.OK, 200, "YCC Work Submission Success")
+    WORK_YCC_SUBMIT_SUCCESS(HttpStatus.OK, 200, "YCC Work Submission Success"),
+    MY_REPORTS_RETRIEVED_SUCCESS(HttpStatus.OK, 200, "My Reports Retrieved Success"),
     ;
 
     private final HttpStatus httpStatus;

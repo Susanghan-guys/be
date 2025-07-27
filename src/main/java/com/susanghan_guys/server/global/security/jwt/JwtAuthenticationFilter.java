@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.global.jwt;
+package com.susanghan_guys.server.global.security.jwt;
 
 import com.susanghan_guys.server.oauth2.application.TokenBlackListService;
 import com.susanghan_guys.server.global.security.CustomUserDetailService;
@@ -47,7 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities()
             );
-            authentication.setDetails(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         }

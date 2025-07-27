@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.work.validator;
+package com.susanghan_guys.server.work.application.validator;
 
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;

@@ -22,7 +22,6 @@ public class UserService {
 
     private final CurrentUserProvider currentUserProvider;
     private final UserValidator userValidator;
-    private final UserAuthService userAuthService;
     private final UserRepository userRepository;
     private final ReasonService reasonService;
     private final ReasonValidator reasonValidator;
@@ -65,7 +64,6 @@ public class UserService {
     @Transactional
     public void withdrawUser(UserWithdrawalRequest request) {
         User user = currentUserProvider.getCurrentUser();
-        String accessToken = currentUserProvider.getCurrentAccessToken();
 
         reasonValidator.validateWithdrawalReason(request);
 
@@ -74,8 +72,6 @@ public class UserService {
                 request.withdrawalReasons(),
                 request.etc()
         );
-
-        userAuthService.logout(accessToken);
         userRepository.delete(user);
     }
 

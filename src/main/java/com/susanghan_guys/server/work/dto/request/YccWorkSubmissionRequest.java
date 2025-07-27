@@ -1,5 +1,6 @@
-package com.susanghan_guys.server.work.dto;
+package com.susanghan_guys.server.work.dto.request;
 
+import com.susanghan_guys.server.work.dto.response.TeamMemberResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
