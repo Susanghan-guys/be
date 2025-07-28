@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.global.client;
+package com.susanghan_guys.server.global.client.openai.type;
 
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;

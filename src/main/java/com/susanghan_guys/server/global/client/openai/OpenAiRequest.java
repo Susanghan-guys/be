@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.global.client;
+package com.susanghan_guys.server.global.client.openai;
 
 import java.util.List;
 

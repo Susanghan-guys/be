@@ -1,5 +1,6 @@
-package com.susanghan_guys.server.global.client;
+package com.susanghan_guys.server.global.client.openai;
 
+import com.susanghan_guys.server.global.client.openai.type.ImageMimeType;
 import com.susanghan_guys.server.global.common.code.ErrorCode;
 import com.susanghan_guys.server.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
