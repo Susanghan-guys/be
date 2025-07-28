@@ -1,8 +1,8 @@
 package com.susanghan_guys.server.global.client.openai;
 
+import com.susanghan_guys.server.global.client.exception.ClientException;
+import com.susanghan_guys.server.global.client.exception.code.ClientErrorCode;
 import com.susanghan_guys.server.global.client.openai.type.ImageMimeType;
-import com.susanghan_guys.server.global.common.code.ErrorCode;
-import com.susanghan_guys.server.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -38,7 +38,7 @@ public class OpenAiClient {
                         }
                     } catch (MalformedURLException e) {
                         log.error("🚨 MalformedException 발생: {}", e.getMessage());
-                        throw new BusinessException(ErrorCode.BAD_REQUEST);
+                        throw new ClientException(ClientErrorCode.INVALID_IMAGE_URL);
                     }
                 })
                 .system(prompt.system())
@@ -52,7 +52,7 @@ public class OpenAiClient {
         String fileName = url.substring(url.lastIndexOf('/') + 1);
         int dotIndex = fileName.lastIndexOf('.');
         if (dotIndex == -1) {
-            throw new BusinessException(ErrorCode.BAD_REQUEST);
+            throw new ClientException(ClientErrorCode.IMAGE_URL_NOT_FOUND);
         }
         return fileName.substring(dotIndex + 1);
     }

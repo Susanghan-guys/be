@@ -1,5 +1,8 @@
 package com.susanghan_guys.server.global.client.openai.type;
 
+import com.susanghan_guys.server.global.client.exception.ClientException;
+import com.susanghan_guys.server.global.client.exception.code.ClientErrorCode;
+import com.susanghan_guys.server.global.exception.BusinessException;
 import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
 
@@ -32,7 +35,7 @@ public enum ImageMimeType {
         MimeType mimeType = EXTENSION_TO_MIME_TYPE.get(lowerExtension);
 
         if (mimeType == null) {
-            throw new IllegalArgumentException("Unknown image mime type: " + extension);
+            throw new ClientException(ClientErrorCode.UNKNOWN_IMAGE_TYPE);
         }
         return mimeType;
     }
