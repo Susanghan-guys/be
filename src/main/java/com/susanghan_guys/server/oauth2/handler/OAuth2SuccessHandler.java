@@ -68,7 +68,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private String getRedirectUri(HttpServletRequest request, String tempCode) {
         String serverName = request.getServerName();
-        String redirectUri = (serverName != null && serverName.contains("localhost")) ? localRedirectUri : prodRedirectUri;
+        boolean isLocal = serverName != null && (serverName.contains("localhost") || serverName.contains("127.0.0.1"));
+
+        String redirectUri = isLocal ? localRedirectUri : prodRedirectUri;
 
         return redirectUri + tempCode;
     }
