@@ -28,8 +28,11 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper objectMapper;
     private final RedisUtil redisUtil;
 
-    @Value("${frontend.oauth2.redirect-uri}")
-    private String redirectUri;
+    @Value("${frontend.oauth2.redirect-uri.local}")
+    private String localRedirectUri;
+
+    @Value("${frontend.oauth2.redirect-uri.prod}")
+    private String prodRedirectUri;
 
     @Override
     public void onAuthenticationSuccess(
@@ -59,7 +62,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                         "isSignUp", String.valueOf(isSignUp)
                 )), 1000 * 60L);
 
-        String callbackUri = redirectUri + tempCode;
+        String callbackUri = getRedirectUri(request, tempCode);
         response.sendRedirect(callbackUri);
+    }
+
+    private String getRedirectUri(HttpServletRequest request, String tempCode) {
+        String serverName = request.getServerName();
+        String redirectUri = (serverName != null && serverName.contains("localhost")) ? localRedirectUri : prodRedirectUri;
+
+        return redirectUri + tempCode;
     }
 }
