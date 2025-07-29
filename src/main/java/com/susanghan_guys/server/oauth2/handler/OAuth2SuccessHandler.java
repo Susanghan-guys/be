@@ -28,9 +28,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper objectMapper;
     private final RedisUtil redisUtil;
 
-    @Value("${frontend.oauth2.redirect-uri}")
-    private String redirectUri;
-
     @Override
     public void onAuthenticationSuccess(
             HttpServletRequest request,
@@ -59,7 +56,20 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                         "isSignUp", String.valueOf(isSignUp)
                 )), 1000 * 60L);
 
-        String callbackUri = redirectUri + tempCode;
+        String callbackUri = getRedirectUri(request, tempCode);
         response.sendRedirect(callbackUri);
+    }
+
+    private String getRedirectUri(HttpServletRequest request, String tempCode) {
+        String origin = request.getHeader("Origin");
+        String redirectUri;
+
+        if (origin != null && origin.contains("localhost")) {
+            redirectUri = "http://localhost:3000/oauth/callback?code=";
+        } else {
+            redirectUri = "https://www.soosanghan.site/oauth/callback?code=";
+        }
+
+        return redirectUri + tempCode;
     }
 }
