@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.susanghan_guys.server.global.common.code.SuccessCode.*;
+import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.WORK_SUMMARY_SUCCESS;
 
 @RestController
 @RequiredArgsConstructor
