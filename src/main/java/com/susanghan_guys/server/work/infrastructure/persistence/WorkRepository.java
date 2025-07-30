@@ -21,5 +21,8 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
 
     @Query("SELECT w.work FROM Work w WHERE w.id = :workId")
     List<String> findByWorkByWorkId(@Param("workId") Long workId);
+
+    @Query("SELECT w.work FROM Work w WHERE w.id = :workId")
+    String findYccByWorkByWorkId(@Param("workId") Long workId);
 }
 

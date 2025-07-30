@@ -64,6 +64,9 @@ dependencies {
 
 	// open ai
 	implementation 'org.springframework.ai:spring-ai-starter-model-openai'
+
+	// pdfbox
+	implementation 'org.apache.pdfbox:pdfbox:2.0.28'
 }
 
 tasks.named('test') {

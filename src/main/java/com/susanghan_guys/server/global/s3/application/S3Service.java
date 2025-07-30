@@ -54,6 +54,14 @@ public class S3Service {
         }
     }
 
+    public String uploadPdfToImage(byte[] fileBytes, String dir) {
+        String fileName = dir + "/" + UUID.randomUUID() + ".jpg";
+        String contentType = "image/jpeg";
+
+        uploadFile(bucket, fileName, fileBytes, contentType);
+        return generateUrl(fileName);
+    }
+
     private String generateUrl(String key) {
         return String.format("https://%s.s3.%s.amazonaws.com/%s", bucket, region, key);
     }
