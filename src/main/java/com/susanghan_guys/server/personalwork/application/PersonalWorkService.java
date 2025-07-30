@@ -18,7 +18,7 @@ public class PersonalWorkService {
     private final WorkRepository workRepository;
     private final WorkSummaryPort workSummaryPort;
 
-    public WorkSummaryResponse createWorkSummary(Long workId) {
+    public WorkSummaryResponse createDcaWorkSummary(Long workId) {
         List<String> imageUrls = workRepository.findByWorkByWorkId(workId);
 
         if (imageUrls.isEmpty()) {
@@ -26,6 +26,6 @@ public class PersonalWorkService {
         }
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
-        return workSummaryPort.createWorkSummary(request);
+        return workSummaryPort.createDcaWorkSummary(request);
     }
 }

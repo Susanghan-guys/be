@@ -16,7 +16,7 @@ public class PersonalWorkController {
     private final PersonalWorkService personalWorkService;
 
     @PostMapping("/{workId}/summary")
-    public CommonResponse<WorkSummaryResponse> createWorkSummary(@PathVariable(name = "workId") Long workId) {
-        return CommonResponse.success(WORK_SUMMARY_SUCCESS, personalWorkService.createWorkSummary(workId));
+    public CommonResponse<WorkSummaryResponse> createDcaWorkSummary(@PathVariable(name = "workId") Long workId) {
+        return CommonResponse.success(WORK_SUMMARY_SUCCESS, personalWorkService.createDcaWorkSummary(workId));
     }
 }
