@@ -2,9 +2,7 @@ package com.susanghan_guys.server.global.client.openai;
 
 import com.susanghan_guys.server.global.client.exception.ClientException;
 import com.susanghan_guys.server.global.client.exception.code.ClientErrorCode;
-import com.susanghan_guys.server.global.client.openai.prompt.WorkSummaryPrompt;
 import com.susanghan_guys.server.global.client.openai.type.ImageMimeType;
-import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -21,14 +19,6 @@ import java.net.MalformedURLException;
 public class OpenAiClient {
 
     private final ChatClient chatClient;
-
-    public WorkSummaryResponse createWorkSummary(OpenAiRequest request) {
-        return callWithStructuredOutput(
-                request,
-                WorkSummaryPrompt.buildWorkSummaryPrompt(),
-                WorkSummaryResponse.class
-        );
-    }
 
     public <T> T callWithStructuredOutput(
             OpenAiRequest request,
