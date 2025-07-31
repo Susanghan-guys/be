@@ -34,12 +34,9 @@ public class PersonalWorkService {
 
         List<String> imageUrls = workRepository.findByWorkByWorkId(workId);
 
-        List<String> pdfImageUrls = new ArrayList<>();
         if (pdfImage.getImageUrl() != null && pdfImage.getWork().equals(work)) {
-            pdfImageUrls.add(pdfImage.getImageUrl());
+            imageUrls.add(pdfImage.getImageUrl());
         }
-        imageUrls.addAll(pdfImageUrls);
-
         personalWorkValidator.validatePersonalWork(imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
