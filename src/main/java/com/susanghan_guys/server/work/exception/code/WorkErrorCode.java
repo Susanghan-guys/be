@@ -19,16 +19,17 @@ public enum WorkErrorCode implements BaseCode {
     INVALID_IMAGE_DIMENSIONS(HttpStatus.BAD_REQUEST, 400, "브리프보드는 최대 3508x4960 픽셀의 JPG 파일이어야 합니다."),
     INVALID_BRIEF_BOARD_TYPE(HttpStatus.BAD_REQUEST, 400, "브리프보드는 JPG 형식이어야 합니다."),
 
-    //YCC
+    // YCC
     PLAN_FILE_REQUIRED(HttpStatus.BAD_REQUEST, 400, "기획서 파일은 필수입니다."),
     INVALID_PLAN_FILE_TYPE(HttpStatus.BAD_REQUEST, 400, "기획서 파일은 pdf/ppt/pptx 형식이어야 합니다."),
     FILE_TOO_LARGE(HttpStatus.BAD_REQUEST, 400, "파일 용량은 최대 10MB까지 허용됩니다."),
+    ADDITIONAL_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "추가 파일을 찾을 수 없습니다."),
 
     // BOTH
     DUPLICATE_SUBMISSION(HttpStatus.CONFLICT, 409, "이미 제출한 작품입니다."),
     CONTEST_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "존재하지 않는 공모전입니다."),
-
-
+    WORK_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "존재하지 않는 작품입니다."),
+    PDF_TO_IMAGE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "PDF 파일을 이미지로 변환하는 중 오류가 발생했습니다."),
     ;
 
     private final HttpStatus httpStatus;

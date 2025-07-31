@@ -2,7 +2,6 @@ package com.susanghan_guys.server.work.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.work.application.DcaWorkService;
-import com.susanghan_guys.server.work.application.PdfConverter;
 import com.susanghan_guys.server.work.application.YccWorkService;
 import com.susanghan_guys.server.work.dto.request.DcaWorkSubmissionRequest;
 import com.susanghan_guys.server.work.dto.request.YccWorkSubmissionRequest;
@@ -23,7 +22,6 @@ public class WorkController implements WorkSwagger {
 
     private final DcaWorkService dcaWorkService;
     private final YccWorkService yccWorkService;
-    private final PdfConverter pdfConverter;
 
     @Override
     @PostMapping(value = "/dca", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -46,10 +44,17 @@ public class WorkController implements WorkSwagger {
         return CommonResponse.success(WORK_YCC_SUBMIT_SUCCESS, "OK");
     }
 
-    // test
-    @PostMapping("/{workId}")
-    public CommonResponse<String> convertToImage(@PathVariable("workId") Long workId) {
-        pdfConverter.convertToYccImage(workId);
+    // dca - test
+    @PostMapping("/dca/{workId}")
+    public CommonResponse<String> convertDcaPdfToImage(@PathVariable("workId") Long workId) {
+        dcaWorkService.convertDcaPdfToImage(workId);
         return CommonResponse.success(WORK_DCA_SUBMIT_SUCCESS, "OK");
+    }
+
+    // ycc - test
+    @PostMapping("/ycc/{workId}")
+    public CommonResponse<String> convertToImage(@PathVariable("workId") Long workId) {
+        yccWorkService.convertYccPdfToImage(workId);
+        return CommonResponse.success(WORK_YCC_SUBMIT_SUCCESS, "OK");
     }
 }

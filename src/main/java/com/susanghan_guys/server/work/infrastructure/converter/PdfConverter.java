@@ -1,11 +1,7 @@
-package com.susanghan_guys.server.work.application;
+package com.susanghan_guys.server.work.infrastructure.converter;
 
-import com.susanghan_guys.server.global.s3.application.S3Service;
-import com.susanghan_guys.server.work.domain.PdfImage;
-import com.susanghan_guys.server.work.domain.Work;
-import com.susanghan_guys.server.work.infrastructure.persistence.PdfImageRepository;
-import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
-import lombok.RequiredArgsConstructor;
+import com.susanghan_guys.server.work.exception.WorkException;
+import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
@@ -18,19 +14,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class PdfConverter {
 
-    private final WorkRepository workRepository;
-    private final PdfImageRepository pdfImageRepository;
-    private final S3Service s3Service;
-
-    public void convertToYccImage(Long workId) {
-        Work work = workRepository.findById(workId).orElse(null);
-        String pdfUrl = workRepository.findYccByWorkByWorkId(workId);
+    public List<byte[]> convertPdfToImage(String pdfUrl) {
+        List<byte[]> imageUrls = new ArrayList<>();
 
         try {
             try (InputStream inputStream = new URL(pdfUrl).openStream()) {
@@ -44,13 +36,13 @@ public class PdfConverter {
                     ImageIO.write(image, "jpg", outputStream);
                     byte[] bytes = outputStream.toByteArray();
 
-                    String imageUrl = s3Service.uploadPdfToImage(bytes, "ycc-images");
-
-                    pdfImageRepository.save(new PdfImage(imageUrl, work));
+                    imageUrls.add(bytes);
                 }
             }
+            return imageUrls;
         } catch (IOException e) {
-            log.error("🚨 YCC PDF -> JPG 변환 실패: {}", e.getMessage());
+            log.error("🚨 PDF -> JPG 변환 실패: {}", e.getMessage());
+            throw new WorkException(WorkErrorCode.PDF_TO_IMAGE_FAILED);
         }
     }
 }

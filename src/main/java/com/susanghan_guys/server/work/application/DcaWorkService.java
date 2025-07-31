@@ -5,9 +5,14 @@ import com.susanghan_guys.server.global.s3.application.S3Service;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.application.support.WorkHelper;
+import com.susanghan_guys.server.work.domain.AdditionalFile;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.dto.request.DcaWorkSubmissionRequest;
+import com.susanghan_guys.server.work.exception.WorkException;
+import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
+import com.susanghan_guys.server.work.infrastructure.converter.PdfConverter;
 import com.susanghan_guys.server.work.infrastructure.mapper.DcaWorkMapper;
+import com.susanghan_guys.server.work.infrastructure.persistence.AdditionalFileRepository;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import com.susanghan_guys.server.work.infrastructure.saver.WorkSaver;
 import com.susanghan_guys.server.work.application.validator.DcaWorkValidator;
@@ -15,6 +20,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +35,8 @@ public class DcaWorkService {
     private final WorkHelper helper;
     private final CurrentUserProvider currentUserProvider;
     private final S3Service s3Service;
+    private final AdditionalFileRepository additionalFileRepository;
+    private final PdfConverter pdfConverter;
 
     private static final String DCA_CONTEST_NAME = "DCA";
 
@@ -65,5 +75,22 @@ public class DcaWorkService {
                 additionalFile,
                 uploadedAdditionalUrl
         );
+    }
+
+    public void convertDcaPdfToImage(Long workId) {
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+        AdditionalFile additionalFile = additionalFileRepository.findAdditionalFileByWorkId(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.ADDITIONAL_FILE_NOT_FOUND));
+
+        List<byte[]> images = pdfConverter.convertPdfToImage(additionalFile.getValue());
+
+        List<String> imageUrls = new ArrayList<>();
+        for (byte[] image : images) {
+            String imageUrl = s3Service.uploadPdfToImage(image, "dca-images");
+            imageUrls.add(imageUrl);
+        }
+        workSaver.savePdfToImage(imageUrls, work);
     }
 }
