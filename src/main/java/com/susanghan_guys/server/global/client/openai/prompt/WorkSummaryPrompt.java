@@ -15,7 +15,7 @@ public class WorkSummaryPrompt {
         String user = """
                 Read the following competition entry and summarize it.
                 
-                - Target: Describe the target audience or problem of this work in one sentence.
+                - Target: Describe the target audience or problem of this work in one sentence.Begin with a descriptive phrase that captures the audience's situation, mindset, or characteristics, followed by the demographic group.
                 - Insight: Summarize the core insight or key idea in one sentence.
                 - Solution: Summarize the solution this work provides in one sentence.
                 """;
