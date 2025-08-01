@@ -51,6 +51,8 @@ public class PersonalWorkService {
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
 
+        // TODO: DB 저장 코드 구현
+
         return workSummaryPort.createWorkSummary(request);
     }
 
@@ -70,6 +72,8 @@ public class PersonalWorkService {
         personalWorkValidator.validatePersonalWork(workId, user, imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
+
+        // TODO: DB 저장 코드 구현
 
         return workSummaryPort.createWorkSummary(request);
     }
