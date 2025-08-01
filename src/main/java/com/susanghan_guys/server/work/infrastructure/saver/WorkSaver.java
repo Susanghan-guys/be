@@ -63,7 +63,7 @@ public class WorkSaver {
 
         if (!additionalFiles.isEmpty()) {
             additionalFileRepository.saveAll(additionalFiles);
-            pdfFileRepository.save(new PdfFile(uploadedUrl, SourceType.ADDITIONAL_FILE, work.getId()));
+            pdfFileRepository.save(PdfFileMapper.toEntity(uploadedUrl, SourceType.ADDITIONAL_FILE, work.getId()));
         }
     }
 
