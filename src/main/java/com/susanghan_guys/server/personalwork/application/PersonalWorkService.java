@@ -1,9 +1,11 @@
 package com.susanghan_guys.server.personalwork.application;
 
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
+import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.personalwork.application.port.WorkSummaryPort;
 import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
+import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.PdfFile;
 import com.susanghan_guys.server.work.domain.PdfImage;
 import com.susanghan_guys.server.work.exception.WorkException;
@@ -22,6 +24,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PersonalWorkService {
 
+    private final CurrentUserProvider currentUserProvider;
     private final WorkRepository workRepository;
     private final WorkSummaryPort workSummaryPort;
     private final PersonalWorkValidator personalWorkValidator;
@@ -29,8 +32,7 @@ public class PersonalWorkService {
     private final PdfImageRepository pdfImageRepository;
 
     public WorkSummaryResponse createDcaWorkSummary(Long workId) {
-        workRepository.findById(workId)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+        User user = currentUserProvider.getCurrentUser();
 
         List<String> imageUrls = new ArrayList<>(workRepository.findByWorkByWorkId(workId));
 
@@ -45,7 +47,7 @@ public class PersonalWorkService {
                     imageUrls.addAll(pdfImageUrls);
                 });
 
-        personalWorkValidator.validatePersonalWork(imageUrls);
+        personalWorkValidator.validatePersonalWork(workId, user, imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
 
@@ -53,8 +55,7 @@ public class PersonalWorkService {
     }
 
     public WorkSummaryResponse createYccWorkSummary(Long workId) {
-        workRepository.findById(workId)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+        User user = currentUserProvider.getCurrentUser();
 
         PdfFile pdfFile = pdfFileRepository.findBySourceId(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
@@ -66,7 +67,7 @@ public class PersonalWorkService {
                 .filter(Objects::nonNull)
                 .toList();
 
-        personalWorkValidator.validatePersonalWork(imageUrls);
+        personalWorkValidator.validatePersonalWork(workId, user, imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
 
