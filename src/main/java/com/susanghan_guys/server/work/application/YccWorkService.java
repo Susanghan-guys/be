@@ -18,9 +18,9 @@ import com.susanghan_guys.server.work.infrastructure.persistence.PdfFileReposito
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import com.susanghan_guys.server.work.infrastructure.saver.WorkSaver;
 import com.susanghan_guys.server.work.application.validator.YccWorkValidator;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class YccWorkService {
 
     private final YccWorkValidator validator;
@@ -60,6 +61,7 @@ public class YccWorkService {
         workSaver.saveTeamMembers(savedWork, dto.members());
     }
 
+    @Transactional
     public void convertYccPdfToImage(Long workId) {
         PdfFile pdfFile = pdfFileRepository.findBySourceId(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));

@@ -13,15 +13,14 @@ import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.converter.PdfConverter;
 import com.susanghan_guys.server.work.infrastructure.mapper.DcaWorkMapper;
-import com.susanghan_guys.server.work.infrastructure.mapper.PdfFileMapper;
 import com.susanghan_guys.server.work.infrastructure.persistence.AdditionalFileRepository;
 import com.susanghan_guys.server.work.infrastructure.persistence.PdfFileRepository;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import com.susanghan_guys.server.work.infrastructure.saver.WorkSaver;
 import com.susanghan_guys.server.work.application.validator.DcaWorkValidator;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -29,6 +28,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class DcaWorkService {
 
     private final DcaWorkValidator validator;
@@ -81,6 +81,7 @@ public class DcaWorkService {
         );
     }
 
+    @Transactional
     public void convertDcaPdfToImage(Long workId) {
         AdditionalFile additionalFile = additionalFileRepository.findAdditionalFileByWorkId(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.ADDITIONAL_FILE_NOT_FOUND));
