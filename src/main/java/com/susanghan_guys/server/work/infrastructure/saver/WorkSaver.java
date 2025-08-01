@@ -2,11 +2,10 @@ package com.susanghan_guys.server.work.infrastructure.saver;
 
 import com.susanghan_guys.server.work.domain.*;
 import com.susanghan_guys.server.work.domain.type.FilesType;
+import com.susanghan_guys.server.work.domain.type.SourceType;
 import com.susanghan_guys.server.work.dto.response.TeamMemberResponse;
-import com.susanghan_guys.server.work.infrastructure.persistence.AdditionalFileRepository;
-import com.susanghan_guys.server.work.infrastructure.persistence.PdfImageRepository;
-import com.susanghan_guys.server.work.infrastructure.persistence.TeamMemberRepository;
-import com.susanghan_guys.server.work.infrastructure.persistence.WorkMemberRepository;
+import com.susanghan_guys.server.work.infrastructure.mapper.PdfFileMapper;
+import com.susanghan_guys.server.work.infrastructure.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +23,7 @@ public class WorkSaver {
     private final WorkMemberRepository workMemberRepository;
     private final AdditionalFileRepository additionalFileRepository;
     private final PdfImageRepository pdfImageRepository;
+    private final PdfFileRepository pdfFileRepository;
 
     @Transactional
     public void saveTeamMembers(Work work, List<TeamMemberResponse> teamMembers) {
@@ -63,13 +63,14 @@ public class WorkSaver {
 
         if (!additionalFiles.isEmpty()) {
             additionalFileRepository.saveAll(additionalFiles);
+            pdfFileRepository.save(new PdfFile(uploadedUrl, SourceType.ADDITIONAL_FILE, work.getId()));
         }
     }
 
     @Transactional
-    public void savePdfToImage(List<String> imageUrls, Work work) {
+    public void savePdfToImage(List<String> imageUrls, PdfFile pdfFile) {
         for (String imageUrl : imageUrls) {
-            pdfImageRepository.save(new PdfImage(imageUrl, work));
+            pdfImageRepository.save(new PdfImage(imageUrl, pdfFile));
         }
     }
 }

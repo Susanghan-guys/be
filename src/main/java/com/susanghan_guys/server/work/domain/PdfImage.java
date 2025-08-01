@@ -21,12 +21,12 @@ public class PdfImage extends BaseEntity {
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "work_id", nullable = false)
-    private Work work;
+    @JoinColumn(name = "pdf_file_id", nullable = false)
+    private PdfFile pdfFile;
 
     @Builder
-    public PdfImage(String imageUrl, Work work) {
+    public PdfImage(String imageUrl, PdfFile pdfFile) {
         this.imageUrl = imageUrl;
-        this.work = work;
+        this.pdfFile = pdfFile;
     }
 }

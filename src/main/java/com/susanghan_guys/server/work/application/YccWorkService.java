@@ -5,12 +5,16 @@ import com.susanghan_guys.server.global.s3.application.S3Service;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.application.support.WorkHelper;
+import com.susanghan_guys.server.work.domain.PdfFile;
 import com.susanghan_guys.server.work.domain.Work;
+import com.susanghan_guys.server.work.domain.type.SourceType;
 import com.susanghan_guys.server.work.dto.request.YccWorkSubmissionRequest;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.converter.PdfConverter;
+import com.susanghan_guys.server.work.infrastructure.mapper.PdfFileMapper;
 import com.susanghan_guys.server.work.infrastructure.mapper.YccWorkMapper;
+import com.susanghan_guys.server.work.infrastructure.persistence.PdfFileRepository;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import com.susanghan_guys.server.work.infrastructure.saver.WorkSaver;
 import com.susanghan_guys.server.work.application.validator.YccWorkValidator;
@@ -34,6 +38,7 @@ public class YccWorkService {
     private final S3Service s3Service;
     private final CurrentUserProvider currentUserProvider;
     private final PdfConverter pdfConverter;
+    private final PdfFileRepository pdfFileRepository;
 
     private static final String YCC_CONTEST_NAME = "YCC";
 
@@ -49,20 +54,23 @@ public class YccWorkService {
         Work work = mapper.toEntity(dto, user, contest, planFileUrl);
         Work savedWork = workRepository.save(work);
 
+        PdfFile pdfFile = PdfFileMapper.toEntity(work.getWork(), SourceType.WORK, work.getId());
+        pdfFileRepository.save(pdfFile);
+
         workSaver.saveTeamMembers(savedWork, dto.members());
     }
 
     public void convertYccPdfToImage(Long workId) {
-        Work work = workRepository.findById(workId)
+        PdfFile pdfFile = pdfFileRepository.findBySourceId(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
-        List<byte[]> images = pdfConverter.convertPdfToImage(work.getWork());
+        List<byte[]> images = pdfConverter.convertPdfToImage(pdfFile.getFileUrl());
 
         List<String> imageUrls = new ArrayList<>();
         for (byte[] image : images) {
             String imageUrl = s3Service.uploadPdfToImage(image, "ycc-images");
             imageUrls.add(imageUrl);
         }
-        workSaver.savePdfToImage(imageUrls, work);
+        workSaver.savePdfToImage(imageUrls, pdfFile);
     }
 }
