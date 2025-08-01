@@ -4,5 +4,5 @@ import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
 
 public interface WorkSummaryPort {
-    WorkSummaryResponse createDcaWorkSummary(OpenAiRequest request);
+    WorkSummaryResponse createWorkSummary(OpenAiRequest request);
 }

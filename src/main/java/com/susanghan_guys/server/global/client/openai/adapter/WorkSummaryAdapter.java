@@ -15,7 +15,7 @@ public class WorkSummaryAdapter implements WorkSummaryPort {
     private final OpenAiClient openAiClient;
 
     @Override
-    public WorkSummaryResponse createDcaWorkSummary(OpenAiRequest request) {
+    public WorkSummaryResponse createWorkSummary(OpenAiRequest request) {
         return openAiClient.callWithStructuredOutput(
                 request,
                 WorkSummaryPrompt.buildWorkSummaryPrompt(),
