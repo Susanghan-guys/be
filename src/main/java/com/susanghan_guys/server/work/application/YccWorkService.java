@@ -7,7 +7,7 @@ import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.application.support.WorkHelper;
 import com.susanghan_guys.server.file.domain.PdfFile;
 import com.susanghan_guys.server.work.domain.Work;
-import com.susanghan_guys.server.work.domain.type.SourceType;
+import com.susanghan_guys.server.file.domain.type.SourceType;
 import com.susanghan_guys.server.work.dto.request.YccWorkSubmissionRequest;
 import com.susanghan_guys.server.file.infrastructure.mapper.PdfFileMapper;
 import com.susanghan_guys.server.work.infrastructure.mapper.YccWorkMapper;

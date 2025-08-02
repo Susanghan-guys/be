@@ -1,7 +1,7 @@
 package com.susanghan_guys.server.file.infrastructure.persistence;
 
 import com.susanghan_guys.server.file.domain.PdfFile;
-import com.susanghan_guys.server.work.domain.type.SourceType;
+import com.susanghan_guys.server.file.domain.type.SourceType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

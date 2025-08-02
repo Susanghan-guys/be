@@ -1,6 +1,6 @@
 package com.susanghan_guys.server.work.domain;
 
-import com.susanghan_guys.server.file.domain.type.FilesType;
+import com.susanghan_guys.server.work.domain.type.FilesType;
 import jakarta.persistence.*;
 import lombok.*;
 

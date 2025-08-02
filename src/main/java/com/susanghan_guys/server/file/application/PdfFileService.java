@@ -10,7 +10,7 @@ import com.susanghan_guys.server.file.infrastructure.converter.PdfConverter;
 import com.susanghan_guys.server.file.infrastructure.persistence.PdfFileRepository;
 import com.susanghan_guys.server.file.infrastructure.persistence.PdfImageRepository;
 import com.susanghan_guys.server.file.infrastructure.saver.PdfFileSaver;
-import com.susanghan_guys.server.work.domain.type.SourceType;
+import com.susanghan_guys.server.file.domain.type.SourceType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

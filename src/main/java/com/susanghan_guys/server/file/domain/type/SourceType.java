@@ -1,6 +1,5 @@
 package com.susanghan_guys.server.file.domain.type;
 
-public enum FilesType {
-    PLAN,
-    VIDEO
+public enum SourceType {
+    WORK, ADDITIONAL_FILE
 }

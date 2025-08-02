@@ -1,7 +1,7 @@
 package com.susanghan_guys.server.work.infrastructure.saver;
 
 import com.susanghan_guys.server.work.domain.*;
-import com.susanghan_guys.server.file.domain.type.FilesType;
+import com.susanghan_guys.server.work.domain.type.FilesType;
 import com.susanghan_guys.server.work.dto.response.TeamMemberResponse;
 import com.susanghan_guys.server.work.infrastructure.persistence.*;
 import jakarta.transaction.Transactional;

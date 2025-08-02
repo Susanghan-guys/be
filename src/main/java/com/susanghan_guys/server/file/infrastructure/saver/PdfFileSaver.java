@@ -1,10 +1,10 @@
 package com.susanghan_guys.server.file.infrastructure.saver;
 
-import com.susanghan_guys.server.file.domain.type.FilesType;
+import com.susanghan_guys.server.work.domain.type.FilesType;
 import com.susanghan_guys.server.work.domain.AdditionalFile;
 import com.susanghan_guys.server.file.domain.PdfFile;
 import com.susanghan_guys.server.file.domain.PdfImage;
-import com.susanghan_guys.server.work.domain.type.SourceType;
+import com.susanghan_guys.server.file.domain.type.SourceType;
 import com.susanghan_guys.server.file.infrastructure.mapper.PdfFileMapper;
 import com.susanghan_guys.server.file.infrastructure.persistence.PdfFileRepository;
 import com.susanghan_guys.server.file.infrastructure.persistence.PdfImageRepository;
