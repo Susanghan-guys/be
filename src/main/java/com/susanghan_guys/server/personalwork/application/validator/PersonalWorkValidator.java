@@ -18,14 +18,16 @@ public class PersonalWorkValidator {
 
     private final WorkRepository workRepository;
 
-    public void validatePersonalWork(Long workId, User user, List<String> imageUrls) {
+    public void validatePersonalWorkOwner(Long workId, User user) {
         Work work = workRepository.findById(workId)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+                .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.WORK_NOT_FOUND));
 
         if (!work.getUser().equals(user)) {
             throw new PersonalWorkException(PersonalWorkErrorCode.WORK_OWNER_MISMATCH);
         }
+    }
 
+    public void validatePersonalWork(List<String> imageUrls) {
         if (imageUrls.isEmpty()) {
             throw new PersonalWorkException(PersonalWorkErrorCode.WORK_IMAGE_NOT_FOUND);
         }

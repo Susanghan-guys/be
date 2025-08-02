@@ -29,6 +29,8 @@ public class PersonalWorkService {
     public WorkSummaryResponse createDcaWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
+        personalWorkValidator.validatePersonalWorkOwner(workId, user);
+
         List<String> imageUrls = new ArrayList<>(workRepository.findWorkContentByWorkId(workId));
 
         List<PdfImage> pdfImages = pdfFilePort.convertDcaPdfToImage(workId);
@@ -40,7 +42,7 @@ public class PersonalWorkService {
                         .filter(Objects::nonNull)
                         .toList()
         );
-        personalWorkValidator.validatePersonalWork(workId, user, imageUrls);
+        personalWorkValidator.validatePersonalWork(imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
 
@@ -52,6 +54,8 @@ public class PersonalWorkService {
     public WorkSummaryResponse createYccWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
+        personalWorkValidator.validatePersonalWorkOwner(workId, user);
+
         List<PdfImage> pdfImages = pdfFilePort.convertYccPdfToImage(workId);
 
         List<String> imageUrls = pdfImages.stream()
@@ -59,7 +63,7 @@ public class PersonalWorkService {
                 .filter(Objects::nonNull)
                 .toList();
 
-        personalWorkValidator.validatePersonalWork(workId, user, imageUrls);
+        personalWorkValidator.validatePersonalWork(imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
 
