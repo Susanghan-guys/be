@@ -10,6 +10,7 @@ import com.susanghan_guys.server.file.infrastructure.converter.PdfConverter;
 import com.susanghan_guys.server.file.infrastructure.persistence.PdfFileRepository;
 import com.susanghan_guys.server.file.infrastructure.persistence.PdfImageRepository;
 import com.susanghan_guys.server.file.infrastructure.saver.PdfFileSaver;
+import com.susanghan_guys.server.work.domain.type.SourceType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +57,7 @@ public class PdfFileService implements PdfFilePort {
     @Override
     @Transactional
     public List<PdfImage> convertYccPdfToImage(Long workId) {
-        PdfFile pdfFile = pdfFileRepository.findBySourceId(workId)
+        PdfFile pdfFile = pdfFileRepository.findBySourceIdAndSourceType(workId, SourceType.WORK)
                 .orElseThrow(() -> new FileException(FileErrorCode.FILE_NOT_FOUND));
 
         List<PdfImage> existingImageUrls = pdfImageRepository.findAllByPdfFile(pdfFile);
