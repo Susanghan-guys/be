@@ -6,10 +6,7 @@ import com.susanghan_guys.server.global.s3.application.S3Service;
 import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
 import com.susanghan_guys.server.file.domain.PdfFile;
 import com.susanghan_guys.server.file.domain.PdfImage;
-import com.susanghan_guys.server.work.exception.WorkException;
-import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.file.infrastructure.converter.PdfConverter;
-import com.susanghan_guys.server.work.infrastructure.persistence.AdditionalFileRepository;
 import com.susanghan_guys.server.file.infrastructure.persistence.PdfFileRepository;
 import com.susanghan_guys.server.file.infrastructure.persistence.PdfImageRepository;
 import com.susanghan_guys.server.file.infrastructure.saver.PdfFileSaver;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,7 +32,11 @@ public class PdfFileService implements PdfFilePort {
     @Transactional
     public List<PdfImage> convertDcaPdfToImage(Long workId) {
         PdfFile pdfFile = pdfFileRepository.findByWorkIdFromAdditionalFile(workId)
-                .orElseThrow(() -> new FileException(FileErrorCode.FILE_NOT_FOUND));
+                .orElse(null);
+
+        if (pdfFile == null) {
+            return Collections.emptyList();
+        }
 
         List<PdfImage> existingImageUrls = pdfImageRepository.findAllByPdfFile(pdfFile);
         if (!existingImageUrls.isEmpty()) {
