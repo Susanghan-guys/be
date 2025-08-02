@@ -1,5 +1,6 @@
 package com.susanghan_guys.server.file.infrastructure.saver;
 
+import com.susanghan_guys.server.file.infrastructure.mapper.PdfImageMapper;
 import com.susanghan_guys.server.work.domain.type.FilesType;
 import com.susanghan_guys.server.work.domain.AdditionalFile;
 import com.susanghan_guys.server.file.domain.PdfFile;
@@ -33,7 +34,7 @@ public class PdfFileSaver {
     @Transactional
     public List<PdfImage> savePdfImage(List<String> imageUrls, PdfFile pdfFile) {
         List<PdfImage> pdfImages = imageUrls.stream()
-                .map(url -> new PdfImage(url, pdfFile))
+                .map(url -> PdfImageMapper.toEntity(url, pdfFile))
                 .toList();
 
         return pdfImageRepository.saveAll(pdfImages);
