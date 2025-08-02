@@ -1,9 +1,9 @@
-name: dev CI/CD Pipeline
+name: prod CI/CD Pipeline
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   build:
@@ -19,10 +19,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Make application.yml for dev
+      - name: Make application.yml
         run: |
           mkdir -p src/main/resources
-          echo "${{ secrets.APPLICATION_YML_DEV }}" > src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
         shell: bash
 
       - name: Grant execute permission for gradlew
@@ -40,7 +40,7 @@ jobs:
           path: |
             build/libs/server-0.0.1-SNAPSHOT.jar
             Dockerfile
-            docker-compose-dev.yml
+            docker-compose.yml
 
   deploy:
     needs: build
@@ -57,11 +57,11 @@ jobs:
       - name: Debug Check downloaded files
         run: ls -R deployment
 
-      - name: Deploy to EC2 (dev) using Docker
+      - name: Deploy to EC2 using Docker (rsync)
         env:
-          EC2_SSH_KEY: ${{ secrets.EC2_DEV_SSH_KEY }}
-          EC2_USERNAME: ${{ secrets.EC2_DEV_USERNAME }}
-          EC2_HOST: ${{ secrets.EC2_DEV_HOST }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
           echo "$EC2_SSH_KEY" > private_key.pem
           chmod 600 private_key.pem
@@ -75,12 +75,12 @@ jobs:
 
           sync_file deployment/build/libs/server-0.0.1-SNAPSHOT.jar
           sync_file deployment/Dockerfile
-          sync_file deployment/docker-compose-dev.yml
+          sync_file deployment/docker-compose.yml
 
           ssh -i private_key.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST "
             cd /home/$EC2_USERNAME/
-            docker-compose -f docker-compose-dev.yml down
-            docker-compose -f docker-compose-dev.yml up --build -d
+            docker-compose down
+            docker-compose up --build -d
           "
 
           rm -f private_key.pem
