@@ -1,16 +1,16 @@
-package com.susanghan_guys.server.work.application;
+package com.susanghan_guys.server.file.application;
 
 import com.susanghan_guys.server.global.s3.application.S3Service;
 import com.susanghan_guys.server.work.domain.AdditionalFile;
-import com.susanghan_guys.server.work.domain.PdfFile;
-import com.susanghan_guys.server.work.domain.PdfImage;
+import com.susanghan_guys.server.file.domain.PdfFile;
+import com.susanghan_guys.server.file.domain.PdfImage;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
-import com.susanghan_guys.server.work.infrastructure.converter.PdfConverter;
+import com.susanghan_guys.server.file.infrastructure.converter.PdfConverter;
 import com.susanghan_guys.server.work.infrastructure.persistence.AdditionalFileRepository;
-import com.susanghan_guys.server.work.infrastructure.persistence.PdfFileRepository;
-import com.susanghan_guys.server.work.infrastructure.persistence.PdfImageRepository;
-import com.susanghan_guys.server.work.infrastructure.saver.PdfFileSaver;
+import com.susanghan_guys.server.file.infrastructure.persistence.PdfFileRepository;
+import com.susanghan_guys.server.file.infrastructure.persistence.PdfImageRepository;
+import com.susanghan_guys.server.file.infrastructure.saver.PdfFileSaver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

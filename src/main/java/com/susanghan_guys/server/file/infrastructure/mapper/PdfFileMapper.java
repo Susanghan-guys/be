@@ -1,6 +1,6 @@
-package com.susanghan_guys.server.work.infrastructure.mapper;
+package com.susanghan_guys.server.file.infrastructure.mapper;
 
-import com.susanghan_guys.server.work.domain.PdfFile;
+import com.susanghan_guys.server.file.domain.PdfFile;
 import com.susanghan_guys.server.work.domain.type.SourceType;
 
 public class PdfFileMapper {

@@ -1,7 +1,7 @@
-package com.susanghan_guys.server.work.infrastructure.persistence;
+package com.susanghan_guys.server.file.infrastructure.persistence;
 
-import com.susanghan_guys.server.work.domain.PdfFile;
-import com.susanghan_guys.server.work.domain.PdfImage;
+import com.susanghan_guys.server.file.domain.PdfFile;
+import com.susanghan_guys.server.file.domain.PdfImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

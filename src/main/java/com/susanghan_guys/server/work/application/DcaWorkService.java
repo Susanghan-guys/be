@@ -10,7 +10,7 @@ import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.dto.request.DcaWorkSubmissionRequest;
 import com.susanghan_guys.server.work.infrastructure.mapper.DcaWorkMapper;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
-import com.susanghan_guys.server.work.infrastructure.saver.PdfFileSaver;
+import com.susanghan_guys.server.file.infrastructure.saver.PdfFileSaver;
 import com.susanghan_guys.server.work.infrastructure.saver.WorkSaver;
 import com.susanghan_guys.server.work.application.validator.DcaWorkValidator;
 import lombok.RequiredArgsConstructor;

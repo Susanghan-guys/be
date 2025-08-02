@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.work.domain;
+package com.susanghan_guys.server.file.domain;
 
 import com.susanghan_guys.server.global.domain.BaseEntity;
 import com.susanghan_guys.server.work.domain.type.SourceType;

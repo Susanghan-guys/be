@@ -1,6 +1,6 @@
-package com.susanghan_guys.server.work.infrastructure.persistence;
+package com.susanghan_guys.server.file.infrastructure.persistence;
 
-import com.susanghan_guys.server.work.domain.PdfFile;
+import com.susanghan_guys.server.file.domain.PdfFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

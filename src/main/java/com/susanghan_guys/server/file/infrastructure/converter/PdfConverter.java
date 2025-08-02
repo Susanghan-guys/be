@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.work.infrastructure.converter;
+package com.susanghan_guys.server.file.infrastructure.converter;
 
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
