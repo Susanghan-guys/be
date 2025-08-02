@@ -33,7 +33,7 @@ public class PersonalWorkService {
 
         List<PdfImage> pdfImages = pdfFilePort.convertDcaPdfToImage(workId);
 
-        // 추가 파일이 존재할 경우, 추가 파일 + 기획안 함께 전송
+        // 추가 파일(기획안)이 존재할 경우, 브리프 보드 + 추가 파일(기획안) 함께 전송
         imageUrls.addAll(
                 pdfImages.stream()
                         .map(PdfImage::getImageUrl)
