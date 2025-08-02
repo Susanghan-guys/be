@@ -2,9 +2,7 @@ package com.susanghan_guys.server.work.infrastructure.saver;
 
 import com.susanghan_guys.server.work.domain.*;
 import com.susanghan_guys.server.work.domain.type.FilesType;
-import com.susanghan_guys.server.work.domain.type.SourceType;
 import com.susanghan_guys.server.work.dto.response.TeamMemberResponse;
-import com.susanghan_guys.server.work.infrastructure.mapper.PdfFileMapper;
 import com.susanghan_guys.server.work.infrastructure.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -22,8 +21,6 @@ public class WorkSaver {
     private final TeamMemberRepository teamMemberRepository;
     private final WorkMemberRepository workMemberRepository;
     private final AdditionalFileRepository additionalFileRepository;
-    private final PdfImageRepository pdfImageRepository;
-    private final PdfFileRepository pdfFileRepository;
 
     @Transactional
     public void saveTeamMembers(Work work, List<TeamMemberResponse> teamMembers) {
@@ -37,7 +34,7 @@ public class WorkSaver {
     }
 
     @Transactional
-    public void saveAdditionalFiles(
+    public List<AdditionalFile> saveAdditionalFiles(
             Work work,
             String youtubeUrl,
             MultipartFile additionalFile,
@@ -61,16 +58,9 @@ public class WorkSaver {
                     .build());
         }
 
-        if (!additionalFiles.isEmpty()) {
-            additionalFileRepository.saveAll(additionalFiles);
-            pdfFileRepository.save(PdfFileMapper.toEntity(uploadedUrl, SourceType.ADDITIONAL_FILE, work.getId()));
+        if (additionalFiles.isEmpty()) {
+            return Collections.emptyList();
         }
-    }
-
-    @Transactional
-    public void savePdfToImage(List<String> imageUrls, PdfFile pdfFile) {
-        for (String imageUrl : imageUrls) {
-            pdfImageRepository.save(new PdfImage(imageUrl, pdfFile));
-        }
+        return additionalFileRepository.saveAll(additionalFiles);
     }
 }
