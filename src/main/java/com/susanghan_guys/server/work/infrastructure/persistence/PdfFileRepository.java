@@ -1,11 +1,9 @@
 package com.susanghan_guys.server.work.infrastructure.persistence;
 
 import com.susanghan_guys.server.work.domain.PdfFile;
-import com.susanghan_guys.server.work.domain.type.SourceType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface PdfFileRepository extends JpaRepository<PdfFile, Long> {
@@ -19,7 +17,5 @@ public interface PdfFileRepository extends JpaRepository<PdfFile, Long> {
             OR (pf.sourceType = 'ADDITIONAL_FILE' AND af.work.id = w.id)
         WHERE w.id = :workId
     """)
-    List<PdfFile> findAllByWorkId(Long workId);
-    Optional<PdfFile> findBySourceId(Long sourceId);
-    Optional<PdfFile> findBySourceIdAndSourceType(Long sourceId, SourceType sourceType);
+    Optional<PdfFile> findByWorkIdOrAdditionalFile(Long workId);
 }

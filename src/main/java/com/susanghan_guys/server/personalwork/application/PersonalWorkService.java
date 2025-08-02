@@ -37,7 +37,7 @@ public class PersonalWorkService {
         List<String> imageUrls = new ArrayList<>(workRepository.findByWorkByWorkId(workId));
 
         // 추가 파일이 존재할 경우, 추가 파일 + 기획안 함께 전송
-        pdfFileRepository.findBySourceId(workId)
+        pdfFileRepository.findByWorkIdOrAdditionalFile(workId)
                 .ifPresent(pdfFile -> {
                     List<String> pdfImageUrls = pdfImageRepository.findAllByPdfFile(pdfFile).stream()
                             .map(PdfImage::getImageUrl)
@@ -59,7 +59,7 @@ public class PersonalWorkService {
     public WorkSummaryResponse createYccWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
-        PdfFile pdfFile = pdfFileRepository.findBySourceId(workId)
+        PdfFile pdfFile = pdfFileRepository.findByWorkIdOrAdditionalFile(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
         List<PdfImage> pdfImages = pdfImageRepository.findAllByPdfFile(pdfFile);

@@ -34,8 +34,8 @@ public class PdfFileService {
         AdditionalFile additionalFile = additionalFileRepository.findAdditionalFileByWorkId(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.ADDITIONAL_FILE_NOT_FOUND));
 
-        PdfFile pdfFile = pdfFileRepository.findBySourceId(workId)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+        PdfFile pdfFile = pdfFileRepository.findByWorkIdOrAdditionalFile(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND)); // TODO
 
         List<PdfImage> existingImageUrls = pdfImageRepository.findAllByPdfFile(pdfFile);
         if (!existingImageUrls.isEmpty()) {
@@ -54,8 +54,8 @@ public class PdfFileService {
 
     @Transactional
     public void convertYccPdfToImage(Long workId) {
-        PdfFile pdfFile = pdfFileRepository.findBySourceId(workId)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+        PdfFile pdfFile = pdfFileRepository.findByWorkIdOrAdditionalFile(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND)); // TODO
 
         List<PdfImage> existingImageUrls = pdfImageRepository.findAllByPdfFile(pdfFile);
         if (!existingImageUrls.isEmpty()) {
