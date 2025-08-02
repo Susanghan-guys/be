@@ -17,6 +17,6 @@ public interface PdfFileRepository extends JpaRepository<PdfFile, Long> {
         WHERE af.work.id = :workId
         AND af.type = 'PLAN'
         AND pf.sourceType = 'ADDITIONAL_FILE'
-    """)
+        """)
     Optional<PdfFile> findByWorkIdFromAdditionalFile(Long workId);
 }
