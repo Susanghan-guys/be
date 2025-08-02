@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum PersonalWorkSuccessCode implements BaseCode {
 
-    WORK_SUMMARY_SUCCESS(HttpStatus.OK, 200, "Work Summary Success"),
+    DCA_WORK_SUMMARY_SUCCESS(HttpStatus.OK, 200, "Dca Work Summary Success"),
+    YCC_WORK_SUMMARY_SUCCESS(HttpStatus.OK, 200, "Ycc Work Summary Success"),
     ;
 
     private final HttpStatus httpStatus;
