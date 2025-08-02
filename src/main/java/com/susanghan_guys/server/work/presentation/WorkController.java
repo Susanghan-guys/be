@@ -2,7 +2,6 @@ package com.susanghan_guys.server.work.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.work.application.DcaWorkService;
-import com.susanghan_guys.server.file.application.PdfFileService;
 import com.susanghan_guys.server.work.application.YccWorkService;
 import com.susanghan_guys.server.work.dto.request.DcaWorkSubmissionRequest;
 import com.susanghan_guys.server.work.dto.request.YccWorkSubmissionRequest;

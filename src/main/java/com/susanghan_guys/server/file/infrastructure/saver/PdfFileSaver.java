@@ -1,5 +1,6 @@
 package com.susanghan_guys.server.file.infrastructure.saver;
 
+import com.susanghan_guys.server.file.domain.type.FilesType;
 import com.susanghan_guys.server.work.domain.AdditionalFile;
 import com.susanghan_guys.server.file.domain.PdfFile;
 import com.susanghan_guys.server.file.domain.PdfImage;
@@ -10,7 +11,6 @@ import com.susanghan_guys.server.file.infrastructure.persistence.PdfImageReposit
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import software.amazon.awssdk.utils.StringUtils;
 
 import java.util.List;
 
@@ -23,15 +23,7 @@ public class PdfFileSaver {
 
     @Transactional
     public void savePdfFile(AdditionalFile additionalFile) {
-        if (StringUtils.isBlank(additionalFile.getValue())) {
-            return;
-        }
-        String url = additionalFile.getValue();
-        String extension = url.substring(url.lastIndexOf(".") + 1);
-
-        if (!extension.equals("pdf")) {
-            return;
-        }
+        if (additionalFile.getType() != FilesType.PLAN) return;
 
         pdfFileRepository.save(PdfFileMapper.toEntity
                 (additionalFile.getValue(), SourceType.ADDITIONAL_FILE, additionalFile.getId())
@@ -39,9 +31,11 @@ public class PdfFileSaver {
     }
 
     @Transactional
-    public void savePdfToImage(List<String> imageUrls, PdfFile pdfFile) {
-        for (String imageUrl : imageUrls) {
-            pdfImageRepository.save(new PdfImage(imageUrl, pdfFile));
-        }
+    public List<PdfImage> savePdfImage(List<String> imageUrls, PdfFile pdfFile) {
+        List<PdfImage> pdfImages = imageUrls.stream()
+                .map(url -> new PdfImage(url, pdfFile))
+                .toList();
+
+        return pdfImageRepository.saveAll(pdfImages);
     }
 }

@@ -2,16 +2,12 @@ package com.susanghan_guys.server.personalwork.application;
 
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
+import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
 import com.susanghan_guys.server.personalwork.application.port.WorkSummaryPort;
 import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
 import com.susanghan_guys.server.user.domain.User;
-import com.susanghan_guys.server.file.domain.PdfFile;
 import com.susanghan_guys.server.file.domain.PdfImage;
-import com.susanghan_guys.server.work.exception.WorkException;
-import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
-import com.susanghan_guys.server.file.infrastructure.persistence.PdfFileRepository;
-import com.susanghan_guys.server.file.infrastructure.persistence.PdfImageRepository;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,25 +24,22 @@ public class PersonalWorkService {
     private final WorkRepository workRepository;
     private final WorkSummaryPort workSummaryPort;
     private final PersonalWorkValidator personalWorkValidator;
-    private final PdfFileRepository pdfFileRepository;
-    private final PdfImageRepository pdfImageRepository;
+    private final PdfFilePort pdfFilePort;
 
     public WorkSummaryResponse createDcaWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
         List<String> imageUrls = new ArrayList<>(workRepository.findByWorkByWorkId(workId));
 
+        List<PdfImage> pdfImages = pdfFilePort.convertDcaPdfToImage(workId);
+
         // 추가 파일이 존재할 경우, 추가 파일 + 기획안 함께 전송
-        pdfFileRepository.findByWorkIdOrAdditionalFile(workId)
-                .ifPresent(pdfFile -> {
-                    List<String> pdfImageUrls = pdfImageRepository.findAllByPdfFile(pdfFile).stream()
-                            .map(PdfImage::getImageUrl)
-                            .filter(Objects::nonNull)
-                            .toList();
-
-                    imageUrls.addAll(pdfImageUrls);
-                });
-
+        imageUrls.addAll(
+                pdfImages.stream()
+                        .map(PdfImage::getImageUrl)
+                        .filter(Objects::nonNull)
+                        .toList()
+        );
         personalWorkValidator.validatePersonalWork(workId, user, imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
@@ -59,10 +52,7 @@ public class PersonalWorkService {
     public WorkSummaryResponse createYccWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
-        PdfFile pdfFile = pdfFileRepository.findByWorkIdOrAdditionalFile(workId)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
-
-        List<PdfImage> pdfImages = pdfImageRepository.findAllByPdfFile(pdfFile);
+        List<PdfImage> pdfImages = pdfFilePort.convertYccPdfToImage(workId);
 
         List<String> imageUrls = pdfImages.stream()
                 .map(PdfImage::getImageUrl)

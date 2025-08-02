@@ -7,15 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface PdfFileRepository extends JpaRepository<PdfFile, Long> {
+    Optional<PdfFile> findBySourceId(Long workId);
+
     @Query("""
         SELECT pf
         FROM PdfFile pf
-        LEFT JOIN AdditionalFile af
-            ON af.id = pf.sourceId AND pf.sourceType = 'ADDITIONAL_FILE'
-        LEFT JOIN Work w
-            ON (pf.sourceType = 'WORK' AND pf.sourceId = w.id)
-            OR (pf.sourceType = 'ADDITIONAL_FILE' AND af.work.id = w.id)
-        WHERE w.id = :workId
+        JOIN AdditionalFile af ON af.id = pf.sourceId
+        WHERE af.work.id = :workId
+        AND af.type = 'PLAN'
+        AND pf.sourceType = 'ADDITIONAL_FILE'
     """)
-    Optional<PdfFile> findByWorkIdOrAdditionalFile(Long workId);
+    Optional<PdfFile> findByWorkIdFromAdditionalFile(Long workId);
 }
