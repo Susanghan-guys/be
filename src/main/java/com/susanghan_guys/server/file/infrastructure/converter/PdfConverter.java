@@ -24,19 +24,17 @@ public class PdfConverter {
     public List<byte[]> convertPdfToImage(String pdfUrl) {
         List<byte[]> imageUrls = new ArrayList<>();
 
-        try {
-            try (InputStream inputStream = new URL(pdfUrl).openStream()) {
-                PDDocument document = PDDocument.load(inputStream);
-                PDFRenderer pdfRenderer = new PDFRenderer(document);
+        try (InputStream inputStream = new URL(pdfUrl).openStream();
+             PDDocument document = PDDocument.load(inputStream)) {
 
-                for (int i = 0; i < document.getNumberOfPages(); i++) {
-                    BufferedImage image = pdfRenderer.renderImageWithDPI(i, 100, ImageType.RGB);
+            PDFRenderer pdfRenderer = new PDFRenderer(document);
 
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            for (int i = 0; i < document.getNumberOfPages(); i++) {
+                BufferedImage image = pdfRenderer.renderImageWithDPI(i, 100, ImageType.RGB);
+
+                try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
                     ImageIO.write(image, "jpg", outputStream);
-                    byte[] bytes = outputStream.toByteArray();
-
-                    imageUrls.add(bytes);
+                    imageUrls.add(outputStream.toByteArray());
                 }
             }
             return imageUrls;

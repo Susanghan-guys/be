@@ -20,9 +20,6 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
     Slice<Work> findByUserAndContest_Title(User user, String title, Pageable pageable);
 
     @Query("SELECT w.work FROM Work w WHERE w.id = :workId")
-    List<String> findByWorkByWorkId(@Param("workId") Long workId);
-
-    @Query("SELECT w.work FROM Work w WHERE w.id = :workId")
-    String findYccByWorkByWorkId(@Param("workId") Long workId);
+    List<String> findWorkContentByWorkId(@Param("workId") Long workId);
 }
 

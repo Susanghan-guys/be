@@ -32,6 +32,7 @@ public class PdfFileService implements PdfFilePort {
     @Override
     @Transactional
     public List<PdfImage> convertDcaPdfToImage(Long workId) {
+        // 추가 파일(기획안)이 없을 경우, 빈 리스트 반환
         PdfFile pdfFile = pdfFileRepository.findByWorkIdFromAdditionalFile(workId)
                 .orElse(null);
 
@@ -39,19 +40,7 @@ public class PdfFileService implements PdfFilePort {
             return Collections.emptyList();
         }
 
-        List<PdfImage> existingImageUrls = pdfImageRepository.findAllByPdfFile(pdfFile);
-        if (!existingImageUrls.isEmpty()) {
-            return existingImageUrls;
-        }
-
-        List<byte[]> images = pdfConverter.convertPdfToImage(pdfFile.getFileUrl());
-
-        List<String> imageUrls = new ArrayList<>();
-        for (byte[] image : images) {
-            String imageUrl = s3Service.uploadPdfToImage(image, "dca-images");
-            imageUrls.add(imageUrl);
-        }
-        return pdfFileSaver.savePdfImage(imageUrls, pdfFile);
+        return convertAllPdfToImage(pdfFile, "dca-images");
     }
 
     @Override
@@ -60,6 +49,10 @@ public class PdfFileService implements PdfFilePort {
         PdfFile pdfFile = pdfFileRepository.findBySourceIdAndSourceType(workId, SourceType.WORK)
                 .orElseThrow(() -> new FileException(FileErrorCode.FILE_NOT_FOUND));
 
+        return convertAllPdfToImage(pdfFile, "ycc-images");
+    }
+
+    private List<PdfImage> convertAllPdfToImage(PdfFile pdfFile, String bucketName) {
         List<PdfImage> existingImageUrls = pdfImageRepository.findAllByPdfFile(pdfFile);
         if (!existingImageUrls.isEmpty()) {
             return existingImageUrls;
@@ -69,7 +62,7 @@ public class PdfFileService implements PdfFilePort {
 
         List<String> imageUrls = new ArrayList<>();
         for (byte[] image : images) {
-            String imageUrl = s3Service.uploadPdfToImage(image, "ycc-images");
+            String imageUrl = s3Service.uploadPdfToImage(image, bucketName);
             imageUrls.add(imageUrl);
         }
         return pdfFileSaver.savePdfImage(imageUrls, pdfFile);

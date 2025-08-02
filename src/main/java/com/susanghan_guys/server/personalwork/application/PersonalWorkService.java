@@ -29,7 +29,7 @@ public class PersonalWorkService {
     public WorkSummaryResponse createDcaWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
-        List<String> imageUrls = new ArrayList<>(workRepository.findByWorkByWorkId(workId));
+        List<String> imageUrls = new ArrayList<>(workRepository.findWorkContentByWorkId(workId));
 
         List<PdfImage> pdfImages = pdfFilePort.convertDcaPdfToImage(workId);
 

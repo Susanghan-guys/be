@@ -52,7 +52,7 @@ public class OpenAiClient {
         String fileName = url.substring(url.lastIndexOf('/') + 1);
         int dotIndex = fileName.lastIndexOf('.');
         if (dotIndex == -1) {
-            throw new ClientException(ClientErrorCode.IMAGE_URL_NOT_FOUND);
+            throw new ClientException(ClientErrorCode.UNKNOWN_IMAGE_TYPE);
         }
         return fileName.substring(dotIndex + 1);
     }
