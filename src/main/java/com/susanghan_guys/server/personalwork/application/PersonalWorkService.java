@@ -3,7 +3,7 @@ package com.susanghan_guys.server.personalwork.application;
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
-import com.susanghan_guys.server.personalwork.application.port.WorkSummaryPort;
+import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
 import com.susanghan_guys.server.user.domain.User;
@@ -22,7 +22,7 @@ public class PersonalWorkService {
 
     private final CurrentUserProvider currentUserProvider;
     private final WorkRepository workRepository;
-    private final WorkSummaryPort workSummaryPort;
+    private final OpenAiPort openAiPort;
     private final PersonalWorkValidator personalWorkValidator;
     private final PdfFilePort pdfFilePort;
 
@@ -48,7 +48,7 @@ public class PersonalWorkService {
 
         // TODO: DB 저장 코드 구현
 
-        return workSummaryPort.createWorkSummary(request);
+        return openAiPort.createWorkSummary(request);
     }
 
     public WorkSummaryResponse createYccWorkSummary(Long workId) {
@@ -69,6 +69,6 @@ public class PersonalWorkService {
 
         // TODO: DB 저장 코드 구현
 
-        return workSummaryPort.createWorkSummary(request);
+        return openAiPort.createWorkSummary(request);
     }
 }
