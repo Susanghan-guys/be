@@ -1,15 +1,14 @@
-package com.susanghan_guys.server.global.common.code;
+package com.susanghan_guys.server.file.exception.code;
 
+import com.susanghan_guys.server.global.common.code.BaseCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum SuccessCode implements BaseCode {
-
-    // health_check
-    HEALTH_CHECK_SUCCESS(HttpStatus.OK, 200, "Health Check Success"),
+public enum FileErrorCode implements BaseCode {
+    FILE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "파일을 찾을 수 없습니다."),
     ;
 
     private final HttpStatus httpStatus;

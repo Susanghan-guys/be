@@ -12,9 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import static com.susanghan_guys.server.global.common.code.SuccessCode.EXCHANGE_TOKEN_SUCCESS;
-import static com.susanghan_guys.server.global.common.code.SuccessCode.USER_LOGOUT_SUCCESS;
-import static com.susanghan_guys.server.global.common.code.SuccessCode.REFRESH_TOKEN_UPDATE_SUCCESS;
+import static com.susanghan_guys.server.user.presentation.response.UserAuthSuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor

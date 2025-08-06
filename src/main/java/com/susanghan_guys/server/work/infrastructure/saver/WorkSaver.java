@@ -1,14 +1,9 @@
 package com.susanghan_guys.server.work.infrastructure.saver;
 
-import com.susanghan_guys.server.work.domain.AdditionalFile;
-import com.susanghan_guys.server.work.domain.TeamMember;
-import com.susanghan_guys.server.work.domain.Work;
-import com.susanghan_guys.server.work.domain.WorkMember;
+import com.susanghan_guys.server.work.domain.*;
 import com.susanghan_guys.server.work.domain.type.FilesType;
 import com.susanghan_guys.server.work.dto.response.TeamMemberResponse;
-import com.susanghan_guys.server.work.infrastructure.persistence.AdditionalFileRepository;
-import com.susanghan_guys.server.work.infrastructure.persistence.TeamMemberRepository;
-import com.susanghan_guys.server.work.infrastructure.persistence.WorkMemberRepository;
+import com.susanghan_guys.server.work.infrastructure.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -38,7 +34,7 @@ public class WorkSaver {
     }
 
     @Transactional
-    public void saveAdditionalFiles(
+    public List<AdditionalFile> saveAdditionalFiles(
             Work work,
             String youtubeUrl,
             MultipartFile additionalFile,
@@ -62,8 +58,9 @@ public class WorkSaver {
                     .build());
         }
 
-        if (!additionalFiles.isEmpty()) {
-            additionalFileRepository.saveAll(additionalFiles);
+        if (additionalFiles.isEmpty()) {
+            return Collections.emptyList();
         }
+        return additionalFileRepository.saveAll(additionalFiles);
     }
 }

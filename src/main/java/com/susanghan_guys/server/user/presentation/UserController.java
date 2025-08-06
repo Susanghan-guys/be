@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import static com.susanghan_guys.server.global.common.code.SuccessCode.*;
+import static com.susanghan_guys.server.user.presentation.response.UserSuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor

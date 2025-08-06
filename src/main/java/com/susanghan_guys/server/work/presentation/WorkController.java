@@ -12,7 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.susanghan_guys.server.global.common.code.SuccessCode.*;
+import static com.susanghan_guys.server.work.presentation.response.WorkSuccessCode.WORK_DCA_SUBMIT_SUCCESS;
+import static com.susanghan_guys.server.work.presentation.response.WorkSuccessCode.WORK_YCC_SUBMIT_SUCCESS;
 
 @RestController
 @RequiredArgsConstructor

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.susanghan_guys.server.global.common.code.SuccessCode.MY_REPORTS_RETRIEVED_SUCCESS;
+import static com.susanghan_guys.server.work.presentation.response.WorkSuccessCode.MY_REPORTS_RETRIEVED_SUCCESS;
 
 @RestController
 @RequiredArgsConstructor
