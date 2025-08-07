@@ -82,6 +82,6 @@ public class MailService {
     }
 
     private String generateCode() {
-        return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        return UUID.randomUUID().toString().substring(0, 6).toUpperCase();
     }
 }
