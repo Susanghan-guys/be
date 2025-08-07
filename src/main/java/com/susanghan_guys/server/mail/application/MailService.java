@@ -41,7 +41,7 @@ public class MailService {
                             work.getUser().getName(),
                             work.getTitle(),
                             generateLink(work),
-                            generateCode(work),
+                            generateCode(),
                             "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
                     ))
                     .toList();
@@ -81,7 +81,7 @@ public class MailService {
         return redirectUri + work.getId();
     }
 
-    private String generateCode(Work work) {
+    private String generateCode() {
         return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 }
