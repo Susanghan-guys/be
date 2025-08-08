@@ -46,6 +46,9 @@ public class Work extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ReportStatus reportStatus;
 
+    @Column(name = "code")
+    private String code;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -66,6 +69,7 @@ public class Work extends BaseEntity {
             String number,
             Brand brand,
             Category category,
+            String code,
             ReportStatus reportStatus,
             String work,
             User user,
@@ -75,6 +79,7 @@ public class Work extends BaseEntity {
         this.number = number;
         this.brand = brand;
         this.category = category;
+        this.code = code;
         this.reportStatus = reportStatus;
         this.work = work;
         this.user = user;
@@ -88,5 +93,9 @@ public class Work extends BaseEntity {
     public void associateUser(User user) {
         this.user = user;
         user.getWorkList().add(this);
+    }
+
+    public void updateCode(String code) {
+        this.code = code;
     }
 }

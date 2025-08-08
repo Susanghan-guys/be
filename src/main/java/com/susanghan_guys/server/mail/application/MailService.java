@@ -1,7 +1,9 @@
 package com.susanghan_guys.server.mail.application;
 
 import com.susanghan_guys.server.mail.dto.request.MailRequest;
+import com.susanghan_guys.server.work.domain.TeamMember;
 import com.susanghan_guys.server.work.domain.Work;
+import com.susanghan_guys.server.work.domain.WorkMember;
 import com.susanghan_guys.server.work.domain.type.ReportStatus;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import jakarta.mail.MessagingException;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,19 +38,31 @@ public class MailService {
             String template = Files.readString(Path.of("src/main/resources/templates/template.html"));
             List<Work> works = workRepository.findAllByReportStatus(ReportStatus.COMPLETED);
 
-            List<MailRequest> requests = works.stream()
-                    .map(work -> new MailRequest(
-                            work.getUser().getEmail(),
-                            work.getUser().getName(),
+            for (Work work : works) {
+                if (work.getCode() == null) {
+                    work.updateCode(generateCode());
+                }
+
+                personalizeMail(new MailRequest(
+                        work.getUser().getEmail(),
+                        work.getUser().getName(),
+                        work.getTitle(),
+                        generateLink(work),
+                        work.getCode(),
+                        "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
+                ), template);
+
+                for (WorkMember workMember : work.getWorkMembers()) {
+                    TeamMember teamMember = workMember.getTeamMember();
+                    personalizeMail(new MailRequest(
+                            teamMember.getEmail(),
+                            teamMember.getName(),
                             work.getTitle(),
                             generateLink(work),
-                            generateCode(),
+                            work.getCode(),
                             "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
-                    ))
-                    .toList();
-
-            for (MailRequest request : requests) {
-                personalizeMail(request, template);
+                    ), template);
+                }
             }
         } catch (IOException e) {
             log.error("🚨 mail template 로딩 중, 오류 발생: {}", e.getMessage());
