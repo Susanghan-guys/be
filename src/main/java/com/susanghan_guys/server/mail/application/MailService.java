@@ -1,7 +1,6 @@
 package com.susanghan_guys.server.mail.application;
 
 import com.susanghan_guys.server.mail.dto.request.MailRequest;
-import com.susanghan_guys.server.work.domain.TeamMember;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.domain.WorkMember;
 import com.susanghan_guys.server.work.domain.type.ReportStatus;
