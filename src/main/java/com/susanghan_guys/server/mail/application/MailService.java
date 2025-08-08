@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -42,31 +41,33 @@ public class MailService {
                 if (work.getCode() == null) {
                     work.updateCode(generateCode());
                 }
-
-                personalizeMail(new MailRequest(
-                        work.getUser().getEmail(),
-                        work.getUser().getName(),
-                        work.getTitle(),
-                        generateLink(work),
-                        work.getCode(),
-                        "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
-                ), template);
-
-                for (WorkMember workMember : work.getWorkMembers()) {
-                    TeamMember teamMember = workMember.getTeamMember();
-                    personalizeMail(new MailRequest(
-                            teamMember.getEmail(),
-                            teamMember.getName(),
-                            work.getTitle(),
-                            generateLink(work),
-                            work.getCode(),
-                            "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
-                    ), template);
-                }
+                sendWorkMembers(work, template);
             }
         } catch (IOException e) {
             log.error("🚨 mail template 로딩 중, 오류 발생: {}", e.getMessage());
             throw new RuntimeException(e); // TODO: errorCode 수정
+        }
+    }
+
+    private void sendWorkMembers(Work work, String template) {
+        personalizeMail(new MailRequest(
+                work.getUser().getEmail(),
+                work.getUser().getName(),
+                work.getTitle(),
+                generateLink(work),
+                work.getCode(),
+                "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
+        ), template);
+
+        for (WorkMember workMember : work.getWorkMembers()) {
+            personalizeMail(new MailRequest(
+                    workMember.getTeamMember().getEmail(),
+                    workMember.getTeamMember().getName(),
+                    work.getTitle(),
+                    generateLink(work),
+                    work.getCode(),
+                    "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
+            ), template);
         }
     }
 
