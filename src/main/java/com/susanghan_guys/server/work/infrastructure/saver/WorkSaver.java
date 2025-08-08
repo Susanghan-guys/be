@@ -2,6 +2,7 @@ package com.susanghan_guys.server.work.infrastructure.saver;
 
 import com.susanghan_guys.server.work.domain.*;
 import com.susanghan_guys.server.work.domain.type.FilesType;
+import com.susanghan_guys.server.work.domain.type.ReportVisibility;
 import com.susanghan_guys.server.work.dto.response.TeamMemberResponse;
 import com.susanghan_guys.server.work.infrastructure.persistence.*;
 import jakarta.transaction.Transactional;
@@ -29,7 +30,7 @@ public class WorkSaver {
         for (TeamMemberResponse dto : teamMembers) {
             TeamMember teamMember = teamMemberRepository.findByEmail(dto.email())
                     .orElseGet(() -> teamMemberRepository.save(new TeamMember(dto.name(), dto.email())));
-            workMemberRepository.save(new WorkMember(work, teamMember));
+            workMemberRepository.save(new WorkMember(ReportVisibility.IN_PROGRESS, work, teamMember));
         }
     }
 
