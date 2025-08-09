@@ -1,6 +1,8 @@
 package com.susanghan_guys.server.mail.application;
 
 import com.susanghan_guys.server.mail.dto.request.MailRequest;
+import com.susanghan_guys.server.mail.exception.MailException;
+import com.susanghan_guys.server.mail.exception.code.MailErrorCode;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.domain.WorkMember;
 import com.susanghan_guys.server.work.domain.type.ReportStatus;
@@ -47,7 +49,7 @@ public class MailService {
             }
         } catch (IOException e) {
             log.error("🚨 mail template 로딩 중, 오류 발생: {}", e.getMessage());
-            throw new RuntimeException(e); // TODO: errorCode 수정
+            throw new MailException(MailErrorCode.MAIL_TEMPLATE_LOADING_FAILED);
         }
     }
 
@@ -91,7 +93,7 @@ public class MailService {
             javaMailSender.send(message);
         } catch (MessagingException e) {
             log.error("🚨 메일 전송 중, 오류 발생: {}", e.getMessage());
-            throw new RuntimeException(e); // TODO: errorCode 수정
+            throw new MailException(MailErrorCode.MAIL_SENDING_FAILED);
         }
     }
 
