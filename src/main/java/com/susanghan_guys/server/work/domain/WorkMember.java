@@ -36,4 +36,8 @@ public class WorkMember {
         this.work.addWorkMember(this);
         this.teamMember.getWorkMembers().add(this);
     }
+
+    public void updateVisibility(ReportVisibility reportVisibility) {
+        this.reportVisibility = reportVisibility;
+    }
 }
