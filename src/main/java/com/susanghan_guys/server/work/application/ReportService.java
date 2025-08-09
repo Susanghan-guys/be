@@ -6,6 +6,7 @@ import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.domain.WorkVisibility;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
+import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
@@ -63,5 +64,22 @@ public class ReportService {
         }
 
         workVisibilityRepository.save(WorkVisibility.of(user, work, true));
+    }
+
+    @Transactional
+    public void deleteReport(Long workId, ReportDeletionRequest request) {
+        User user = currentUserProvider.getCurrentUser();
+
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new BusinessException(WorkErrorCode.WORK_NOT_FOUND));
+
+        if (work.getUser().getId().equals(user.getId())) {
+            throw new WorkException(WorkErrorCode.WORK_NOT_FOUND); // TODO: errorCode 수정
+        }
+
+        int deletedWorks = workVisibilityRepository.deletedWorks(workId, user.getId());;
+        if (deletedWorks == 0) {
+            throw new WorkException(WorkErrorCode.WORK_NOT_FOUND); // TODO: errorCode 수정
+        }
     }
 }
