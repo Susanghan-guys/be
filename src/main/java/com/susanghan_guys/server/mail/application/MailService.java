@@ -12,14 +12,14 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,9 +41,9 @@ public class MailService {
     public void sendMail() {
         try {
             String template = new String(
-                    new org.springframework.core.io.ClassPathResource("templates/template.html")
+                    new ClassPathResource("templates/template.html")
                             .getInputStream().readAllBytes(),
-                    java.nio.charset.StandardCharsets.UTF_8
+                    StandardCharsets.UTF_8
             );
 
             List<Work> works = workRepository.findAllByReportStatus(ReportStatus.COMPLETED);

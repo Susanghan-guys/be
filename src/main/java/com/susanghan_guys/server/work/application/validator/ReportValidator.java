@@ -1,6 +1,5 @@
 package com.susanghan_guys.server.work.application.validator;
 
-import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
@@ -37,12 +36,12 @@ public class ReportValidator {
             throw new WorkException(WorkErrorCode.APPLICANTS_NOT_DELETED);
         }
 
-        if (!request.title().equals(work.getTitle())) {
-            throw new WorkException(WorkErrorCode.WORK_NOT_FOUND);
-        }
-
         if (!workVisibilityRepository.existsByWorkIdAndUserIdAndVisibleTrue(workId, user.getId())) {
             throw new WorkException(WorkErrorCode.DELETABLE_WORK_NOT_FOUND);
+        }
+
+        if (!request.title().equals(work.getTitle())) {
+            throw new WorkException(WorkErrorCode.WORK_NOT_FOUND);
         }
     }
 }
