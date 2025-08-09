@@ -57,7 +57,7 @@ public class ReportService {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new BusinessException(WorkErrorCode.WORK_NOT_FOUND));
 
-        reportValidator.validateReportCode(work, request);
+        reportValidator.validateReportCode(user, work, request);
 
         if (workVisibilityRepository.findByWorkIdAndUserId(workId, user.getId()).isPresent()) {
             return;
