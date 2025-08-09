@@ -12,6 +12,9 @@ import java.util.List;
 @Builder
 @Schema(description = "내 리포트 조회 API")
 public record MyReportResponse(
+        @Schema(description = "작품 고유 ID", example = "201")
+        Long workId,
+
         @Schema(description = "공모전 이름", example = "YCC")
         String contestName,
 
@@ -35,6 +38,7 @@ public record MyReportResponse(
 ) {
     public static MyReportResponse of(Work work, boolean isDeletable) {
         return MyReportResponse.builder()
+                .workId(work.getId())
                 .contestName(work.getContest().getTitle())
                 .title(work.getTitle())
                 .category(work.getCategory())
