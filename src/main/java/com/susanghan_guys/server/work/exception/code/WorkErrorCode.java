@@ -30,6 +30,9 @@ public enum WorkErrorCode implements BaseCode {
     CONTEST_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "존재하지 않는 공모전입니다."),
     WORK_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "존재하지 않는 작품입니다."),
     PDF_TO_IMAGE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, 500, "PDF 파일을 이미지로 변환하는 중 오류가 발생했습니다."),
+    INVALID_REPORT_CODE(HttpStatus.FORBIDDEN, 403, "유효하지 않은 인증 코드입니다."),
+    APPLICANTS_NOT_DELETED(HttpStatus.FORBIDDEN, 403, "신청자는 리포트를 삭제할 수 없습니다."),
+    DELETABLE_WORK_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "삭제 가능한 리포트가 존재하지 않습니다."),
     ;
 
     private final HttpStatus httpStatus;

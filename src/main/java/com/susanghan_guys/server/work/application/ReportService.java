@@ -3,6 +3,7 @@ package com.susanghan_guys.server.work.application;
 import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.user.domain.User;
+import com.susanghan_guys.server.work.application.validator.ReportValidator;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.domain.WorkVisibility;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
@@ -30,6 +31,7 @@ public class ReportService {
     private final CurrentUserProvider currentUserProvider;
     private final WorkRepository workRepository;
     private final WorkVisibilityRepository workVisibilityRepository;
+    private final ReportValidator reportValidator;
 
     public MyReportListResponse getMyReports(String name, Integer page) {
         User user = currentUserProvider.getCurrentUser();
@@ -55,14 +57,11 @@ public class ReportService {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new BusinessException(WorkErrorCode.WORK_NOT_FOUND));
 
-        if (!request.code().equals(work.getCode())) {
-            throw new WorkException(WorkErrorCode.WORK_NOT_FOUND); // TODO: errorCode 수정
-        }
+        reportValidator.validateReportCode(work, request);
 
         if (workVisibilityRepository.findByWorkIdAndUserId(workId, user.getId()).isPresent()) {
             return;
         }
-
         workVisibilityRepository.save(WorkVisibility.of(user, work, true));
     }
 
@@ -70,16 +69,11 @@ public class ReportService {
     public void deleteReport(Long workId, ReportDeletionRequest request) {
         User user = currentUserProvider.getCurrentUser();
 
-        Work work = workRepository.findById(workId)
-                .orElseThrow(() -> new BusinessException(WorkErrorCode.WORK_NOT_FOUND));
+        reportValidator.validateDeleteReport(workId, user);
 
-        if (work.getUser().getId().equals(user.getId())) {
-            throw new WorkException(WorkErrorCode.WORK_NOT_FOUND); // TODO: errorCode 수정
-        }
-
-        int deletedWorks = workVisibilityRepository.deletedWorks(workId, user.getId());;
+        int deletedWorks = workVisibilityRepository.deletedWorks(workId, user.getId());
         if (deletedWorks == 0) {
-            throw new WorkException(WorkErrorCode.WORK_NOT_FOUND); // TODO: errorCode 수정
+            throw new WorkException(WorkErrorCode.DELETABLE_WORK_NOT_FOUND);
         }
     }
 }
