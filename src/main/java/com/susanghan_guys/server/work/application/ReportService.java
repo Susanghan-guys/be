@@ -21,6 +21,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -42,11 +44,14 @@ public class ReportService {
 
         Slice<Work> works = workRepository.findAccessibleWorks(user.getId(), name, pageable);
 
-        Set<Long> deletableWorks = workRepository.findDeletableWorks(
-                works.stream()
-                        .map(Work::getId)
-                        .toList(), user.getId()
-        );
+        List<Long> workIds = works.getContent().stream()
+                .map(Work::getId)
+                .toList();
+
+        Set<Long> deletableWorks = workIds.isEmpty()
+                ? Collections.emptySet()
+                : workRepository.findDeletableWorks(workIds, user.getId());
+
         return MyReportListResponse.of(works, deletableWorks);
     }
 
@@ -55,7 +60,7 @@ public class ReportService {
         User user = currentUserProvider.getCurrentUser();
 
         Work work = workRepository.findById(workId)
-                .orElseThrow(() -> new BusinessException(WorkErrorCode.WORK_NOT_FOUND));
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
         reportValidator.validateReportCode(user, work, request);
 

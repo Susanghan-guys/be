@@ -40,7 +40,12 @@ public class MailService {
     @Transactional
     public void sendMail() {
         try {
-            String template = Files.readString(Path.of("src/main/resources/templates/template.html"));
+            String template = new String(
+                    new org.springframework.core.io.ClassPathResource("templates/template.html")
+                            .getInputStream().readAllBytes(),
+                    java.nio.charset.StandardCharsets.UTF_8
+            );
+
             List<Work> works = workRepository.findAllByReportStatus(ReportStatus.COMPLETED);
 
             for (Work work : works) {

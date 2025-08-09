@@ -28,18 +28,16 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
         LEFT JOIN WorkVisibility wv on wv.work = w AND wv.visible = true AND wv.user.id = :userId
         WHERE (w.user.id = :userId OR wv.id IS NOT NULL)
         AND (:name IS NULL OR :name = '' OR w.contest.title = :name)
-        ORDER BY w.createdAt DESC
     """)
-    Slice<Work> findAccessibleWorks(Long userId, String name, Pageable pageable);
+    Slice<Work> findAccessibleWorks(@Param("userId") Long userId, @Param("name") String name, Pageable pageable);
     @Query("""
-        SELECT wv.work.id
+        SELECT DISTINCT wv.work.id
         FROM WorkVisibility wv
         WHERE wv.visible = true
         AND wv.user.id = :userId
         AND wv.work.id IN :workIds
         AND wv.work.user.id <> :userId
-        GROUP BY wv.work.id
     """)
-    Set<Long> findDeletableWorks(Collection<Long> workIds, Long userId);
+    Set<Long> findDeletableWorks(@Param("workIds") Collection<Long> workIds, @Param("userId") Long userId);
 }
 

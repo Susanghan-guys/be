@@ -30,7 +30,7 @@ public class ReportController implements ReportSwagger {
     }
 
     @Override
-    @PostMapping("/v1/{workId}/verify-code")
+    @PostMapping("/{workId}/verify-code")
     public CommonResponse<String> verifyReportCode(
             @PathVariable(name = "workId") Long workId,
             @RequestBody @Valid ReportCodeRequest request
@@ -40,7 +40,7 @@ public class ReportController implements ReportSwagger {
     }
 
     @Override
-    @PatchMapping("/v1/{workId}/visibility")
+    @PatchMapping("/{workId}/visibility")
     public CommonResponse<String> deleteReport(
             @PathVariable(name = "workId") Long workId,
             @RequestBody @Valid ReportDeletionRequest request
