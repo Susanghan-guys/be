@@ -29,6 +29,7 @@ public class ReportController implements ReportSwagger {
         return CommonResponse.success(MY_REPORTS_RETRIEVED_SUCCESS, reportService.getMyReports(name, page));
     }
 
+    @Override
     @PostMapping("/v1/{workId}/verify-code")
     public CommonResponse<String> verifyReportCode(
             @PathVariable(name = "workId") Long workId,
@@ -38,6 +39,7 @@ public class ReportController implements ReportSwagger {
         return CommonResponse.success(REPORTS_CODE_VERIFY_SUCCESS, "OK");
     }
 
+    @Override
     @PatchMapping("/v1/{workId}/visibility")
     public CommonResponse<String> deleteReport(
             @PathVariable(name = "workId") Long workId,
