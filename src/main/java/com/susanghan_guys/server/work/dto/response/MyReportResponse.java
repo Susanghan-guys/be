@@ -15,15 +15,17 @@ public record MyReportResponse(
         Category category,
         Brand brand,
         ReportStatus reportStatus,
+        boolean isDeletable,
         List<String> workMembers
 ) {
-    public static MyReportResponse from(Work work) {
+    public static MyReportResponse of(Work work, boolean isDeletable) {
         return MyReportResponse.builder()
                 .contestName(work.getContest().getTitle())
                 .title(work.getTitle())
                 .category(work.getCategory())
                 .brand(work.getBrand())
                 .reportStatus(work.getReportStatus())
+                .isDeletable(isDeletable)
                 .workMembers(
                         work.getWorkMembers().stream()
                                 .map(workMember -> workMember.getTeamMember().getName())

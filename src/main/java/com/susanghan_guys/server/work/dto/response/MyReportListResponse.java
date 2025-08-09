@@ -5,7 +5,7 @@ import lombok.Builder;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Builder
 public record MyReportListResponse(
@@ -15,10 +15,10 @@ public record MyReportListResponse(
         boolean isFirst,
         boolean isLast
 ) {
-    public static MyReportListResponse from(Slice<Work> works) {
+    public static MyReportListResponse of(Slice<Work> works, Set<Long> deletableWorks) {
         List<MyReportResponse> responseList = works.stream()
-                .map(MyReportResponse::from)
-                .collect(Collectors.toList());
+                .map(work -> MyReportResponse.of(work, deletableWorks.contains(work.getId())))
+                .toList();
 
         return MyReportListResponse.builder()
                 .responseList(responseList)
