@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import static com.susanghan_guys.server.work.presentation.response.WorkSuccessCode.MY_REPORTS_RETRIEVED_SUCCESS;
+import static com.susanghan_guys.server.work.presentation.response.WorkSuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class ReportController implements ReportSwagger {
             @RequestBody @Valid ReportCodeRequest request
     ) {
         reportService.verifyReportCode(workId, request);
-        return CommonResponse.success(MY_REPORTS_RETRIEVED_SUCCESS, "OK");
+        return CommonResponse.success(REPORTS_CODE_VERIFY_SUCCESS, "OK");
     }
 
     @PatchMapping("/v1/{workId}/visibility")
@@ -44,6 +44,6 @@ public class ReportController implements ReportSwagger {
             @RequestBody @Valid ReportDeletionRequest request
     ) {
         reportService.deleteReport(workId, request);
-        return CommonResponse.success(MY_REPORTS_RETRIEVED_SUCCESS, "OK");
+        return CommonResponse.success(MY_REPORTS_DELETED_SUCCESS, "OK");
     }
 }
