@@ -74,7 +74,7 @@ public class ReportService {
     public void deleteReport(Long workId, ReportDeletionRequest request) {
         User user = currentUserProvider.getCurrentUser();
 
-        reportValidator.validateDeleteReport(workId, user);
+        reportValidator.validateDeleteReport(workId, user, request);
 
         int deletedWorks = workVisibilityRepository.deletedWorks(workId, user.getId());
         if (deletedWorks == 0) {

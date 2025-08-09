@@ -4,6 +4,7 @@ import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
+import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
@@ -28,12 +29,16 @@ public class ReportValidator {
         }
     }
 
-    public void validateDeleteReport(Long workId, User user) {
+    public void validateDeleteReport(Long workId, User user, ReportDeletionRequest request) {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
         if (work.getUser().getId().equals(user.getId())) {
             throw new WorkException(WorkErrorCode.APPLICANTS_NOT_DELETED);
+        }
+
+        if (!request.title().equals(work.getTitle())) {
+            throw new WorkException(WorkErrorCode.WORK_NOT_FOUND);
         }
 
         if (!workVisibilityRepository.existsByWorkIdAndUserIdAndVisibleTrue(workId, user.getId())) {
