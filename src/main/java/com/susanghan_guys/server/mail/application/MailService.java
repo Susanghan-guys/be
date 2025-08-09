@@ -37,6 +37,7 @@ public class MailService {
     @Value("${mail.work-member.redirect-uri}")
     private String workMemberRedirectUri;
 
+    @Transactional
     public void sendMail() {
         try {
             String template = Files.readString(Path.of("src/main/resources/templates/template.html"));
