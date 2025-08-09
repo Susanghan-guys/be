@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class Work extends BaseEntity {
     @Column(name = "code")
     private String code;
 
+    @Column(name = "mail_sent_at")
+    private LocalDateTime mailSentAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -70,6 +74,7 @@ public class Work extends BaseEntity {
             Brand brand,
             Category category,
             String code,
+            LocalDateTime mailSentAt,
             ReportStatus reportStatus,
             String work,
             User user,
@@ -80,6 +85,7 @@ public class Work extends BaseEntity {
         this.brand = brand;
         this.category = category;
         this.code = code;
+        this.mailSentAt = mailSentAt;
         this.reportStatus = reportStatus;
         this.work = work;
         this.user = user;
@@ -97,5 +103,9 @@ public class Work extends BaseEntity {
 
     public void updateCode(String code) {
         this.code = code;
+    }
+
+    public void markMailSent() {
+        this.mailSentAt = LocalDateTime.now();
     }
 }

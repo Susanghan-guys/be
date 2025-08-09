@@ -45,14 +45,14 @@ public class MailService {
                             .getInputStream().readAllBytes(),
                     StandardCharsets.UTF_8
             );
-
-            List<Work> works = workRepository.findAllByReportStatus(ReportStatus.COMPLETED);
+            List<Work> works = workRepository.findAllByReportStatusAndMailSentAtIsNull(ReportStatus.COMPLETED);
 
             for (Work work : works) {
                 if (work.getCode() == null) {
                     work.updateCode(generateCode());
                 }
                 sendWorkMembers(work, template);
+                work.markMailSent();
             }
         } catch (IOException e) {
             log.error("🚨 mail template 로딩 중, 오류 발생: {}", e.getMessage());

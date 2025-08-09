@@ -17,11 +17,10 @@ import java.util.Set;
 
 @Repository
 public interface WorkRepository extends JpaRepository<Work, Long> {
-
     Optional<Work> findByContestIdAndNumberAndNumberIsNotNull(Long contestId, String number);
     @Query("SELECT w.work FROM Work w WHERE w.id = :workId")
     List<String> findWorkContentByWorkId(@Param("workId") Long workId);
-    List<Work> findAllByReportStatus(ReportStatus reportStatus);
+    List<Work> findAllByReportStatusAndMailSentAtIsNull(ReportStatus reportStatus);
     @Query("""
         SELECT DISTINCT w
         FROM Work w
