@@ -4,7 +4,6 @@ import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.Work;
-import com.susanghan_guys.server.work.domain.type.ReportVisibility;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import com.susanghan_guys.server.work.exception.WorkException;
@@ -53,8 +52,5 @@ public class ReportService {
         if (!request.code().equals(work.getCode())) {
             throw new WorkException(WorkErrorCode.WORK_NOT_FOUND); // TODO: errorCode 수정
         }
-
-        work.getWorkMembers()
-                .forEach(workMember -> workMember.updateVisibility(ReportVisibility.VISIBLE));
     }
 }
