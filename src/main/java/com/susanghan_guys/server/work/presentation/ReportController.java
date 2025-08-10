@@ -2,16 +2,16 @@ package com.susanghan_guys.server.work.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.work.application.ReportService;
+import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
+import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import com.susanghan_guys.server.work.presentation.swagger.ReportSwagger;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import static com.susanghan_guys.server.work.presentation.response.WorkSuccessCode.MY_REPORTS_RETRIEVED_SUCCESS;
+import static com.susanghan_guys.server.work.presentation.response.WorkSuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +27,25 @@ public class ReportController implements ReportSwagger {
             @RequestParam(required = false) String name
     ) {
         return CommonResponse.success(MY_REPORTS_RETRIEVED_SUCCESS, reportService.getMyReports(name, page));
+    }
+
+    @Override
+    @PostMapping("/{workId}/verify-code")
+    public CommonResponse<String> verifyReportCode(
+            @PathVariable(name = "workId") Long workId,
+            @RequestBody @Valid ReportCodeRequest request
+    ) {
+        reportService.verifyReportCode(workId, request);
+        return CommonResponse.success(REPORTS_CODE_VERIFY_SUCCESS, "OK");
+    }
+
+    @Override
+    @PatchMapping("/{workId}/visibility")
+    public CommonResponse<String> deleteReport(
+            @PathVariable(name = "workId") Long workId,
+            @RequestBody @Valid ReportDeletionRequest request
+    ) {
+        reportService.deleteReport(workId, request);
+        return CommonResponse.success(MY_REPORTS_DELETED_SUCCESS, "OK");
     }
 }

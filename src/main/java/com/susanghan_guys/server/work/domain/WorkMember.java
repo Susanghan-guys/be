@@ -2,6 +2,7 @@ package com.susanghan_guys.server.work.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,7 @@ public class WorkMember {
     @JoinColumn(name = "team_member_id", nullable = false)
     private TeamMember teamMember;
 
+    @Builder
     public WorkMember(Work work, TeamMember teamMember) {
         this.work = work;
         this.teamMember = teamMember;

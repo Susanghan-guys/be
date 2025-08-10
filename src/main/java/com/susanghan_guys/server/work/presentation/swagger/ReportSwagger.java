@@ -1,12 +1,17 @@
 package com.susanghan_guys.server.work.presentation.swagger;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
+import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
+import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "[리포트]", description = "리포트 관련 API")
@@ -24,5 +29,35 @@ public interface ReportSwagger {
     CommonResponse<MyReportListResponse> getMyReports(
             @RequestParam(name = "page") @Min(0) Integer page,
             @RequestParam(required = false) String name
+    );
+
+    @Operation(
+            summary = "리포트 코드 인증 API",
+            description = "팀원이 리포트를 조회할 경우, 리포트 코드 인증을 진행합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "리포트 코드 인증이 성공적으로 실행되었습니다."
+            )
+    })
+    CommonResponse<String> verifyReportCode(
+            @PathVariable(name = "workId") Long workId,
+            @RequestBody @Valid ReportCodeRequest request
+    );
+
+    @Operation(
+            summary = "리포트 삭제 API",
+            description = "팀원일 경우에만 리포트 삭제를 진행합니다. (신청자일 경우, 삭제 불가능)"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "리포트 삭제가 성공적으로 실행되었습니다."
+            )
+    })
+    CommonResponse<String> deleteReport(
+            @PathVariable(name = "workId") Long workId,
+            @RequestBody @Valid ReportDeletionRequest request
     );
 }
