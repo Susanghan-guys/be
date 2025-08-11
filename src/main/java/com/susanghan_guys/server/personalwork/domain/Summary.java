@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class WorkSummary extends BaseEntity {
+public class Summary extends BaseEntity {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -32,7 +32,7 @@ public class WorkSummary extends BaseEntity {
     private Work work;
 
     @Builder
-    private WorkSummary(
+    private Summary(
             String target,
             String insight,
             String solution,
