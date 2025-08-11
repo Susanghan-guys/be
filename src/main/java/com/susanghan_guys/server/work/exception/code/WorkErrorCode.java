@@ -16,7 +16,6 @@ public enum WorkErrorCode implements BaseCode {
     INVALID_ADDITIONAL_FILE_TYPE(HttpStatus.BAD_REQUEST, 400, "추가 자료의 형식이 잘못되었습니다."),
     YOUTUBE_URL_REQUIRED(HttpStatus.BAD_REQUEST, 400, "영상 카테고리는 유튜브 링크 제출이 필수입니다."),
     YOUTUBE_NOT_ALLOWED_FOR_NON_FILM(HttpStatus.BAD_REQUEST, 400, "비영상 카테고리에는 유튜브 링크를 제출할 수 없습니다."),
-    INVALID_IMAGE_DIMENSIONS(HttpStatus.BAD_REQUEST, 400, "브리프보드는 최대 3508x4960 픽셀의 JPG 파일이어야 합니다."),
     INVALID_BRIEF_BOARD_TYPE(HttpStatus.BAD_REQUEST, 400, "브리프보드는 JPG 형식이어야 합니다."),
 
     // YCC
