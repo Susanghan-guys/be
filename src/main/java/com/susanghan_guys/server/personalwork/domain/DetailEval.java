@@ -43,4 +43,8 @@ public class DetailEval extends BaseEntity {
         this.score = score;
         this.evaluation = evaluation;
     }
+
+    public void associateEvaluation(Evaluation evaluation) {
+        this.evaluation = evaluation;
+    }
 }
