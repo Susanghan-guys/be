@@ -39,6 +39,20 @@ public enum DetailEvalType {
     FEAS_ASSUMPTION_VALIDITY("전제의 합리성", "prompt"),
     FEAS_VISUAL_PLAN("실행 방안의 시각적 표현", "prompt"),
 
+    // DCA_FILM - 스토리텔링
+    ALIGNMENT_WITH_INTENT("기획 의도 일치 여부", "prompt"),
+    MESSAGE_DELIVERY("메시지의 전달력", "prompt"),
+    TONE_AND_MANNER("톤앤매너", "prompt"),
+    HOOKING("후킹", "prompt"),
+    CALL_TO_ACTION("행동 유도", "prompt"),
+
+    // DCA_FILM - 연출
+    VISUAL_CONSISTENCY("시각적 일관성과 완성도", "prompt"),
+    MESSAGE_CENTRIC_DIRECTION("메시지 중심 연출", "prompt"),
+    STORYTELLING_DIRECTION("스토리텔링 연출 적합도", "prompt"),
+    TARGET_VIEWING_CONTEXT("타겟의 시청 맥락", "prompt"),
+    EMOTIONAL_ENGAGEMENT("감정적 몰입 유도", "prompt"),
+
     // YCC - 실현 가능성
     FEAS_SIMPLE_INTERVENTION("간단한 개입으로 연결 가능한 구조", "prompt"),
 
