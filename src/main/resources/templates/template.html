@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>수상한 녀석들 메일 템플릿</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #fff;
+    "
+  >
+    <table
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="background-color: #fff; padding: 20px; margin: 0 auto"
+    >
+      <tr>
+        <td style="text-align: left">
+          <table
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            style="
+              background-color: #ffffff;
+              padding: 50px 32px;
+              border-radius: 10px;
+            "
+          >
+            <tr>
+              <td style="text-align: left">
+                <img src="https://susanghanguys-dev-bucket.s3.ap-southeast-2.amazonaws.com/logo/logo.png"
+                     width="110"
+                     height="19"
+                     alt="logo"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td height="75"></td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  font-size: 22px;
+                  font-weight: bold;
+                  text-align: left;
+                  line-height: 150%;
+                "
+              >
+                [{{REPORT_TITLE}}] 수상 리포트 완성 안내
+              </td>
+            </tr>
+            <tr>
+              <td height="60"></td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  font-size: 16px;
+                  color: #434448;
+                  text-align: left;
+                  font-weight: 400;
+                  line-height: 150%;
+                "
+              >
+                안녕하세요, {{NAME}}님!<br />
+                신청한 [{{REPORT_TITLE}}] 작품의 수상 리포트를 완성했습니다.<br />
+                리포트 링크와 코드를 통해 팀원들과도 공유할 수 있습니다.
+              </td>
+            </tr>
+            <tr>
+              <td height="60"></td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 150%;
+                  color: #434448;
+                "
+              >
+                리포트 링크:
+              </td>
+            </tr>
+            <tr>
+              <td height="8.5"></td>
+            </tr>
+            <tr>
+              <td style="text-align: left">
+                <a
+                  href="{{REPORT_LINK}}"
+                  style="
+                    color: var(--Gray-Scale-gray-900, #29292c);
+
+                    font-size: 22px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 140%; /* 30.8px */
+                    text-decoration-line: underline;
+                    text-decoration-style: solid;
+                    text-decoration-skip-ink: none;
+                    text-decoration-thickness: auto;
+                    text-underline-offset: auto;
+                    text-underline-position: from-font;
+                  "
+                >
+                  {{REPORT_LINK}}
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td height="46.5"></td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 150%;
+                  color: #434448;
+                "
+              >
+                리포트 코드:
+              </td>
+            </tr>
+            <tr>
+              <td height="8.5"></td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  color: var(--Gray-Scale-gray-900, #29292c);
+                  font-size: 22px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 150%; /* 33px */
+                "
+              >
+                {{REPORT_CODE}}
+              </td>
+            </tr>
+            <tr>
+              <td height="44"></td>
+            </tr>
+            <tr>
+              <td height="1" style="background-color: #dddee0"></td>
+            </tr>
+            <tr>
+              <td height="44"></td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  color: var(--Point-color-orange-point, #ff5640);
+                  font-size: 18px;
+                  font-style: normal;
+                  font-weight: 600;
+                  line-height: 150%; /* 27px */
+                "
+              >
+                주의사항
+              </td>
+            </tr>
+            <tr>
+              <td height="18"></td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  color: var(--Gray-Scale-gray-600, #6f7176);
+                  font-size: 16px;
+                  font-style: normal;
+                  font-weight: 400;
+                  line-height: 150%; /* 24px */
+                "
+              >
+                신청자가 아닌 다른 사람이 리포트를 열람하려면, 리포트 코드가
+                반드시 필요합니다. <br />
+                리포트를 외부에 노출하고 싶지 않다면,
+                <span
+                  style="
+                    color: var(--Gray-Scale-gray-800, #434448);
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 150%;
+                  "
+                  >링크와 코드를 다른 사람에게 전달하지 마세요.</span
+                >
+              </td>
+            </tr>
+
+            <tr>
+              <td height="44"></td>
+            </tr>
+            <tr>
+              <td height="1" style="background-color: #dddee0"></td>
+            </tr>
+            <tr>
+              <td height="44"></td>
+            </tr>
+            <tr>
+              <td
+                style="
+                  color: var(--Gray-Scale-gray-400, #95969b);
+                  font-size: 14px;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 150%; /* 21px */
+                "
+              >
+                본 메일은 발신 전용입니다.<br />
+                문의사항은
+                <a
+                  href="https://forms.gle/cSKrGxDtF3aYAnv56"
+                  style="
+                    color: var(--Gray-Scale-gray-800, #434448);
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 150%;
+                    text-decoration-line: underline;
+                    text-decoration-style: solid;
+                    text-decoration-skip-ink: none;
+                    text-decoration-thickness: auto;
+                    text-underline-offset: auto;
+                    text-underline-position: from-font;
+                  "
+                  >링크</a
+                >를 통해 접수해주세요.
+
+                <br />
+                <br />
+                <br />
+                © 수상한 녀석들. ALL RIGHTS RESERVED
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
