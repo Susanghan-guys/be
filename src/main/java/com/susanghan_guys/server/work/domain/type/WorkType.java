@@ -5,6 +5,5 @@ public enum WorkType {
     DCA_FILM,
     DCA_ALL,
     YCC,
-    DCA_YCC,
-    WORK_ALL
+    DCA_YCC
 }
