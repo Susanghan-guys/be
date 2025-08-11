@@ -24,16 +24,16 @@ public record DcaWorkSubmissionRequest(
 
         @NotNull
         @Schema(
-                description = "카테고리 (VISUAL, FILM, DIGICON, EXP, OUTACT)",
-                example = "FILM"
+                description = "카테고리 (Visual, Film, Digital Contents, Experience, Outdoor Activation)",
+                example = "Film"
         )
         Category category,
 
         @NotNull
         @Schema(
-                description = "브랜드(BBABBARO, TAMS, KRUSH, AIRISM, LOTTE_WORLD, " +
-                        "LOTTE_GIANTS, LOTTERIA, NEXEN_TIRE, SBI_BANK)",
-                example = "LOTTERIA"
+                description = "브랜드(빼빼로, 탐스, 크러시, 에어리즘, 롯데월드, " +
+                        "롯데자이언츠, 롯데리아, 넥센타이어, SBI 저축은행 사이다뱅크)",
+                example = "빼빼로"
         )
         Brand brand,
 
