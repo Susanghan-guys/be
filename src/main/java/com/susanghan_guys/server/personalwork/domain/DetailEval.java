@@ -22,6 +22,7 @@ public class DetailEval extends BaseEntity {
     private String content;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "detail_eval_type", nullable = false)
     private DetailEvalType type;
 
     @Column(name = "score", nullable = false)
