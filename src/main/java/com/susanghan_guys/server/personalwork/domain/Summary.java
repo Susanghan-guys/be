@@ -32,7 +32,7 @@ public class Summary extends BaseEntity {
     private Work work;
 
     @Builder
-    private Summary(
+    public Summary(
             String target,
             String insight,
             String solution,

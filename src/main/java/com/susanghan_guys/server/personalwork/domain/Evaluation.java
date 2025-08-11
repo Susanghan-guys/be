@@ -40,7 +40,7 @@ public class Evaluation extends BaseEntity {
     private Work work;
 
     @Builder
-    private Evaluation(
+    public Evaluation(
             String content,
             double score,
             EvaluationType type,

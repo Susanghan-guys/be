@@ -33,7 +33,7 @@ public class DetailEval extends BaseEntity {
     private Evaluation evaluation;
 
     @Builder
-    private DetailEval(
+    public DetailEval(
             String content,
             DetailEvalType type,
             int score,
