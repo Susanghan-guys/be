@@ -25,6 +25,9 @@ public class Evaluation extends BaseEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @Column(name = "score")
+    private double score;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "evaluation_type", nullable = false)
     private EvaluationType type;
@@ -37,8 +40,14 @@ public class Evaluation extends BaseEntity {
     private Work work;
 
     @Builder
-    private Evaluation(String content, EvaluationType type, Work work) {
+    private Evaluation(
+            String content,
+            double score,
+            EvaluationType type,
+            Work work
+    ) {
         this.content = content;
+        this.score = score;
         this.type = type;
         this.work = work;
     }
