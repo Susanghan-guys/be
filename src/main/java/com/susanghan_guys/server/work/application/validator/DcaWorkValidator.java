@@ -10,9 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Optional;
 
 @Component
@@ -20,8 +17,6 @@ import java.util.Optional;
 public class DcaWorkValidator {
 
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-    private static final int MAX_WIDTH = 3508;
-    private static final int MAX_HEIGHT = 4960;
     private static final String YOUTUBE_REGEX = "^https://(www\\.)?(youtube\\.com|youtu\\.be)/.+$";
 
     private final WorkRepository workRepository;
@@ -37,15 +32,6 @@ public class DcaWorkValidator {
 
         if (briefBoardFile.getSize() > MAX_FILE_SIZE) {
             throw new WorkException(WorkErrorCode.FILE_TOO_LARGE);
-        }
-
-        try {
-            BufferedImage image = ImageIO.read(briefBoardFile.getInputStream());
-            if (image == null || image.getWidth() > MAX_WIDTH || image.getHeight() > MAX_HEIGHT) {
-                throw new WorkException(WorkErrorCode.INVALID_IMAGE_DIMENSIONS);
-            }
-        } catch (IOException e) {
-            throw new WorkException(WorkErrorCode.INVALID_IMAGE_DIMENSIONS);
         }
     }
 
