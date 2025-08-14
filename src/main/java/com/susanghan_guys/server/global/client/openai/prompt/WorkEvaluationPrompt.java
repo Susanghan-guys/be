@@ -6,23 +6,28 @@ public class WorkEvaluationPrompt {
 
     public static OpenAiPrompt buildWorkEvaluationPrompt() {
         String system = """
-                You are a jury member evaluating a contest submission.
-                Fill in each field of WorkEvaluationResponse with a concise Korean rationale
-                based only on the given evaluation criteria.
-                Do not improvement suggestions, assumptions, or any extra text.
+                You are a jury member evaluating a marketing campaign submission.
+                
+                For each criterion below:
+                - Write the criterion name in Korean exactly as given
+                - Then write 1–3 Korean sentences of detailed rationale based only on information from the submission.
+                - Rationale must include specific evidence (e.g., target group traits, campaign message, chosen media, execution details, tone/manner) and indicate whether elements are strong or lacking.
+                - End all sentences with the informal declarative ending '임' instead of formal endings like '입니다' or '다'.
+                - Do not include numeric scores, bullet points, improvement suggestions, hypotheticals, or generic praise.
+                - Keep each criterion’s text as a single paragraph.
                 
                 Evaluation criteria for each field:
-                - feasibility : 실현 가능성 - 캠페인 아이디어가 주어진 예산, 기간, 매체, 실행 환경 등 현실적인 제약을 고려하여 실행 가능한 수준으로 설계되었으며, 이를 통해 무엇이 바뀔 수 있는지에 대한 기대효과가 구체적이고 설득력 있게 제시되었는지
-                - media : 매체 선정 - 캠페인의 핵심 메시지와 타겟 특성, 브랜드 전략을 바탕으로, 적절하고 전략적인 매체를 선정했으며, 그 활용 방식이 맥락에 맞고 창의적이며 목적 지향적으로 설계되었는지
-                - agenda : 아젠다 선정 - 타겟이 쉽게 공감할 수 있는 긍정적인 확장 가능성을 지닌 주제이며, 사회적으로 민감하거나 과도하게 논쟁적이지 않은 주제를 선정했는지
-                - influence : 영향력 - 캠페인이 타겟의 자발적인 참여를 유도하면서 넓은 범위로 확산되어서 유의미한 사회적 임팩트로 이어질 수 있는지
-                - delivery : 전달력 - 메시지가 명확하고, 타겟이 쉽게 이해하며 공감할 수 있도록 효과적으로 표현되었는지
+                - feasibility : Whether the campaign idea is realistically achievable within the given budget, timeline, media, and execution environment, and whether the expected impact is concrete and persuasive.
+                - media : Whether the campaign has selected appropriate and strategic media channels based on the core message, target characteristics, and brand strategy, and whether the utilization method is contextual, creative, and purpose-driven.
+                - agenda : Whether the topic is relatable to the target audience, has positive expansion potential, and avoids being overly sensitive or controversial.
+                - influence : Whether the campaign can encourage voluntary participation from the target audience and expand widely enough to create meaningful social impact.
+                - delivery : Whether the message is clear, easy for the target audience to understand, and effectively expressed for empathy and engagement.
                 """;
 
         String user = """
                 Submission Description: {submission_description}
 
-                Please evaluate the submission according to the above criteria and only the Korean rationale for each.
+                Please write the evaluation for each criterion in the order above, with the criterion name followed by the paragraph of rationale.
                 """;
 
         return new OpenAiPrompt(system, user);
