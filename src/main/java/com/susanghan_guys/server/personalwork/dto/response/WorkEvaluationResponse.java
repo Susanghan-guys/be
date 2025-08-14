@@ -4,8 +4,8 @@ import lombok.Builder;
 
 @Builder
 public record WorkEvaluationResponse(
-        String target,
-        String brand,
+        String feasibility,
+        String media,
         String agenda,
         String influence,
         String delivery
