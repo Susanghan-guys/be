@@ -4,11 +4,15 @@ import lombok.Builder;
 
 @Builder
 public record WorkEvaluationResponse(
-        Integer score,
+        Integer feasibilityScore,
         String feasibility,
+        Integer mediaScore,
         String media,
+        Integer agendaScore,
         String agenda,
+        Integer influenceScore,
         String influence,
+        Integer deliveryScore,
         String delivery
 ) {
 }
