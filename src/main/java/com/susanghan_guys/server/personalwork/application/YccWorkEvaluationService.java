@@ -32,6 +32,7 @@ public class YccWorkEvaluationService {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
+        // TODO: util로 뺼 것
         List<PdfImage> pdfImages = pdfFilePort.convertYccPdfToImage(workId);
 
         List<String> imageUrls = pdfImages.stream()
