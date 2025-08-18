@@ -5,6 +5,8 @@ import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.client.openai.prompt.WorkEvaluationPrompt;
 import com.susanghan_guys.server.global.client.openai.prompt.WorkSummaryPrompt;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
+import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
+import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,15 @@ public class OpenAiAdapter implements OpenAiPort {
                 request,
                 WorkEvaluationPrompt.buildWorkEvaluationPrompt(),
                 YccWorkEvaluationResponse.class
+        );
+    }
+
+    @Override
+    public YccDetailEvaluationResponse createDetailEvaluation(OpenAiRequest request, EvaluationType type) {
+        return openAiClient.callWithStructuredOutput(
+                request,
+                WorkEvaluationPrompt.buildYccDetailEvaluationPrompt(type),
+                YccDetailEvaluationResponse.class
         );
     }
 }

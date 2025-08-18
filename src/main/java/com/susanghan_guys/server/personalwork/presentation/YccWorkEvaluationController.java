@@ -2,6 +2,8 @@ package com.susanghan_guys.server.personalwork.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.personalwork.application.YccWorkEvaluationService;
+import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
+import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,5 +23,13 @@ public class YccWorkEvaluationController {
     @PostMapping("/ycc/{workId}/evaluation")
     public CommonResponse<YccWorkEvaluationResponse> createYccWorkEvaluation(@PathVariable Long workId) {
         return CommonResponse.success(YCC_WORK_SUMMARY_SUCCESS, yccWorkEvaluationService.createYccWorkEvaluation(workId));
+    }
+
+    @PostMapping("/ycc/{workId}/evaluation/{type}")
+    public CommonResponse<YccDetailEvaluationResponse> createYccDetailEvaluation(
+            @PathVariable Long workId,
+            @PathVariable EvaluationType type
+    ) {
+        return CommonResponse.success(YCC_WORK_SUMMARY_SUCCESS, yccWorkEvaluationService.createYccDetailEvaluation(workId, type));
     }
 }
