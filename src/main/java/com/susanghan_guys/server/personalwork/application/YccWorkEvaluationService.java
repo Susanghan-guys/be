@@ -5,7 +5,7 @@ import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
-import com.susanghan_guys.server.personalwork.dto.response.WorkEvaluationResponse;
+import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.exception.WorkException;
@@ -19,14 +19,14 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class WorkEvaluationService {
+public class YccWorkEvaluationService {
 
     private final CurrentUserProvider currentUserProvider;
     private final WorkRepository workRepository;
     private final OpenAiPort openAiPort;
     private final PdfFilePort pdfFilePort;
 
-    public WorkEvaluationResponse createYccWorkEvaluation(Long workId) {
+    public YccWorkEvaluationResponse createYccWorkEvaluation(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
         Work work = workRepository.findById(workId)
