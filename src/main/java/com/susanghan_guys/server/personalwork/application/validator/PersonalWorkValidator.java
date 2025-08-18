@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class WorkSummaryValidator {
+public class PersonalWorkValidator {
 
     private final WorkRepository workRepository;
 

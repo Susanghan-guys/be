@@ -2,9 +2,10 @@ package com.susanghan_guys.server.personalwork.application;
 
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
+import com.susanghan_guys.server.personalwork.application.factory.OpenAiFactory;
 import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
-import com.susanghan_guys.server.personalwork.application.validator.WorkSummaryValidator;
+import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.file.domain.PdfImage;
@@ -23,13 +24,14 @@ public class WorkSummaryService {
     private final CurrentUserProvider currentUserProvider;
     private final WorkRepository workRepository;
     private final OpenAiPort openAiPort;
-    private final WorkSummaryValidator workSummaryValidator;
+    private final OpenAiFactory openAiFactory;
+    private final PersonalWorkValidator personalWorkValidator;
     private final PdfFilePort pdfFilePort;
 
     public WorkSummaryResponse createDcaWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
-        workSummaryValidator.validatePersonalWorkOwner(workId, user);
+        personalWorkValidator.validatePersonalWorkOwner(workId, user);
 
         List<String> imageUrls = new ArrayList<>(workRepository.findWorkContentByWorkId(workId));
 
@@ -42,7 +44,7 @@ public class WorkSummaryService {
                         .filter(Objects::nonNull)
                         .toList()
         );
-        workSummaryValidator.validatePersonalWork(imageUrls);
+        personalWorkValidator.validatePersonalWork(imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
 
@@ -54,18 +56,9 @@ public class WorkSummaryService {
     public WorkSummaryResponse createYccWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
-        workSummaryValidator.validatePersonalWorkOwner(workId, user);
+        personalWorkValidator.validatePersonalWorkOwner(workId, user);
 
-        List<PdfImage> pdfImages = pdfFilePort.convertYccPdfToImage(workId);
-
-        List<String> imageUrls = pdfImages.stream()
-                .map(PdfImage::getImageUrl)
-                .filter(Objects::nonNull)
-                .toList();
-
-        workSummaryValidator.validatePersonalWork(imageUrls);
-
-        OpenAiRequest request = new OpenAiRequest(imageUrls);
+        OpenAiRequest request = openAiFactory.buildYccOpenAiRequest(workId);
 
         // TODO: DB 저장 코드 구현
 
