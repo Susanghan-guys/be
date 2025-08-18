@@ -4,7 +4,7 @@ import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
-import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
+import com.susanghan_guys.server.personalwork.application.validator.WorkSummaryValidator;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.file.domain.PdfImage;
@@ -18,18 +18,18 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class PersonalWorkService {
+public class WorkSummaryService {
 
     private final CurrentUserProvider currentUserProvider;
     private final WorkRepository workRepository;
     private final OpenAiPort openAiPort;
-    private final PersonalWorkValidator personalWorkValidator;
+    private final WorkSummaryValidator workSummaryValidator;
     private final PdfFilePort pdfFilePort;
 
     public WorkSummaryResponse createDcaWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
-        personalWorkValidator.validatePersonalWorkOwner(workId, user);
+        workSummaryValidator.validatePersonalWorkOwner(workId, user);
 
         List<String> imageUrls = new ArrayList<>(workRepository.findWorkContentByWorkId(workId));
 
@@ -42,7 +42,7 @@ public class PersonalWorkService {
                         .filter(Objects::nonNull)
                         .toList()
         );
-        personalWorkValidator.validatePersonalWork(imageUrls);
+        workSummaryValidator.validatePersonalWork(imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
 
@@ -54,7 +54,7 @@ public class PersonalWorkService {
     public WorkSummaryResponse createYccWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
-        personalWorkValidator.validatePersonalWorkOwner(workId, user);
+        workSummaryValidator.validatePersonalWorkOwner(workId, user);
 
         List<PdfImage> pdfImages = pdfFilePort.convertYccPdfToImage(workId);
 
@@ -63,7 +63,7 @@ public class PersonalWorkService {
                 .filter(Objects::nonNull)
                 .toList();
 
-        personalWorkValidator.validatePersonalWork(imageUrls);
+        workSummaryValidator.validatePersonalWork(imageUrls);
 
         OpenAiRequest request = new OpenAiRequest(imageUrls);
 

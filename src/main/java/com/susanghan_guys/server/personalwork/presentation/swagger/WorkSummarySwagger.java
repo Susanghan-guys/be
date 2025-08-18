@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "[개인 출품작 분석]", description = "개인 출품작 분석 관련 API")
-public interface PersonalWorkSwagger {
+public interface WorkSummarySwagger {
     @Operation(
             summary = "DCA 개인 출품작 요약 생성 API",
             description = """
