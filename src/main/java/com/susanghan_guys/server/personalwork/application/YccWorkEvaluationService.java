@@ -8,8 +8,6 @@ import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
 import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
-import com.susanghan_guys.server.user.domain.User;
-import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
@@ -29,20 +27,8 @@ public class YccWorkEvaluationService {
     private final PdfFilePort pdfFilePort;
 
     public YccWorkEvaluationResponse createYccWorkEvaluation(Long workId) {
-        User user = currentUserProvider.getCurrentUser();
-
-        Work work = workRepository.findById(workId)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
-
-        // TODO: util로 뺼 것
-        List<PdfImage> pdfImages = pdfFilePort.convertYccPdfToImage(workId);
-
-        List<String> imageUrls = pdfImages.stream()
-                .map(PdfImage::getImageUrl)
-                .filter(Objects::nonNull)
-                .toList();
-
-        OpenAiRequest request = new OpenAiRequest(imageUrls);
+        currentUserProvider.getCurrentUser();
+        OpenAiRequest request = buildOpenAiRequest(workId);
 
         // TODO: DB 저장 코드 구현
 
@@ -50,22 +36,23 @@ public class YccWorkEvaluationService {
     }
 
     public YccDetailEvaluationResponse createYccDetailEvaluation(Long workId, EvaluationType type) {
-
-        Work work = workRepository.findById(workId)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
-
-        // TODO: util로 뺼 것
-        List<PdfImage> pdfImages = pdfFilePort.convertYccPdfToImage(workId);
-
-        List<String> imageUrls = pdfImages.stream()
-                .map(PdfImage::getImageUrl)
-                .filter(Objects::nonNull)
-                .toList();
-
-        OpenAiRequest request = new OpenAiRequest(imageUrls);
+        currentUserProvider.getCurrentUser();
+        OpenAiRequest request = buildOpenAiRequest(workId);
 
         // TODO: DB 저장 코드 구현
 
         return openAiPort.createDetailEvaluation(request, type);
+    }
+
+    private OpenAiRequest buildOpenAiRequest(Long workId) {
+        workRepository.findById(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+        List<String> imageUrls = pdfFilePort.convertYccPdfToImage(workId).stream()
+                .map(PdfImage::getImageUrl)
+                .filter(Objects::nonNull)
+                .toList();
+
+        return new OpenAiRequest(imageUrls);
     }
 }

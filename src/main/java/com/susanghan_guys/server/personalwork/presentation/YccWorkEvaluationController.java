@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.YCC_WORK_SUMMARY_SUCCESS;
+import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.YCC_WORK_EVALUATION_SUCCESS;
+import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.YCC_WORK_DETAIL_EVALUATION_SUCCESS;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class YccWorkEvaluationController {
 
     @PostMapping("/ycc/{workId}/evaluation")
     public CommonResponse<YccWorkEvaluationResponse> createYccWorkEvaluation(@PathVariable Long workId) {
-        return CommonResponse.success(YCC_WORK_SUMMARY_SUCCESS, yccWorkEvaluationService.createYccWorkEvaluation(workId));
+        return CommonResponse.success(YCC_WORK_EVALUATION_SUCCESS, yccWorkEvaluationService.createYccWorkEvaluation(workId));
     }
 
     @PostMapping("/ycc/{workId}/evaluation/{type}")
@@ -30,6 +31,6 @@ public class YccWorkEvaluationController {
             @PathVariable Long workId,
             @PathVariable EvaluationType type
     ) {
-        return CommonResponse.success(YCC_WORK_SUMMARY_SUCCESS, yccWorkEvaluationService.createYccDetailEvaluation(workId, type));
+        return CommonResponse.success(YCC_WORK_DETAIL_EVALUATION_SUCCESS, yccWorkEvaluationService.createYccDetailEvaluation(workId, type));
     }
 }
