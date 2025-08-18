@@ -4,9 +4,11 @@ import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.personalwork.application.factory.OpenAiFactory;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
+import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
 import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
+import com.susanghan_guys.server.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +19,13 @@ public class YccWorkEvaluationService {
     private final CurrentUserProvider currentUserProvider;
     private final OpenAiPort openAiPort;
     private final OpenAiFactory openAiFactory;
+    private final PersonalWorkValidator personalWorkValidator;
 
     public YccWorkEvaluationResponse createYccWorkEvaluation(Long workId) {
-        currentUserProvider.getCurrentUser();
+        User user = currentUserProvider.getCurrentUser();
+
+        personalWorkValidator.validatePersonalWorkOwner(workId, user);
+
         OpenAiRequest request = openAiFactory.buildYccOpenAiRequest(workId);
 
         // TODO: DB 저장 코드 구현
@@ -28,7 +34,10 @@ public class YccWorkEvaluationService {
     }
 
     public YccDetailEvaluationResponse createYccDetailEvaluation(Long workId, EvaluationType type) {
-        currentUserProvider.getCurrentUser();
+        User user = currentUserProvider.getCurrentUser();
+
+        personalWorkValidator.validatePersonalWorkOwner(workId, user);
+
         OpenAiRequest request = openAiFactory.buildYccOpenAiRequest(workId);
 
         // TODO: DB 저장 코드 구현
