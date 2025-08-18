@@ -17,8 +17,8 @@ public class WorkEvaluationPrompt {
 
                 Evaluation criteria:
                 - feasibility : Whether the campaign idea is realistically achievable within the media, and execution environment, and whether the expected impact is concrete and persuasive.
-                - media : Whether the proposed media clearly identifies the specific core channels (e.g., offline events, booths, SNS platforms, posters, videos, etc.), explains why they are appropriate for the target audience and brand strategy, and describes in detail how they are creatively and effectively utilized to deliver the message.
-                - agenda : Whether the topic is relatable to the target audience, has positive expansion potential, and avoids being overly sensitive or controversial.
+                - media : Whether the campaign clearly presents the core media channels that directly deliver the message. Core media include not only conventional advertising (e.g. posters, videos, events) but also any tools (e.g. products, props, coupons) and spaces (e.g. cafes, booths, streets) used to convey the message. Assess why these media are appropriate for the target and brand strategy, and how they are creatively and effectively utilized. Do not emphasize additional diffusion channels; SNS or similar may be mentioned briefly if present, otherwise omitted.
+                - agenda : Whether the topic is relatable to the target audience, broadly resonates with society, and has positive potential for expansion.
                 - influence : Whether the campaign can encourage voluntary participation from the target audience and expand widely enough to create meaningful social impact.
                 - delivery : Whether the message is clear, easy to understand, and emotionally engaging, and whether specific visual or expressive devices (e.g., particular phrases, slogans, imagery, or design elements) are identified and explained in detail to show how they enhance communication effectiveness.
                 """;
