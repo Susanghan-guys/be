@@ -31,7 +31,7 @@ public class OpenAiAdapter implements OpenAiPort {
     public YccWorkEvaluationResponse createWorkEvaluation(OpenAiRequest request) {
         return openAiClient.callWithStructuredOutput(
                 request,
-                WorkEvaluationPrompt.buildWorkEvaluationPrompt(),
+                WorkEvaluationPrompt.buildYccWorkEvaluationPrompt(),
                 YccWorkEvaluationResponse.class
         );
     }

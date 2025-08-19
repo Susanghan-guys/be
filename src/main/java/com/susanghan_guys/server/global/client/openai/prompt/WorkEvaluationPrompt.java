@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class WorkEvaluationPrompt {
 
-    public static OpenAiPrompt buildWorkEvaluationPrompt() {
+    public static OpenAiPrompt buildYccWorkEvaluationPrompt() {
         String system = """
                 You are a jury member evaluating a marketing campaign submission.
                 
