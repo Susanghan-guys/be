@@ -33,10 +33,10 @@ public enum DetailEvalType {
     PROBLEM_DIFFERENTIATION("문제 정의의 차별성", "prompt", EvaluationType.PROBLEM_DEFINITION),
 
     // DCA - 실현 가능성
-    FEAS_TECH("기술적/제작적 실현 가능성", "Whether the campaign idea can be implemented with existing technology.", EvaluationType.FEASIBILITY),
-    FEAS_CONCRETENESS("실행의 구체성", "Whether the campaign idea is logically connected to the target’s characteristics and effectively reflects their motivations, emotions, and behaviors", EvaluationType.FEASIBILITY),
-    FEAS_EFFECT_PERSUASION("기대 효과의 설득력", "Whether the expected outcomes and positive changes from the campaign are realistic and convincing.", EvaluationType.FEASIBILITY),
-    FEAS_ASSUMPTION_VALIDITY("전제의 합리성", "Whether the conditions required for the campaign are realistic, not overly idealized or impractical.", EvaluationType.FEASIBILITY),
+    FEAS_TECH("기술적/제작적 실현 가능성", "Whether the campaign idea can be realistically implemented with existing technology and production conditions, considering durability, usability, and potential technical limitations.", EvaluationType.FEASIBILITY),
+    FEAS_CONCRETENESS("실행의 구체성", "Whether the campaign idea provides a clear step-by-step execution plan that logically connects actions (e.g., object use, media flow, registration process) without ambiguity.", EvaluationType.FEASIBILITY),
+    FEAS_EFFECT_PERSUASION("기대 효과의 설득력", "Whether the expected outcomes, such as increased participation or behavioral change, are presented in a realistic and convincing way, beyond abstract or overly long-term assumptions.", EvaluationType.FEASIBILITY),
+    FEAS_ASSUMPTION_VALIDITY("전제의 합리성", "Whether the conditions required for the campaign are practical and not overly idealized, ensuring that the target environment and audience scope make sense without unrealistic expectations.", EvaluationType.FEASIBILITY),
     FEAS_VISUAL_PLAN("실행 방안의 시각적 표현", "prompt", EvaluationType.FEASIBILITY),
 
     // DCA_FILM - 스토리텔링
@@ -54,7 +54,7 @@ public enum DetailEvalType {
     EMOTIONAL_ENGAGEMENT("감정적 몰입 유도", "prompt", EvaluationType.DIRECTION),
 
     // YCC - 실현 가능성
-    FEAS_SIMPLE_INTERVENTION("간단한 개입으로 연결 가능한 구조", "Whether the campaign can be easily understood and joined by individuals through a simple and direct participation structure.", EvaluationType.FEASIBILITY),
+    FEAS_SIMPLE_INTERVENTION("간단한 개입으로 연결 가능한 구조", "Whether the campaign’s participation structure is simple, intuitive, and directly connects everyday actions to campaign engagement in a seamless way.", EvaluationType.FEASIBILITY),
 
     // YCC - 매체 선정
     MEDIA_EASE("실행 용이성", "Whether the media plan can be realistically executed within budget and technical constraints.", EvaluationType.MEDIA_SELECTION),
