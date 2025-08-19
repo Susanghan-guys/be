@@ -1,9 +1,6 @@
 package com.susanghan_guys.server.personalwork.domain.type;
 
-import com.susanghan_guys.server.work.domain.type.WorkType;
 import lombok.Getter;
-
-import java.util.Set;
 
 @Getter
 public enum DetailEvalType {
