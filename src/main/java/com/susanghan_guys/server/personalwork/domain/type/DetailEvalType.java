@@ -19,11 +19,11 @@ public enum DetailEvalType {
     MARKET_TIMELINESS("시장 및 브랜드 시의성 반영 여부", "prompt", EvaluationType.BRAND_UNDERSTANDING),
 
     // DCA - 매체 선정
-    MEDIA_STRATEGY_FIT("캠페인 목적에 적합한 매체 전략 선정 여부", "Whether the chosen media type and format align with the campaign’s main objectives (awareness, engagement, brand experience, etc.).", EvaluationType.MEDIA_SELECTION),
-    MEDIA_CREATIVITY("매체 활용의 창의성 및 확장성", "Whether existing media are used in innovative ways or new media opportunities are explored.", EvaluationType.MEDIA_SELECTION),
-    MEDIA_CONTEXTUALITY("맥락 및 상황에 기반한 매체 활용 여부", "Whether media placement and usage are tailored to the target’s daily life, situations, and context.", EvaluationType.MEDIA_SELECTION),
+    MEDIA_STRATEGY_FIT("캠페인 목적에 적합한 매체 전략 선정 여부", "Whether the chosen media type and format strategically align with the campaign’s main objectives (e.g., awareness, prevention, engagement, or brand experience), ensuring that the medium itself reinforces the campaign’s purpose.", EvaluationType.MEDIA_SELECTION),
+    MEDIA_CREATIVITY("매체 활용의 창의성 및 확장성", "Whether the campaign redefines or extends the meaning of existing media in a creative way, or discovers new opportunities for expansion beyond conventional usage.", EvaluationType.MEDIA_SELECTION),
+    MEDIA_CONTEXTUALITY("맥락 및 상황에 기반한 매체 활용 여부", "Whether media placement and usage are contextually relevant, integrating naturally into the target’s daily life, behaviors, and environments so the message feels timely and situationally appropriate.", EvaluationType.MEDIA_SELECTION),
     MEDIA_SYNERGY("채널 간 유기성 및 시너지 구조 (기획서 형식만)", "prompt", EvaluationType.MEDIA_SELECTION),
-    MESSAGE_CLARITY("메시지 전달 방식의 직관성", "Whether the content delivered through media is simple, instantly understandable, and prompts direct reactions from the target.", EvaluationType.MEDIA_SELECTION),
+    MESSAGE_CLARITY("메시지 전달 방식의 직관성", "Whether the message delivered through the chosen media is simple, instantly understandable, and directly prompts recognition or action from the target without confusion.", EvaluationType.MEDIA_SELECTION),
 
     // DCA - 문제 정의
     PROBLEM_CLARITY("문제 정의의 명확성과 설득력", "prompt", EvaluationType.PROBLEM_DEFINITION),
@@ -57,7 +57,7 @@ public enum DetailEvalType {
     FEAS_SIMPLE_INTERVENTION("간단한 개입으로 연결 가능한 구조", "Whether the campaign’s participation structure is simple, intuitive, and directly connects everyday actions to campaign engagement in a seamless way.", EvaluationType.FEASIBILITY),
 
     // YCC - 매체 선정
-    MEDIA_EASE("실행 용이성", "Whether the media plan can be realistically executed within budget and technical constraints.", EvaluationType.MEDIA_SELECTION),
+    MEDIA_EASE("실행 용이성", "Whether the media plan is practically feasible within budget, production, and technical constraints, ensuring that execution remains realistic even for modest resources or student-level implementation.", EvaluationType.MEDIA_SELECTION),
 
     // YCC - 아젠다 선정
     AGENDA_DAILY_LIFE("생활 밀착도", "Whether the campaign insightfully reframes everyday inconveniences or risks into a relatable issue that feels urgent and meaningful, rather than merely describing common problems.", EvaluationType.AGENDA_SELECTION),
