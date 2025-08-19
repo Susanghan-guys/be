@@ -74,11 +74,11 @@ public enum DetailEvalType {
     IMPACT_BUZZ("화제성", "Whether the campaign generates public buzz or cultural resonance that can spread widely and organically across media and communities.", EvaluationType.INFLUENCE),
 
     // YCC - 전달력
-    DELIVERY_STORY("스토리텔링", "Whether the campaign goes beyond information delivery and immerses the target in a compelling story structure.", EvaluationType.DELIVERY),
-    DELIVERY_EMPATHY("공감 유도", "Whether the message resonates emotionally with the audience, generating empathetic responses.", EvaluationType.DELIVERY),
-    DELIVERY_CRAFT("시각, 언어 표현의 완성도", "Whether visual and verbal expressions effectively heighten the campaign’s mood and impact.", EvaluationType.DELIVERY),
-    DELIVERY_LOGIC("논리성", "Whether the message is logically connected to the issue, insights, and ideas being addressed.", EvaluationType.DELIVERY),
-    DELIVERY_NAMING("직관적인 네이밍", "Whether slogans, taglines, or names are clear, memorable, and quickly understood by the audience.", EvaluationType.DELIVERY);
+    DELIVERY_STORY("스토리텔링", "Whether the campaign goes beyond information delivery and immerses the target in a compelling story-like flow where the process itself feels experiential and naturally engaging.", EvaluationType.DELIVERY),
+    DELIVERY_EMPATHY("공감 유도", "Whether the campaign’s message resonates emotionally, allowing the audience to intuitively feel the seriousness or relevance of the issue, especially through familiar or personal elements that trigger empathy.", EvaluationType.DELIVERY),
+    DELIVERY_CRAFT("시각, 언어 표현의 완성도", "Whether visual elements (e.g., objects, symbols, design) and verbal expressions (e.g., slogans, copy) work together with clarity and polish, reinforcing the message so it is easily memorable and impactful.", EvaluationType.DELIVERY),
+    DELIVERY_LOGIC("논리성", "Whether the message is presented with logical consistency, connecting the problem, insights, and solution clearly and persuasively so that the flow feels coherent and evidence-based.", EvaluationType.DELIVERY),
+    DELIVERY_NAMING("직관적인 네이밍", "Whether slogans, taglines, or names are intuitive, concise, and memorable enough to instantly convey the campaign’s core idea and leave a strong impression in a short moment.", EvaluationType.DELIVERY);
 
     private final String label;
     private final String prompt;
