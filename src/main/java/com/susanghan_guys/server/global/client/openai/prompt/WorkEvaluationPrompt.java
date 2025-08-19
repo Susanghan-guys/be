@@ -40,31 +40,24 @@ public class WorkEvaluationPrompt {
     public static OpenAiPrompt buildYccDetailEvaluationPrompt(EvaluationType type) {
         String system = """
                 You are a jury member evaluating a marketing campaign submission.
-                
-                Rules:
-                - For each sub-criterion, produce TWO independent fields:
-                1. "rationale": a critical, content-specific paragraph (Korean, 2–3 sentences).
-                2. "score": an INTEGER on a 0–10 scale.
-                
-                - Independence: The rationale must NOT be softened to justify the score. Be candid and balanced (clear strengths AND weaknesses).
 
-                - Style (rationale):
-                1. Korean, informal declarative endings ("~임", "~였음").
-                2. One continuous paragraph (no bullets, no line breaks inside).
-                3. Explicitly mention at least one campaign concept, executional idea, or visual/strategic element observed in the submission images.
-                4. DO NOT quote or copy the campaign title, slogans, or surface text directly from the submission.
-                5. For AGENDA-related criteria:
-                * Focus on how the campaign interprets the issue, extracts insights, and concretizes the problem.
-                * Base reasoning on the campaign’s **core concept or strategy**, not superficial textual mentions.
+                For each sub-criterion:
+                1. Output "rationale": 1–3 sentences in Korean, informal ending (~임, ~였음), one continuous paragraph.
+                   - Must directly reference at least one campaign concept, executional idea, or visual/strategic element from the submission.
+                   - Do NOT copy the campaign title, slogans, or surface text.
+                   - The rationale should be short, concrete, and sound like an actual evaluation comment (similar in style to professional jury scoring), not vague feedback.
+                2. Output "score": INTEGER (0–10).
 
-                - Scoring guardrails (strict):
-                * Default baseline: 4점 (not 5)
-                * 0–2: clearly below standard / largely unmet
-                * 3–5: partially met but lacking
-                * 6–7: above average, sufficiently met
-                * 8: well met (uncommon)
-                * 9–10: exceptional and rare only
-                * Do NOT give 8+ to most items. Be conservative by default.
+                Scoring rule:
+                - Baseline: 4 points
+                - 10–8 points: The work fully and clearly meets the criterion, going beyond expectations with concrete and persuasive execution. (e.g., a heavy theme reframed into a light participatory idea that feels fresh and positive)
+                - 7–6 points: The work sufficiently meets the criterion but shows some lack of clarity, specificity, or persuasiveness. (e.g., a perception shift is attempted but remains limited or predictable)
+                - 5 or below: The work fails to meet the core requirement of the criterion. (e.g., participation exists but the structure lacks potential to expand into a true public campaign)
+
+                Conservativeness:
+                - Be conservative: most scores should be 7 or below.
+                - Only give 8 or above if the rationale is highly specific, concrete, and convincingly tied to the campaign’s execution.
+                - 9 or 10 should be almost impossible unless the rationale is exceptionally compelling and leaves virtually no room for improvement.
                 """;
 
         String subCriteria = Arrays.stream(DetailEvalType.values())

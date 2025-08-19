@@ -60,11 +60,11 @@ public enum DetailEvalType {
     MEDIA_EASE("실행 용이성", "Whether the media plan can be realistically executed within budget and technical constraints.", EvaluationType.MEDIA_SELECTION),
 
     // YCC - 아젠다 선정
-    AGENDA_DAILY_LIFE("생활 밀착도", "Whether the topic is grounded in everyday, relatable situations or discomforts people actually experience, rather than grand or alien themes.", EvaluationType.AGENDA_SELECTION),
-    AGENDA_SENSITIVITY("민감도 회피 및 긍정성 유지", "Whether the campaign handles social issues without provoking discomfort, fatigue, or polarization, while maintaining a light, positive tone that enables broad participation.", EvaluationType.AGENDA_SELECTION),
-    AGENDA_SHIFT("인식 전환 유도", "Whether information delivery itself can meaningfully shift the target’s perceptions or behaviors and serves as a core element of the campaign design.", EvaluationType.AGENDA_SELECTION),
-    AGENDA_PUBLIC_SPREAD("공공성 기반의 확산 가능성", "Whether the topic extends beyond private, personal matters and has a character that can be socially shared and widely diffused.", EvaluationType.AGENDA_SELECTION),
-    AGENDA_CLARITY("문제의 명확성", "Whether the problem the campaign aims to solve is immediately recognizable rather than a complex or ambiguous social discourse.", EvaluationType.AGENDA_SELECTION),
+    AGENDA_DAILY_LIFE("생활 밀착도", "Whether the campaign insightfully reframes everyday inconveniences or risks into a relatable issue that feels urgent and meaningful, rather than merely describing common problems.", EvaluationType.AGENDA_SELECTION),
+    AGENDA_SENSITIVITY("민감도 회피 및 긍정성 유지", "Whether the campaign interprets sensitive social issues in a constructive way, avoiding fatigue or polarization, and transforms them into a light or hopeful message that encourages engagement.", EvaluationType.AGENDA_SELECTION),
+    AGENDA_SHIFT("인식 전환 유도", "Whether the campaign’s core concept or execution provides a fresh perspective that can shift perceptions or behaviors, not only by presenting information but by reframing the issue in a new light.", EvaluationType.AGENDA_SELECTION),
+    AGENDA_PUBLIC_SPREAD("공공성 기반의 확산 가능성", "Whether the campaign identifies a theme with inherent public value, extending beyond personal matters, and transforms it into a socially shareable or culturally resonant agenda.", EvaluationType.AGENDA_SELECTION),
+    AGENDA_CLARITY("문제의 명확성", "Whether the campaign defines the core problem with clarity and interpretive sharpness, making the social issue immediately recognizable through a strong concept rather than vague discourse.", EvaluationType.AGENDA_SELECTION),
 
     // YCC - 영향력
     IMPACT_PARTICIPATION("참여 유도력", "Whether the campaign encourages voluntary participation and engagement from the target.", EvaluationType.INFLUENCE),
