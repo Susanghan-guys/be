@@ -67,11 +67,11 @@ public enum DetailEvalType {
     AGENDA_CLARITY("문제의 명확성", "Whether the campaign defines the core problem with clarity and interpretive sharpness, making the social issue immediately recognizable through a strong concept rather than vague discourse.", EvaluationType.AGENDA_SELECTION),
 
     // YCC - 영향력
-    IMPACT_PARTICIPATION("참여 유도력", "Whether the campaign encourages voluntary participation and engagement from the target.", EvaluationType.INFLUENCE),
-    IMPACT_MEASURABLE("성과 측정 가능성", "Whether expected outcomes are defined clearly enough to be measured and analyzed after execution.", EvaluationType.INFLUENCE),
-    IMPACT_SCALABILITY("확장성", "Whether the campaign can expand naturally across different contexts, targets, and channels.", EvaluationType.INFLUENCE),
-    IMPACT_EFFECTIVENESS("실효성", "Whether the campaign contributes practically to solving the issue, not remaining at the conceptual stage.", EvaluationType.INFLUENCE),
-    IMPACT_BUZZ("화제성", "Whether the campaign creates cultural buzz or attention that can spread widely and naturally.", EvaluationType.INFLUENCE),
+    IMPACT_PARTICIPATION("참여 유도력", "Whether the campaign encourages spontaneous and voluntary participation from the target, going beyond passive reception.", EvaluationType.INFLUENCE),
+    IMPACT_MEASURABLE("성과 측정 가능성", "Whether expected outcomes are defined with specific KPIs or data points, making them measurable and analyzable after execution.", EvaluationType.INFLUENCE),
+    IMPACT_SCALABILITY("확장성", "Whether the campaign can expand naturally across different contexts, targets, and channels without losing its core message.", EvaluationType.INFLUENCE),
+    IMPACT_EFFECTIVENESS("실효성", "Whether the campaign contributes practically to solving the issue, moving beyond symbolic gestures or remaining at the conceptual stage.", EvaluationType.INFLUENCE),
+    IMPACT_BUZZ("화제성", "Whether the campaign generates public buzz or cultural resonance that can spread widely and organically across media and communities.", EvaluationType.INFLUENCE),
 
     // YCC - 전달력
     DELIVERY_STORY("스토리텔링", "Whether the campaign goes beyond information delivery and immerses the target in a compelling story structure.", EvaluationType.DELIVERY),
