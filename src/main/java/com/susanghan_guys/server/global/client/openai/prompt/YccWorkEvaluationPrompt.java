@@ -15,7 +15,7 @@ public class YccWorkEvaluationPrompt {
                 
                 For each criterion below:
                 - Use the Korean criterion name exactly as given.
-                - Write 1–3 sentences in Korean, based only on the submission.
+                - Write 1–3 sentences in Korean, based only on the submission images.
                 - Include concrete evidence (e.g., target traits, campaign message, chosen media, execution details, tone/manner).
                 - End every sentence with an informal declarative ending (e.g., "~임", "~였음").
                 - Do NOT mention or imply any scores, ratings, rankings, or numeric evaluations.
@@ -29,8 +29,6 @@ public class YccWorkEvaluationPrompt {
                 """;
 
         String user = """
-                Submission Description: {submission_description}
-
                 Please write the evaluation for each criterion in the order above, with the criterion name followed by the paragraph of rationale.
                 """;
 

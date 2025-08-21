@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum FileSuccessCode implements BaseCode {
 
-    DCA_CONVERT_SUCCESS(HttpStatus.OK, 200, "DCA Pdf To Image Covert Success"),
-    YCC_CONVERT_SUCCESS(HttpStatus.OK, 200, "YCC Pdf To Image Covert Success"),
+    DCA_CONVERT_SUCCESS(HttpStatus.OK, 200, "DCA Pdf To Image Convert Success"),
+    YCC_CONVERT_SUCCESS(HttpStatus.OK, 200, "YCC Pdf To Image Convert Success"),
     ;
 
     private final HttpStatus httpStatus;
