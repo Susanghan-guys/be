@@ -2,7 +2,7 @@ package com.susanghan_guys.server.global.client.openai.adapter;
 
 import com.susanghan_guys.server.global.client.openai.OpenAiClient;
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
-import com.susanghan_guys.server.global.client.openai.prompt.WorkEvaluationPrompt;
+import com.susanghan_guys.server.global.client.openai.prompt.YccWorkEvaluationPrompt;
 import com.susanghan_guys.server.global.client.openai.prompt.WorkSummaryPrompt;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
@@ -31,7 +31,7 @@ public class OpenAiAdapter implements OpenAiPort {
     public YccWorkEvaluationResponse createWorkEvaluation(OpenAiRequest request) {
         return openAiClient.callWithStructuredOutput(
                 request,
-                WorkEvaluationPrompt.buildYccWorkEvaluationPrompt(),
+                YccWorkEvaluationPrompt.buildYccWorkEvaluationPrompt(),
                 YccWorkEvaluationResponse.class
         );
     }
@@ -40,7 +40,7 @@ public class OpenAiAdapter implements OpenAiPort {
     public YccDetailEvaluationResponse createDetailEvaluation(OpenAiRequest request, EvaluationType type) {
         return openAiClient.callWithStructuredOutput(
                 request,
-                WorkEvaluationPrompt.buildYccDetailEvaluationPrompt(type),
+                YccWorkEvaluationPrompt.buildYccDetailEvaluationPrompt(type),
                 YccDetailEvaluationResponse.class
         );
     }

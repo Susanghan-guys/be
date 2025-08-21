@@ -7,7 +7,7 @@ import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class WorkEvaluationPrompt {
+public class YccWorkEvaluationPrompt {
 
     public static OpenAiPrompt buildYccWorkEvaluationPrompt() {
         String system = """
