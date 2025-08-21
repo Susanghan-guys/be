@@ -1,11 +1,14 @@
 package com.susanghan_guys.server.global.client.openai.adapter;
 
+import com.susanghan_guys.server.global.client.openai.DcaOpenAiRequest;
 import com.susanghan_guys.server.global.client.openai.OpenAiClient;
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
-import com.susanghan_guys.server.global.client.openai.prompt.WorkEvaluationPrompt;
+import com.susanghan_guys.server.global.client.openai.prompt.DcaWorkEvaluationPrompt;
+import com.susanghan_guys.server.global.client.openai.prompt.YccWorkEvaluationPrompt;
 import com.susanghan_guys.server.global.client.openai.prompt.WorkSummaryPrompt;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
+import com.susanghan_guys.server.personalwork.dto.response.DcaWorkEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
@@ -31,7 +34,7 @@ public class OpenAiAdapter implements OpenAiPort {
     public YccWorkEvaluationResponse createWorkEvaluation(OpenAiRequest request) {
         return openAiClient.callWithStructuredOutput(
                 request,
-                WorkEvaluationPrompt.buildYccWorkEvaluationPrompt(),
+                YccWorkEvaluationPrompt.buildYccWorkEvaluationPrompt(),
                 YccWorkEvaluationResponse.class
         );
     }
@@ -40,8 +43,17 @@ public class OpenAiAdapter implements OpenAiPort {
     public YccDetailEvaluationResponse createDetailEvaluation(OpenAiRequest request, EvaluationType type) {
         return openAiClient.callWithStructuredOutput(
                 request,
-                WorkEvaluationPrompt.buildYccDetailEvaluationPrompt(type),
+                YccWorkEvaluationPrompt.buildYccDetailEvaluationPrompt(type),
                 YccDetailEvaluationResponse.class
+        );
+    }
+
+    @Override
+    public DcaWorkEvaluationResponse createDcaWorkEvaluation(DcaOpenAiRequest request) {
+        return openAiClient.callWithStructuredOutput(
+                request,
+                DcaWorkEvaluationPrompt.buildDcaWorkEvaluationPrompt(request.brandBrief()),
+                DcaWorkEvaluationResponse.class
         );
     }
 }
