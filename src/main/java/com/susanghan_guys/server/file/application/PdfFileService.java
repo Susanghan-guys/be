@@ -2,6 +2,7 @@ package com.susanghan_guys.server.file.application;
 
 import com.susanghan_guys.server.file.exception.FileException;
 import com.susanghan_guys.server.file.exception.code.FileErrorCode;
+import com.susanghan_guys.server.file.infrastructure.mapper.PdfFileMapper;
 import com.susanghan_guys.server.global.s3.application.S3Service;
 import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
 import com.susanghan_guys.server.file.domain.PdfFile;
@@ -11,6 +12,10 @@ import com.susanghan_guys.server.file.infrastructure.persistence.PdfFileReposito
 import com.susanghan_guys.server.file.infrastructure.persistence.PdfImageRepository;
 import com.susanghan_guys.server.file.infrastructure.saver.PdfFileSaver;
 import com.susanghan_guys.server.file.domain.type.SourceType;
+import com.susanghan_guys.server.work.domain.Work;
+import com.susanghan_guys.server.work.exception.WorkException;
+import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
+import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +33,7 @@ public class PdfFileService implements PdfFilePort {
     private final PdfConverter pdfConverter;
     private final PdfFileRepository pdfFileRepository;
     private final PdfImageRepository pdfImageRepository;
+    private final WorkRepository workRepository;
 
     @Override
     @Transactional
@@ -47,7 +53,13 @@ public class PdfFileService implements PdfFilePort {
     @Transactional
     public List<PdfImage> convertYccPdfToImage(Long workId) {
         PdfFile pdfFile = pdfFileRepository.findBySourceIdAndSourceType(workId, SourceType.WORK)
-                .orElseThrow(() -> new FileException(FileErrorCode.FILE_NOT_FOUND));
+                .orElseGet(() -> {
+                    // FIXME: 현재 제출된 작품이 모두 분석되면 필수로 제거해야 함.
+                    Work work = workRepository.findById(workId)
+                            .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+                    PdfFile newPdfFile = PdfFileMapper.toEntity(work.getWork(), SourceType.WORK, work.getId());
+                    return pdfFileRepository.save(newPdfFile);
+                });
 
         return convertAllPdfToImage(pdfFile, "ycc-images");
     }

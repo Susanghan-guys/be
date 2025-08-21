@@ -19,11 +19,11 @@ public enum DetailEvalType {
     MARKET_TIMELINESS("시장 및 브랜드 시의성 반영 여부", "prompt", EvaluationType.BRAND_UNDERSTANDING),
 
     // DCA - 매체 선정
-    MEDIA_STRATEGY_FIT("캠페인 목적에 적합한 매체 전략 선정 여부", "prompt", EvaluationType.MEDIA_SELECTION),
-    MEDIA_CREATIVITY("매체 활용의 창의성 및 확장성", "prompt", EvaluationType.MEDIA_SELECTION),
-    MEDIA_CONTEXTUALITY("맥락 및 상황에 기반한 매체 활용 여부", "prompt", EvaluationType.MEDIA_SELECTION),
-    MEDIA_SYNERGY("채널 간 유기성 및 시너지 구조 (기획서 형식만)", "prompt", EvaluationType.MEDIA_SELECTION),
-    MESSAGE_CLARITY("메시지 전달 방식의 직관성", "prompt", EvaluationType.MEDIA_SELECTION),
+    DCA_MEDIA_STRATEGY_FIT("캠페인 목적에 적합한 매체 전략 선정 여부", "Whether the chosen media type and format strategically align with the campaign’s main objectives (e.g., awareness, prevention, engagement, or brand experience), ensuring that the medium itself reinforces the campaign’s purpose.", EvaluationType.DCA_MEDIA_SELECTION),
+    DCA_MEDIA_CREATIVITY("매체 활용의 창의성 및 확장성", "Whether the campaign redefines or extends the meaning of existing media in a creative way, or discovers new opportunities for expansion beyond conventional usage.", EvaluationType.DCA_MEDIA_SELECTION),
+    DCA_MEDIA_CONTEXTUALITY("맥락 및 상황에 기반한 매체 활용 여부", "Whether media placement and usage are contextually relevant, integrating naturally into the target’s daily life, behaviors, and environments so the message feels timely and situationally appropriate.", EvaluationType.DCA_MEDIA_SELECTION),
+    DCA_MEDIA_SYNERGY("채널 간 유기성 및 시너지 구조 (기획서 형식만)", "prompt", EvaluationType.DCA_MEDIA_SELECTION),
+    DCA_MESSAGE_CLARITY("메시지 전달 방식의 직관성", "Whether the message delivered through the chosen media is simple, instantly understandable, and directly prompts recognition or action from the target without confusion.", EvaluationType.DCA_MEDIA_SELECTION),
 
     // DCA - 문제 정의
     PROBLEM_CLARITY("문제 정의의 명확성과 설득력", "prompt", EvaluationType.PROBLEM_DEFINITION),
@@ -33,11 +33,11 @@ public enum DetailEvalType {
     PROBLEM_DIFFERENTIATION("문제 정의의 차별성", "prompt", EvaluationType.PROBLEM_DEFINITION),
 
     // DCA - 실현 가능성
-    FEAS_TECH("기술적/제작적 실현 가능성", "prompt", EvaluationType.FEASIBILITY),
-    FEAS_CONCRETENESS("실행의 구체성", "prompt", EvaluationType.FEASIBILITY),
-    FEAS_EFFECT_PERSUASION("기대 효과의 설득력", "prompt", EvaluationType.FEASIBILITY),
-    FEAS_ASSUMPTION_VALIDITY("전제의 합리성", "prompt", EvaluationType.FEASIBILITY),
-    FEAS_VISUAL_PLAN("실행 방안의 시각적 표현", "prompt", EvaluationType.FEASIBILITY),
+    DCA_FEAS_TECH("기술적/제작적 실현 가능성", "Whether the campaign idea can be realistically implemented with existing technology and production conditions, considering durability, usability, and potential technical limitations.", EvaluationType.DCA_FEASIBILITY),
+    DCA_FEAS_CONCRETENESS("실행의 구체성", "Whether the campaign idea provides a clear step-by-step execution plan that logically connects actions (e.g., object use, media flow, registration process) without ambiguity.", EvaluationType.DCA_FEASIBILITY),
+    DCA_FEAS_EFFECT_PERSUASION("기대 효과의 설득력", "Whether the expected outcomes, such as increased participation or behavioral change, are presented in a realistic and convincing way, beyond abstract or overly long-term assumptions.", EvaluationType.DCA_FEASIBILITY),
+    DCA_FEAS_ASSUMPTION_VALIDITY("전제의 합리성", "Whether the conditions required for the campaign are practical and not overly idealized, ensuring that the target environment and audience scope make sense without unrealistic expectations.", EvaluationType.DCA_FEASIBILITY),
+    DCA_FEAS_VISUAL_PLAN("실행 방안의 시각적 표현", "prompt", EvaluationType.DCA_FEASIBILITY),
 
     // DCA_FILM - 스토리텔링
     ALIGNMENT_WITH_INTENT("기획 의도 일치 여부", "prompt", EvaluationType.STORYTELLING),
@@ -54,31 +54,39 @@ public enum DetailEvalType {
     EMOTIONAL_ENGAGEMENT("감정적 몰입 유도", "prompt", EvaluationType.DIRECTION),
 
     // YCC - 실현 가능성
-    FEAS_SIMPLE_INTERVENTION("간단한 개입으로 연결 가능한 구조", "prompt", EvaluationType.FEASIBILITY),
+    YCC_FEAS_TECH("기술적/제작적 실현 가능성", "Whether the campaign idea can be realistically implemented with existing technology and production conditions, considering durability, usability, and potential technical limitations.", EvaluationType.YCC_FEASIBILITY),
+    YCC_FEAS_CONCRETENESS("실행의 구체성", "Whether the campaign idea provides a clear step-by-step execution plan that logically connects actions (e.g., object use, media flow, registration process) without ambiguity.", EvaluationType.YCC_FEASIBILITY),
+    YCC_FEAS_EFFECT_PERSUASION("기대 효과의 설득력", "Whether the expected outcomes, such as increased participation or behavioral change, are presented in a realistic and convincing way, beyond abstract or overly long-term assumptions.", EvaluationType.YCC_FEASIBILITY),
+    YCC_FEAS_ASSUMPTION_VALIDITY("전제의 합리성", "Whether the conditions required for the campaign are practical and not overly idealized, ensuring that the target environment and audience scope make sense without unrealistic expectations.", EvaluationType.YCC_FEASIBILITY),
+    YCC_FEAS_SIMPLE_INTERVENTION("간단한 개입으로 연결 가능한 구조", "Whether the campaign’s participation structure is simple, intuitive, and directly connects everyday actions to campaign engagement in a seamless way.", EvaluationType.YCC_FEASIBILITY),
 
     // YCC - 매체 선정
-    MEDIA_EASE("실행 용이성", "prompt", EvaluationType.MEDIA_SELECTION),
+    YCC_MEDIA_STRATEGY_FIT("캠페인 목적에 적합한 매체 전략 선정 여부", "Whether the chosen media type and format strategically align with the campaign’s main objectives (e.g., awareness, prevention, engagement, or brand experience), ensuring that the medium itself reinforces the campaign’s purpose.", EvaluationType.YCC_MEDIA_SELECTION),
+    YCC_MEDIA_CREATIVITY("매체 활용의 창의성 및 확장성", "Whether the campaign redefines or extends the meaning of existing media in a creative way, or discovers new opportunities for expansion beyond conventional usage.", EvaluationType.YCC_MEDIA_SELECTION),
+    YCC_MEDIA_CONTEXTUALITY("맥락 및 상황에 기반한 매체 활용 여부", "Whether media placement and usage are contextually relevant, integrating naturally into the target’s daily life, behaviors, and environments so the message feels timely and situationally appropriate.", EvaluationType.YCC_MEDIA_SELECTION),
+    YCC_MESSAGE_CLARITY("메시지 전달 방식의 직관성", "Whether the message delivered through the chosen media is simple, instantly understandable, and directly prompts recognition or action from the target without confusion.", EvaluationType.YCC_MEDIA_SELECTION),
+    YCC_MEDIA_EASE("실행 용이성", "Whether the media plan is practically feasible within budget, production, and technical constraints, ensuring that execution remains realistic even for modest resources or student-level implementation.", EvaluationType.YCC_MEDIA_SELECTION),
 
     // YCC - 아젠다 선정
-    AGENDA_DAILY_LIFE("생활 밀착도", "prompt", EvaluationType.AGENDA_SELECTION),
-    AGENDA_SENSITIVITY("민감도 회피 및 긍정성 유지", "prompt", EvaluationType.AGENDA_SELECTION),
-    AGENDA_SHIFT("인식 전환 유도", "prompt", EvaluationType.AGENDA_SELECTION),
-    AGENDA_PUBLIC_SPREAD("공공성 기반의 확산 가능성", "prompt", EvaluationType.AGENDA_SELECTION),
-    AGENDA_CLARITY("문제의 명확성", "prompt", EvaluationType.AGENDA_SELECTION),
+    AGENDA_DAILY_LIFE("생활 밀착도", "Whether the campaign insightfully reframes everyday inconveniences or risks into a relatable issue that feels urgent and meaningful, rather than merely describing common problems.", EvaluationType.AGENDA_SELECTION),
+    AGENDA_SENSITIVITY("민감도 회피 및 긍정성 유지", "Whether the campaign interprets sensitive social issues in a constructive way, avoiding fatigue or polarization, and transforms them into a light or hopeful message that encourages engagement.", EvaluationType.AGENDA_SELECTION),
+    AGENDA_SHIFT("인식 전환 유도", "Whether the campaign’s core concept or execution provides a fresh perspective that can shift perceptions or behaviors, not only by presenting information but by reframing the issue in a new light.", EvaluationType.AGENDA_SELECTION),
+    AGENDA_PUBLIC_SPREAD("공공성 기반의 확산 가능성", "Whether the campaign identifies a theme with inherent public value, extending beyond personal matters, and transforms it into a socially shareable or culturally resonant agenda.", EvaluationType.AGENDA_SELECTION),
+    AGENDA_CLARITY("문제의 명확성", "Whether the campaign defines the core problem with clarity and interpretive sharpness, making the social issue immediately recognizable through a strong concept rather than vague discourse.", EvaluationType.AGENDA_SELECTION),
 
     // YCC - 영향력
-    IMPACT_PARTICIPATION("참여 유도력", "prompt", EvaluationType.INFLUENCE),
-    IMPACT_MEASURABLE("성과 측정 가능성", "prompt", EvaluationType.INFLUENCE),
-    IMPACT_SCALABILITY("확장성", "prompt", EvaluationType.INFLUENCE),
-    IMPACT_EFFECTIVENESS("실효성", "prompt", EvaluationType.INFLUENCE),
-    IMPACT_BUZZ("화제성", "prompt", EvaluationType.INFLUENCE),
+    IMPACT_PARTICIPATION("참여 유도력", "Whether the campaign encourages spontaneous and voluntary participation from the target, going beyond passive reception.", EvaluationType.INFLUENCE),
+    IMPACT_MEASURABLE("성과 측정 가능성", "Whether the campaign enables outcomes to be measured and analyzed after execution. Even if specific indicators are not explicitly stated, the campaign should provide enough clarity for observers to reasonably infer measurable aspects.", EvaluationType.INFLUENCE),
+    IMPACT_SCALABILITY("확장성", "Whether the campaign can expand naturally across different contexts, targets, and channels without losing its core message.", EvaluationType.INFLUENCE),
+    IMPACT_EFFECTIVENESS("실효성", "Whether the campaign contributes practically to solving the issue, moving beyond symbolic gestures or remaining at the conceptual stage.", EvaluationType.INFLUENCE),
+    IMPACT_BUZZ("화제성", "Whether the campaign generates public buzz or cultural resonance that can spread widely and organically across media and communities.", EvaluationType.INFLUENCE),
 
     // YCC - 전달력
-    DELIVERY_STORY("스토리텔링", "prompt", EvaluationType.DELIVERY),
-    DELIVERY_EMPATHY("공감 유도", "prompt", EvaluationType.DELIVERY),
-    DELIVERY_CRAFT("시각, 언어 표현의 완성도", "prompt", EvaluationType.DELIVERY),
-    DELIVERY_LOGIC("논리성", "prompt", EvaluationType.DELIVERY),
-    DELIVERY_NAMING("직관적인 네이밍", "prompt", EvaluationType.DELIVERY);
+    DELIVERY_STORY("스토리텔링", "Whether the campaign goes beyond information delivery and immerses the target in a compelling story-like flow where the process itself feels experiential and naturally engaging.", EvaluationType.DELIVERY),
+    DELIVERY_EMPATHY("공감 유도", "Whether the campaign’s message resonates emotionally, allowing the audience to intuitively feel the seriousness or relevance of the issue, especially through familiar or personal elements that trigger empathy.", EvaluationType.DELIVERY),
+    DELIVERY_CRAFT("시각, 언어 표현의 완성도", "Whether visual elements (e.g., objects, symbols, design) and verbal expressions (e.g., slogans, copy) work together with clarity and polish, reinforcing the message so it is easily memorable and impactful.", EvaluationType.DELIVERY),
+    DELIVERY_LOGIC("논리성", "Whether the message is presented with logical consistency, connecting the problem, insights, and solution clearly and persuasively so that the flow feels coherent and evidence-based.", EvaluationType.DELIVERY),
+    DELIVERY_NAMING("직관적인 네이밍", "Whether slogans, taglines, or names are intuitive, concise, and memorable enough to instantly convey the campaign’s core idea and leave a strong impression in a short moment.", EvaluationType.DELIVERY);
 
     private final String label;
     private final String prompt;

@@ -1,9 +1,9 @@
 package com.susanghan_guys.server.personalwork.presentation;
 
 import com.susanghan_guys.server.global.common.CommonResponse;
-import com.susanghan_guys.server.personalwork.application.PersonalWorkService;
+import com.susanghan_guys.server.personalwork.application.WorkSummaryService;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
-import com.susanghan_guys.server.personalwork.presentation.swagger.PersonalWorkSwagger;
+import com.susanghan_guys.server.personalwork.presentation.swagger.WorkSummarySwagger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,19 +13,19 @@ import static com.susanghan_guys.server.personalwork.presentation.response.Perso
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/personal-works")
-public class PersonalWorkController implements PersonalWorkSwagger {
+public class WorkSummaryController implements WorkSummarySwagger {
 
-    private final PersonalWorkService personalWorkService;
+    private final WorkSummaryService workSummaryService;
 
     @Override
     @PostMapping("/dca/{workId}/summary")
     public CommonResponse<WorkSummaryResponse> createDcaWorkSummary(@PathVariable(name = "workId") Long workId) {
-        return CommonResponse.success(DCA_WORK_SUMMARY_SUCCESS, personalWorkService.createDcaWorkSummary(workId));
+        return CommonResponse.success(DCA_WORK_SUMMARY_SUCCESS, workSummaryService.createDcaWorkSummary(workId));
     }
 
     @Override
     @PostMapping("/ycc/{workId}/summary")
     public CommonResponse<WorkSummaryResponse> createYccWorkSummary(@PathVariable(name = "workId") Long workId) {
-        return CommonResponse.success(YCC_WORK_SUMMARY_SUCCESS, personalWorkService.createYccWorkSummary(workId));
+        return CommonResponse.success(YCC_WORK_SUMMARY_SUCCESS, workSummaryService.createYccWorkSummary(workId));
     }
 }

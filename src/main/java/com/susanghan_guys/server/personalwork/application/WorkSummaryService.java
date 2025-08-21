@@ -2,6 +2,7 @@ package com.susanghan_guys.server.personalwork.application;
 
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
+import com.susanghan_guys.server.personalwork.application.factory.OpenAiFactory;
 import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
@@ -18,11 +19,12 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class PersonalWorkService {
+public class WorkSummaryService {
 
     private final CurrentUserProvider currentUserProvider;
     private final WorkRepository workRepository;
     private final OpenAiPort openAiPort;
+    private final OpenAiFactory openAiFactory;
     private final PersonalWorkValidator personalWorkValidator;
     private final PdfFilePort pdfFilePort;
 
@@ -56,16 +58,7 @@ public class PersonalWorkService {
 
         personalWorkValidator.validatePersonalWorkOwner(workId, user);
 
-        List<PdfImage> pdfImages = pdfFilePort.convertYccPdfToImage(workId);
-
-        List<String> imageUrls = pdfImages.stream()
-                .map(PdfImage::getImageUrl)
-                .filter(Objects::nonNull)
-                .toList();
-
-        personalWorkValidator.validatePersonalWork(imageUrls);
-
-        OpenAiRequest request = new OpenAiRequest(imageUrls);
+        OpenAiRequest request = openAiFactory.buildYccOpenAiRequest(workId);
 
         // TODO: DB 저장 코드 구현
 

@@ -1,6 +1,5 @@
 package com.susanghan_guys.server.work.infrastructure.persistence;
 
-import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.domain.type.ReportStatus;
 import org.springframework.data.domain.Pageable;
