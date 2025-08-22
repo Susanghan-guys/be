@@ -29,7 +29,7 @@ public class Evaluation extends BaseEntity {
     private double score;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "evaluation_type", nullable = false)
+    @Column(name = "evaluation_type", length = 50, nullable = false)
     private EvaluationType type;
 
     @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL, orphanRemoval = true)

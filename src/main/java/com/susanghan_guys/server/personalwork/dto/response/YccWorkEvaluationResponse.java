@@ -4,15 +4,15 @@ import lombok.Builder;
 
 @Builder
 public record YccWorkEvaluationResponse(
-        Integer feasibilityScore,
+        double feasibilityScore,
         String feasibility,
-        Integer mediaScore,
+        double mediaScore,
         String media,
-        Integer agendaScore,
+        double agendaScore,
         String agenda,
-        Integer influenceScore,
+        double influenceScore,
         String influence,
-        Integer deliveryScore,
+        double deliveryScore,
         String delivery
 ) {
 }
