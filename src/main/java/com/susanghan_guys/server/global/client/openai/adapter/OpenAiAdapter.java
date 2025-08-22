@@ -4,14 +4,14 @@ import com.susanghan_guys.server.global.client.openai.DcaOpenAiRequest;
 import com.susanghan_guys.server.global.client.openai.OpenAiClient;
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.client.openai.prompt.DcaWorkEvaluationPrompt;
-import com.susanghan_guys.server.global.client.openai.prompt.YccWorkEvaluationPrompt;
 import com.susanghan_guys.server.global.client.openai.prompt.WorkSummaryPrompt;
+import com.susanghan_guys.server.global.client.openai.prompt.YccWorkEvaluationPrompt;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
 import com.susanghan_guys.server.personalwork.dto.response.DcaWorkEvaluationResponse;
-import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
-import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
+import com.susanghan_guys.server.personalwork.dto.response.DetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
+import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +31,7 @@ public class OpenAiAdapter implements OpenAiPort {
     }
 
     @Override
-    public YccWorkEvaluationResponse createWorkEvaluation(OpenAiRequest request) {
+    public YccWorkEvaluationResponse createYccWorkEvaluation(OpenAiRequest request) {
         return openAiClient.callWithStructuredOutput(
                 request,
                 YccWorkEvaluationPrompt.buildYccWorkEvaluationPrompt(),
@@ -40,11 +40,11 @@ public class OpenAiAdapter implements OpenAiPort {
     }
 
     @Override
-    public YccDetailEvaluationResponse createDetailEvaluation(OpenAiRequest request, EvaluationType type) {
+    public DetailEvaluationResponse createYccDetailEvaluation(OpenAiRequest request, EvaluationType type) {
         return openAiClient.callWithStructuredOutput(
                 request,
                 YccWorkEvaluationPrompt.buildYccDetailEvaluationPrompt(type),
-                YccDetailEvaluationResponse.class
+                DetailEvaluationResponse.class
         );
     }
 
@@ -54,6 +54,15 @@ public class OpenAiAdapter implements OpenAiPort {
                 request,
                 DcaWorkEvaluationPrompt.buildDcaWorkEvaluationPrompt(request.brandBrief()),
                 DcaWorkEvaluationResponse.class
+        );
+    }
+
+    @Override
+    public DetailEvaluationResponse createDcaDetailEvaluation(DcaOpenAiRequest request, EvaluationType type) {
+        return openAiClient.callWithStructuredOutput(
+                request,
+                DcaWorkEvaluationPrompt.buildDcaDetailEvaluationPrompt(request.brandBrief(), type),
+                DetailEvaluationResponse.class
         );
     }
 }

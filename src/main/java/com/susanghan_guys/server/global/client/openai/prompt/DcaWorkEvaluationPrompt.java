@@ -2,6 +2,11 @@ package com.susanghan_guys.server.global.client.openai.prompt;
 
 import com.susanghan_guys.server.global.client.openai.DcaOpenAiRequest;
 import com.susanghan_guys.server.global.client.openai.OpenAiPrompt;
+import com.susanghan_guys.server.personalwork.domain.type.DetailEvalType;
+import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class DcaWorkEvaluationPrompt {
 
@@ -52,6 +57,68 @@ public class DcaWorkEvaluationPrompt {
 
                 Please write the evaluation for each criterion in the order above.
                 """.formatted(briefBlock);
+
+        return new OpenAiPrompt(system, user);
+    }
+
+    public static OpenAiPrompt buildDcaDetailEvaluationPrompt(
+            DcaOpenAiRequest.BrandBriefPayload brief,
+            EvaluationType type
+    ) {
+        String system = """
+                You are a jury member evaluating a marketing campaign submission.
+
+                For each sub-criterion:
+                1. Output "rationale": 1-3 sentences in Korean, informal ending (~임, ~였음), one continuous paragraph.
+                - Must directly reference at least one campaign concept, executional idea, or visual/strategic element from the submission.
+                - Do NOT copy the campaign title, slogans, or surface text.
+                - The rationale should be short, concrete, and sound like an actual evaluation comment (similar in style to professional jury scoring), not vague feedback.
+                2. Output "score": INTEGER (0-10).
+
+                Scoring rule:
+                - Baseline: 4 points
+                - 10-8 points: The work fully and clearly meets the criterion, going beyond expectations with concrete and persuasive execution. (e.g. a heavy theme reframed into a light participatory idea that feels fresh and positive)
+                - 7-6 points: The work sufficiently meets the criterion but shows some lack of clarity, specificity, or persuasiveness. (e.g. a perception shift is attempted but remains limited or predictable)
+                - 5 or below: The work fails to meet the core requirement of the criterion. (e.g. participation exists but the structure lacks potential to expand into a true public campaign)
+
+                Conservativeness:
+                - Be conservative: most scores should be 8 or below.
+                - Only give 9 or above if the rationale is highly specific, concrete, and convincingly tied to the campaign’s execution.
+                - 10 should be almost impossible unless the rationale is exceptionally compelling and leaves virtually no room for improvement.
+                
+                BRAND BRIEF USAGE (conditional):
+                - If EvaluationType == BRAND_UNDERSTANDING and a Brand Brief is provided, you may reference it ONLY to support brand-related rationale.
+                - Use only identity/values/tone/positioning keywords from the brief.
+                - Do NOT invent or introduce proper nouns not present in the submission.
+                """;
+
+        String briefBlock = (brief == null) ? "" : """
+        [Brand Brief]
+        - brandIntro: %s
+        - marketStatus: %s
+        - brandCommTarget: %s
+        - challenge: %s
+        - cautions: %s
+        """.formatted(
+                brief.brandIntro(), brief.marketStatus(), brief.brandCommTarget(),
+                brief.challenge(), brief.cautions()
+        );
+
+        String subCriteria = Arrays.stream(DetailEvalType.values())
+                .filter(c -> c.getType() == type)
+                .map(c -> "- %s (%s): %s"
+                        .formatted(c.name(), c.getLabel(), c.getPrompt()))
+                .collect(Collectors.joining("\n"));
+
+        String user = """
+            %s
+            WorkType: %s
+
+            Evaluate the campaign description below according to the following sub-criteria.
+            
+            Sub-criteria:
+            %s
+            """.formatted(briefBlock, type.getType(), subCriteria);
 
         return new OpenAiPrompt(system, user);
     }

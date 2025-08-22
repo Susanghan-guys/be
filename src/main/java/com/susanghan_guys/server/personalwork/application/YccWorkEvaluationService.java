@@ -6,7 +6,7 @@ import com.susanghan_guys.server.personalwork.application.factory.OpenAiFactory;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
-import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
+import com.susanghan_guys.server.personalwork.dto.response.DetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
 import com.susanghan_guys.server.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +30,10 @@ public class YccWorkEvaluationService {
 
         // TODO: DB 저장 코드 구현
 
-        return openAiPort.createWorkEvaluation(request);
+        return openAiPort.createYccWorkEvaluation(request);
     }
 
-    public YccDetailEvaluationResponse createYccDetailEvaluation(Long workId, EvaluationType type) {
+    public DetailEvaluationResponse createYccDetailEvaluation(Long workId, EvaluationType type) {
         User user = currentUserProvider.getCurrentUser();
 
         personalWorkValidator.validatePersonalWorkOwner(workId, user);
@@ -42,6 +42,6 @@ public class YccWorkEvaluationService {
 
         // TODO: DB 저장 코드 구현
 
-        return openAiPort.createDetailEvaluation(request, type);
+        return openAiPort.createYccDetailEvaluation(request, type);
     }
 }

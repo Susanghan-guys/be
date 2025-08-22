@@ -5,12 +5,11 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record YccDetailEvaluationResponse(
-        List<YccDetailEvaluation> detailEvaluations
+public record DetailEvaluationResponse(
+        List<DetailEvaluation> detailEvaluations
 ) {
-
     @Builder
-    public record YccDetailEvaluation(
+    public record DetailEvaluation(
             String code,
             String label,
             Integer score,
