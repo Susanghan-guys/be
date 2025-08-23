@@ -37,7 +37,7 @@ public enum DetailEvalType {
     DCA_FEAS_CONCRETENESS("실행의 구체성", "Whether the campaign idea provides a clear step-by-step execution plan that logically connects actions (e.g., object use, media flow, registration process) without ambiguity.", EvaluationType.DCA_FEASIBILITY),
     DCA_FEAS_EFFECT_PERSUASION("기대 효과의 설득력", "Whether the expected outcomes, such as increased participation or behavioral change, are presented in a realistic and convincing way, beyond abstract or overly long-term assumptions.", EvaluationType.DCA_FEASIBILITY),
     DCA_FEAS_ASSUMPTION_VALIDITY("전제의 합리성", "Whether the conditions required for the campaign are practical and not overly idealized, ensuring that the target environment and audience scope make sense without unrealistic expectations.", EvaluationType.DCA_FEASIBILITY),
-    DCA_FEAS_VISUAL_PLAN("실행 방안의 시각적 표현", "prompt", EvaluationType.DCA_FEASIBILITY),
+    DCA_FEAS_VISUAL_PLAN("실행 방안의 시각적 표현", "Whether the execution plan is effectively visualized so the real-world run-through is immediately imaginable—using concrete artifacts (e.g., user journey maps, screen/OOH mockups, on-site layouts, device interactions) that clarify steps, roles, and constraints.", EvaluationType.DCA_FEASIBILITY),
 
     // DCA_FILM - 스토리텔링
     ALIGNMENT_WITH_INTENT("기획 의도 일치 여부", "prompt", EvaluationType.STORYTELLING),

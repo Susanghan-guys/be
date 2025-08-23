@@ -4,10 +4,12 @@ import com.susanghan_guys.server.global.client.openai.DcaOpenAiRequest;
 import com.susanghan_guys.server.global.client.openai.OpenAiPrompt;
 import com.susanghan_guys.server.personalwork.domain.type.DetailEvalType;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class DcaWorkEvaluationPrompt {
 
     public static OpenAiPrompt buildDcaWorkEvaluationPrompt(DcaOpenAiRequest.BrandBriefPayload brief) {
@@ -65,6 +67,21 @@ public class DcaWorkEvaluationPrompt {
             DcaOpenAiRequest.BrandBriefPayload brief,
             EvaluationType type
     ) {
+
+        boolean includeBrandOnly = Arrays.stream(DetailEvalType.values())
+                .anyMatch(c -> c.getType() == type && c.name().equals("BRAND_ONLY_IDEA"));
+
+        log.info("🧩 DetailEval Prompt build start: type={}, includeBrandOnly={}", type, includeBrandOnly);
+
+        String brandOnlyBlock = includeBrandOnly ? """
+                BRAND_ONLY_IDEA — stricter standards (APPLIES ONLY WHEN current sub-criterion == BRAND_ONLY_IDEA):
+                - Do NOT treat general themes (e.g., fandom culture, portability, travel, graphics) as brand-exclusive.
+                - Only credit brand-uniqueness if the idea is inseparably tied to the brand’s unique heritage, assets, rituals, or market context (e.g., brand-created holidays, specific home venues/regions, proprietary cultural assets).
+                - If competitors in the same category could execute the concept with minor changes, classify it as generic and reduce the score.
+                - Give high scores (8–9) ONLY when the execution clearly shows that no competitor could credibly own or deliver the idea.
+                - Otherwise, stay conservative: typical cases should fall in the 6–7 range; polished but generic executions must not exceed 7.
+                """ : "";
+
         String system = """
                 You are a jury member evaluating a marketing campaign submission.
 
@@ -90,7 +107,9 @@ public class DcaWorkEvaluationPrompt {
                 - If EvaluationType == BRAND_UNDERSTANDING and a Brand Brief is provided, you may reference it ONLY to support brand-related rationale.
                 - Use only identity/values/tone/positioning keywords from the brief.
                 - Do NOT invent or introduce proper nouns not present in the submission.
-                """;
+                
+                %s
+                """.formatted(brandOnlyBlock);
 
         String briefBlock = (brief == null) ? "" : """
         [Brand Brief]
@@ -111,14 +130,17 @@ public class DcaWorkEvaluationPrompt {
                 .collect(Collectors.joining("\n"));
 
         String user = """
-            %s
             WorkType: %s
 
             Evaluate the campaign description below according to the following sub-criteria.
-            
+
             Sub-criteria:
             %s
-            """.formatted(briefBlock, type.getType(), subCriteria);
+
+            %s
+
+            Submission Description: {submission_description}
+            """.formatted(type.getType(), subCriteria, briefBlock);
 
         return new OpenAiPrompt(system, user);
     }
