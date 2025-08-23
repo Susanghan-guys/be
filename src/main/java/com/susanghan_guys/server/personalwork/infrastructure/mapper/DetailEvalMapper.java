@@ -20,11 +20,11 @@ public class DetailEvalMapper {
 
     public static List<DetailEval> toEntities(Evaluation evaluation, YccDetailEvaluationResponse response) {
         return response.detailEvaluations().stream()
-                .map(d -> new DetailEval(
+                .map(d -> toEntity(
+                        evaluation,
                         d.description(),
-                        DetailEvalType.valueOf(d.code()),
                         d.score(),
-                        evaluation
+                        DetailEvalType.valueOf(d.code())
                 ))
                 .toList();
     }
