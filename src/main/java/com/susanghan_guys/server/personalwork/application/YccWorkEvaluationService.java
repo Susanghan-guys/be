@@ -72,7 +72,14 @@ public class YccWorkEvaluationService {
         );
 
         List<Evaluation> evaluations = EvaluationMapper.toEntities(work, response);
-        return evaluationRepository.saveAll(evaluations);
+        evaluationRepository.saveAll(evaluations);
+
+        for (Evaluation evaluation : evaluations) {
+            List<DetailEval> detailEvals = getOrCreateDetailEvaluation(workId, evaluation.getType());
+            evaluation.updateScore(detailEvals);
+        }
+
+        return evaluations;
     }
 
     private List<DetailEval> getOrCreateDetailEvaluation(Long workId, EvaluationType type) {
@@ -89,10 +96,7 @@ public class YccWorkEvaluationService {
         );
 
         List<DetailEval> detailEvals = DetailEvalMapper.toEntities(evaluation, response);
-        detailEvalRepository.saveAll(detailEvals);
 
-        evaluation.updateScore(detailEvals);
-
-        return detailEvals;
+        return detailEvalRepository.saveAll(detailEvals);
     }
 }
