@@ -6,12 +6,12 @@ import java.util.List;
 
 public class ScoreCalculator {
 
-    public static double calculateTotalScore(List<Evaluation> evaluations) {
+    public static Integer calculateTotalScore(List<Evaluation> evaluations) {
         double total = evaluations.stream()
                 .mapToDouble(Evaluation::getScore)
                 .map(score -> score * 5)
                 .sum();
 
-        return (total / 250.0) * 100.0;
+        return (int) Math.round((total / 250.0) * 100.0);
     }
 }

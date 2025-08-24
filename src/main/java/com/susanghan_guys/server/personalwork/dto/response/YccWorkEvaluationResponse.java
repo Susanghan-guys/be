@@ -7,7 +7,7 @@ import lombok.Builder;
 @Schema(description = "출품작 전체 총평 API")
 public record YccWorkEvaluationResponse(
         @Schema(description = "작품 총점", example = "72")
-        double totalScore,
+        Integer totalScore,
 
         @Schema(description = "실현 가능성 총점", example = "8.4")
         double feasibilityScore,

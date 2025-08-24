@@ -2,6 +2,8 @@ package com.susanghan_guys.server.personalwork.domain.type;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum DetailEvalType {
     // DCA - 타겟 적합성
@@ -96,5 +98,12 @@ public enum DetailEvalType {
         this.label = label;
         this.prompt = prompt;
         this.type = type;
+    }
+
+    public static DetailEvalType from(String code) {
+        return Arrays.stream(values())
+                .filter(e -> e.name().equalsIgnoreCase(code))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown code: " + code));
     }
 }

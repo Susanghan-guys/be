@@ -38,16 +38,24 @@ public class EvaluationMapper {
 
         return new YccWorkEvaluationResponse(
                 ScoreCalculator.calculateTotalScore(evaluations),
-                Optional.of(map.get(EvaluationType.YCC_FEASIBILITY).getScore()).orElse(0.0),
-                map.get(EvaluationType.YCC_FEASIBILITY).getContent(),
-                Optional.of(map.get(EvaluationType.YCC_MEDIA_SELECTION).getScore()).orElse(0.0),
-                map.get(EvaluationType.YCC_MEDIA_SELECTION).getContent(),
-                Optional.of(map.get(EvaluationType.AGENDA_SELECTION).getScore()).orElse(0.0),
-                map.get(EvaluationType.AGENDA_SELECTION).getContent(),
-                Optional.of(map.get(EvaluationType.INFLUENCE).getScore()).orElse(0.0),
-                map.get(EvaluationType.INFLUENCE).getContent(),
-                Optional.of(map.get(EvaluationType.DELIVERY).getScore()).orElse(0.0),
-                map.get(EvaluationType.DELIVERY).getContent()
+                getScore(map, EvaluationType.YCC_FEASIBILITY),
+                getContent(map, EvaluationType.YCC_FEASIBILITY),
+                getScore(map, EvaluationType.YCC_MEDIA_SELECTION),
+                getContent(map, EvaluationType.YCC_MEDIA_SELECTION),
+                getScore(map, EvaluationType.AGENDA_SELECTION),
+                getContent(map, EvaluationType.AGENDA_SELECTION),
+                getScore(map, EvaluationType.INFLUENCE),
+                getContent(map, EvaluationType.INFLUENCE),
+                getScore(map, EvaluationType.DELIVERY),
+                getContent(map, EvaluationType.DELIVERY)
         );
+    }
+
+    private static double getScore(Map<EvaluationType, Evaluation> map, EvaluationType type) {
+        return Optional.ofNullable(map.get(type)).map(Evaluation::getScore).orElse(0.0);
+    }
+
+    private static String getContent(Map<EvaluationType, Evaluation> map, EvaluationType type) {
+        return Optional.ofNullable(map.get(type)).map(Evaluation::getContent).orElse(null);
     }
 }

@@ -14,6 +14,7 @@ import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,7 +61,12 @@ public class WorkSummaryService {
                             openAiFactory.buildDcaOpenAiRequest(workId)
                     );
 
-                    return summaryRepository.save(SummaryMapper.toEntity(work, response));
+                    try {
+                        return summaryRepository.save(SummaryMapper.toEntity(work, response));
+                    } catch (DataIntegrityViolationException e) {
+                        return summaryRepository.findByWorkId(workId)
+                                .orElseThrow(() -> e);
+                    }
                 });
     }
 
@@ -74,7 +80,12 @@ public class WorkSummaryService {
                             openAiFactory.buildYccOpenAiRequest(workId)
                     );
 
-                    return summaryRepository.save(SummaryMapper.toEntity(work, response));
+                    try {
+                        return summaryRepository.save(SummaryMapper.toEntity(work, response));
+                    } catch (DataIntegrityViolationException e) {
+                        return summaryRepository.findByWorkId(workId)
+                                .orElseThrow(() -> e);
+                    }
                 });
     }
 }

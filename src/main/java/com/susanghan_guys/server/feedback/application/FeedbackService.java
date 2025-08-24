@@ -2,6 +2,8 @@ package com.susanghan_guys.server.feedback.application;
 
 import com.susanghan_guys.server.feedback.domain.Feedback;
 import com.susanghan_guys.server.feedback.dto.request.FeedbackRequest;
+import com.susanghan_guys.server.feedback.exception.FeedbackException;
+import com.susanghan_guys.server.feedback.exception.code.FeedbackErrorCode;
 import com.susanghan_guys.server.feedback.infrastructure.mapper.FeedbackMapper;
 import com.susanghan_guys.server.feedback.infrastructure.persistence.FeedbackRepository;
 import com.susanghan_guys.server.work.domain.Work;
@@ -24,6 +26,10 @@ public class FeedbackService {
     public void createFeedback(Long workId, FeedbackRequest request) {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+        if (feedbackRepository.existsByWorkId(workId)) {
+            throw new FeedbackException(FeedbackErrorCode.FEEDBACK_ALREADY_EXIST);
+        }
 
         Feedback feedback = FeedbackMapper.toEntity(request.score(), request.content(), work);
 

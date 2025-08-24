@@ -24,7 +24,7 @@ public class DetailEvalMapper {
                         evaluation,
                         d.description(),
                         d.score(),
-                        DetailEvalType.valueOf(d.code())
+                        DetailEvalType.from(d.code())
                 ))
                 .toList();
     }

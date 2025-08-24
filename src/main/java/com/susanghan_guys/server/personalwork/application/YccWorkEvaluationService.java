@@ -98,7 +98,10 @@ public class YccWorkEvaluationService {
         );
 
         List<DetailEval> detailEvals = DetailEvalMapper.toEntities(evaluation, response);
+        detailEvalRepository.saveAll(detailEvals);
 
-        return detailEvalRepository.saveAll(detailEvals);
+        evaluation.updateScore(detailEvals);
+
+        return detailEvals;
     }
 }
