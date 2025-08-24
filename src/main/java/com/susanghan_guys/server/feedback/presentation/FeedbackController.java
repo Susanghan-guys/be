@@ -18,7 +18,7 @@ public class FeedbackController implements FeedbackSwagger {
     private final FeedbackService feedbackService;
 
     @Override
-    @PostMapping("{workId}")
+    @PostMapping("/{workId}")
     public CommonResponse<String> createFeedback(
             @PathVariable Long workId,
             @RequestBody @Valid FeedbackRequest request
