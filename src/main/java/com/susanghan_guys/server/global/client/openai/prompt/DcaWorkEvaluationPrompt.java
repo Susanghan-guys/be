@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@Slf4j
 public class DcaWorkEvaluationPrompt {
 
     public static OpenAiPrompt buildDcaWorkEvaluationPrompt(DcaOpenAiRequest.BrandBriefPayload brief) {
@@ -55,7 +54,6 @@ public class DcaWorkEvaluationPrompt {
 
         String user = """
                 %s
-                Submission Description: {submission_description}
 
                 Please write the evaluation for each criterion in the order above.
                 """.formatted(briefBlock);
@@ -71,8 +69,6 @@ public class DcaWorkEvaluationPrompt {
         boolean includeBrandOnly = Arrays.stream(DetailEvalType.values())
                 .anyMatch(c -> c.getType() == type && c.name().equals("BRAND_ONLY_IDEA"));
 
-        log.info("🧩 DetailEval Prompt build start: type={}, includeBrandOnly={}", type, includeBrandOnly);
-
         String brandOnlyBlock = includeBrandOnly ? """
                 BRAND_ONLY_IDEA — stricter standards (APPLIES ONLY WHEN current sub-criterion == BRAND_ONLY_IDEA):
                 - Do NOT treat general themes (e.g., fandom culture, portability, travel, graphics) as brand-exclusive.
@@ -87,9 +83,16 @@ public class DcaWorkEvaluationPrompt {
 
                 For each sub-criterion:
                 1. Output "rationale": 1-3 sentences in Korean, informal ending (~임, ~였음), one continuous paragraph.
-                - Must directly reference at least one campaign concept, executional idea, or visual/strategic element from the submission.
-                - Do NOT copy the campaign title, slogans, or surface text.
-                - The rationale should be short, concrete, and sound like an actual evaluation comment (similar in style to professional jury scoring), not vague feedback.
+                - Must directly reference at least one campaign concept, executional idea, or visual/strategic element.
+                - **Do NOT copy or quote campaign slogans, taglines, or surface catchphrases; instead, paraphrase the underlying idea or describe its executional role.**
+                    - No verbatim surface text: never quote titles/slogans/on-image copy; refer generically (e.g., "제시된 슬로건") if needed.
+                    - Variety across criteria: do not reuse the same phrase across sub-criteria; use different evidence each time.
+                - The rationale should be concise, concrete, and evaluative — not vague or repetitive.
+                - When giving higher scores, justify with clear evidence linking the idea to the brand/target/context.
+                - Avoid repeating the same slogan or surface phrase across multiple rationales; if mentioned once, rephrase or highlight a different aspect in other criteria.
+                - **The description must always be written as a full sentence, including at least one explicit evidence or reasoning.**
+                - **Do NOT output the criterion label itself as the description.**
+
                 2. Output "score": INTEGER (0-10).
 
                 Scoring rule:
@@ -97,8 +100,10 @@ public class DcaWorkEvaluationPrompt {
                 - 10-8 points: The work fully and clearly meets the criterion, going beyond expectations with concrete and persuasive execution. (e.g. a heavy theme reframed into a light participatory idea that feels fresh and positive)
                 - 7-6 points: The work sufficiently meets the criterion but shows some lack of clarity, specificity, or persuasiveness. (e.g. a perception shift is attempted but remains limited or predictable)
                 - 5 or below: The work fails to meet the core requirement of the criterion. (e.g. participation exists but the structure lacks potential to expand into a true public campaign)
+                - If the score is 7 or below, include at least one clear limitation, weakness, or risk factor that justifies why the score was lowered.
 
                 Conservativeness:
+                - Do NOT inflate scores without clear evidence.
                 - Be conservative: most scores should be 8 or below.
                 - Only give 9 or above if the rationale is highly specific, concrete, and convincingly tied to the campaign’s execution.
                 - 10 should be almost impossible unless the rationale is exceptionally compelling and leaves virtually no room for improvement.
@@ -138,8 +143,6 @@ public class DcaWorkEvaluationPrompt {
             %s
 
             %s
-
-            Submission Description: {submission_description}
             """.formatted(type.getType(), subCriteria, briefBlock);
 
         return new OpenAiPrompt(system, user);
