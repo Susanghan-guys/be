@@ -10,6 +10,8 @@ import com.susanghan_guys.server.personalwork.exception.code.PersonalWorkErrorCo
 import com.susanghan_guys.server.personalwork.infrastructure.mapper.BrandBriefMapper;
 import com.susanghan_guys.server.personalwork.infrastructure.persistence.BrandBriefRepository;
 import com.susanghan_guys.server.work.domain.Work;
+import com.susanghan_guys.server.work.exception.WorkException;
+import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +49,7 @@ public class OpenAiFactory {
         List<String> imageUrls = collectDcaImageUrls(workId);
 
         Work work = workRepository.findById(workId)
-                .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.WORK_IMAGE_NOT_FOUND));
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
         BrandBrief brief = brandBriefRepository.findByBrand(work.getBrand()).orElse(null);
         DcaOpenAiRequest.BrandBriefPayload payload = brandBriefMapper.toPayload(brief);
