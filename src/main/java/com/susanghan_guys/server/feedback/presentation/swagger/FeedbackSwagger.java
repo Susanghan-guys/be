@@ -17,7 +17,7 @@ public interface FeedbackSwagger {
             description = """
                           ### RequestBody
                           ---
-                          `score`: 만족도 점수 (1 ~ 5점 사이)
+                          `score`: 만족도 점수 (1 ~ 5점 사이) \n
                           `content`: 리포트 후기
                           """
     )
