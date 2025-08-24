@@ -56,4 +56,11 @@ public class Evaluation extends BaseEntity {
         this.details.add(detailEval);
         detailEval.associateEvaluation(this);
     }
+
+    public void updateScore(List<DetailEval> detailEvals) {
+        this.score = detailEvals.stream()
+                .mapToDouble(DetailEval::getScore)
+                .average()
+                .orElse(0.0);
+    }
 }
