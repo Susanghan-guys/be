@@ -9,6 +9,8 @@ import com.susanghan_guys.server.personalwork.domain.Evaluation;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
 import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
+import com.susanghan_guys.server.personalwork.exception.PersonalWorkException;
+import com.susanghan_guys.server.personalwork.exception.code.PersonalWorkErrorCode;
 import com.susanghan_guys.server.personalwork.infrastructure.mapper.DetailEvalMapper;
 import com.susanghan_guys.server.personalwork.infrastructure.mapper.EvaluationMapper;
 import com.susanghan_guys.server.personalwork.infrastructure.persistence.DetailEvalRepository;
@@ -89,7 +91,7 @@ public class YccWorkEvaluationService {
         }
 
         Evaluation evaluation = evaluationRepository.findByWorkIdAndType(workId, type)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND)); // TODO: 에러 코드 수정
+                .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND));
 
         YccDetailEvaluationResponse response = openAiPort.createDetailEvaluation(
                 openAiFactory.buildYccOpenAiRequest(workId), type
