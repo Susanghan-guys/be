@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Tag(name = "[개인 출품작 분석]", description = "개인 출품작 분석 관련 API")
+@Tag(name = "[출품작 요약]", description = "작품 요약 관련 API")
 public interface WorkSummarySwagger {
     @Operation(
             summary = "DCA 개인 출품작 요약 생성 API",
