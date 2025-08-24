@@ -1,6 +1,7 @@
 package com.susanghan_guys.server.personalwork.infrastructure.mapper;
 
 import com.susanghan_guys.server.personalwork.domain.Evaluation;
+import com.susanghan_guys.server.personalwork.domain.support.ScoreCalculator;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
 import com.susanghan_guys.server.work.domain.Work;
@@ -36,6 +37,7 @@ public class EvaluationMapper {
                 .collect(Collectors.toMap(Evaluation::getType, e -> e));
 
         return new YccWorkEvaluationResponse(
+                ScoreCalculator.calculateTotalScore(evaluations),
                 Optional.of(map.get(EvaluationType.YCC_FEASIBILITY).getScore()).orElse(0.0),
                 map.get(EvaluationType.YCC_FEASIBILITY).getContent(),
                 Optional.of(map.get(EvaluationType.YCC_MEDIA_SELECTION).getScore()).orElse(0.0),

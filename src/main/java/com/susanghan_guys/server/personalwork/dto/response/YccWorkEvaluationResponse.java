@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record YccWorkEvaluationResponse(
+        double totalScore,
         double feasibilityScore,
         String feasibility,
         double mediaScore,
