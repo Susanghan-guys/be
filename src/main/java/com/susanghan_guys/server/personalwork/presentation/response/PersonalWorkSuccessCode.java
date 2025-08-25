@@ -16,7 +16,8 @@ public enum PersonalWorkSuccessCode implements BaseCode {
     YCC_WORK_DETAIL_EVALUATION_SUCCESS(HttpStatus.OK, 200, "Ycc Work Detail Evaluation Success"),
 
     DCA_WORK_EVALUATION_SUCCESS(HttpStatus.OK, 200, "Dca Work Evaluation Success"),
-    DCA_WORK_DETAIL_EVALUATION_SUCCESS(HttpStatus.OK, 200, "Dca Work Detail Evaluation Success")
+    DCA_WORK_DETAIL_EVALUATION_SUCCESS(HttpStatus.OK, 200, "Dca Work Detail Evaluation Success"),
+    DCA_BRIEF_EVALUATION_SUCCESS(HttpStatus.OK, 200, "Dca Brief Evaluation Success")
     ;
 
     private final HttpStatus httpStatus;

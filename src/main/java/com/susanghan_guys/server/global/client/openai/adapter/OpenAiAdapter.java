@@ -3,15 +3,13 @@ package com.susanghan_guys.server.global.client.openai.adapter;
 import com.susanghan_guys.server.global.client.openai.DcaOpenAiRequest;
 import com.susanghan_guys.server.global.client.openai.OpenAiClient;
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
+import com.susanghan_guys.server.global.client.openai.prompt.DcaBriefEvaluationPrompt;
 import com.susanghan_guys.server.global.client.openai.prompt.DcaWorkEvaluationPrompt;
 import com.susanghan_guys.server.global.client.openai.prompt.WorkSummaryPrompt;
 import com.susanghan_guys.server.global.client.openai.prompt.YccWorkEvaluationPrompt;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
-import com.susanghan_guys.server.personalwork.dto.response.DcaWorkEvaluationResponse;
-import com.susanghan_guys.server.personalwork.dto.response.DetailEvaluationResponse;
-import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
-import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
+import com.susanghan_guys.server.personalwork.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -63,6 +61,15 @@ public class OpenAiAdapter implements OpenAiPort {
                 request,
                 DcaWorkEvaluationPrompt.buildDcaDetailEvaluationPrompt(request.brandBrief(), type),
                 DetailEvaluationResponse.class
+        );
+    }
+
+    @Override
+    public DcaBriefEvaluationResponse createDcaBriefEvaluation(OpenAiRequest request) {
+        return openAiClient.callWithStructuredOutput(
+                request,
+                DcaBriefEvaluationPrompt.buildDcaBriefEvaluationPrompt(),
+                DcaBriefEvaluationResponse.class
         );
     }
 }
