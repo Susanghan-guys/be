@@ -11,6 +11,6 @@ public interface OpenAiPort {
     DetailEvaluationResponse createYccDetailEvaluation(OpenAiRequest request, EvaluationType type);
     DcaWorkEvaluationResponse createDcaWorkEvaluation(DcaOpenAiRequest request);
     DetailEvaluationResponse createDcaDetailEvaluation(DcaOpenAiRequest request, EvaluationType type);
-    DcaBriefEvaluationResponse createDcaBriefEvaluation(OpenAiRequest request);
+    DcaBriefEvaluationResponse createDcaBriefEvaluation(DcaOpenAiRequest request);
 
 }

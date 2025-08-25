@@ -65,10 +65,10 @@ public class OpenAiAdapter implements OpenAiPort {
     }
 
     @Override
-    public DcaBriefEvaluationResponse createDcaBriefEvaluation(OpenAiRequest request) {
+    public DcaBriefEvaluationResponse createDcaBriefEvaluation(DcaOpenAiRequest request) {
         return openAiClient.callWithStructuredOutput(
                 request,
-                DcaBriefEvaluationPrompt.buildDcaBriefEvaluationPrompt(),
+                DcaBriefEvaluationPrompt.buildDcaBriefEvaluationPrompt(request.brandBrief()),
                 DcaBriefEvaluationResponse.class
         );
     }

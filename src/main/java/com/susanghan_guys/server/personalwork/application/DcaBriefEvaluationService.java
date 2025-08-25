@@ -37,7 +37,7 @@ public class DcaBriefEvaluationService {
 
         personalWorkValidator.validatePersonalWork(imageUrls);
 
-        OpenAiRequest request = new OpenAiRequest(imageUrls);
+        DcaOpenAiRequest request = openAiFactory.buildDcaEvaluationRequest(workId);
 
         // TODO: DB 저장 코드 구현
 
