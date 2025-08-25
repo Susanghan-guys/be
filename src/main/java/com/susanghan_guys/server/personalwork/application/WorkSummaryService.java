@@ -1,21 +1,22 @@
 package com.susanghan_guys.server.personalwork.application;
 
-import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.personalwork.application.factory.OpenAiFactory;
-import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
 import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
+import com.susanghan_guys.server.personalwork.domain.Summary;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
+import com.susanghan_guys.server.personalwork.infrastructure.mapper.SummaryMapper;
+import com.susanghan_guys.server.personalwork.infrastructure.persistence.SummaryRepository;
 import com.susanghan_guys.server.user.domain.User;
-import com.susanghan_guys.server.file.domain.PdfImage;
+import com.susanghan_guys.server.work.domain.Work;
+import com.susanghan_guys.server.work.exception.WorkException;
+import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,45 +24,68 @@ public class WorkSummaryService {
 
     private final CurrentUserProvider currentUserProvider;
     private final WorkRepository workRepository;
+    private final SummaryRepository summaryRepository;
     private final OpenAiPort openAiPort;
     private final OpenAiFactory openAiFactory;
     private final PersonalWorkValidator personalWorkValidator;
-    private final PdfFilePort pdfFilePort;
 
+    @Transactional
     public WorkSummaryResponse createDcaWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
         personalWorkValidator.validatePersonalWorkOwner(workId, user);
 
-        List<String> imageUrls = new ArrayList<>(workRepository.findWorkContentByWorkId(workId));
+        Summary summary = getOrCreateDcaWorkSummary(workId);
 
-        List<PdfImage> pdfImages = pdfFilePort.convertDcaPdfToImage(workId);
-
-        // 추가 파일(기획안)이 존재할 경우, 브리프 보드 + 추가 파일(기획안) 함께 전송
-        imageUrls.addAll(
-                pdfImages.stream()
-                        .map(PdfImage::getImageUrl)
-                        .filter(Objects::nonNull)
-                        .toList()
-        );
-        personalWorkValidator.validatePersonalWork(imageUrls);
-
-        OpenAiRequest request = new OpenAiRequest(imageUrls);
-
-        // TODO: DB 저장 코드 구현
-
-        return openAiPort.createWorkSummary(request);
+        return SummaryMapper.toResponse(summary);
     }
 
+    @Transactional
     public WorkSummaryResponse createYccWorkSummary(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
         personalWorkValidator.validatePersonalWorkOwner(workId, user);
 
-        OpenAiRequest request = openAiFactory.buildYccOpenAiRequest(workId);
+        Summary summary = getOrCreateYccWorkSummary(workId);
 
-        // TODO: DB 저장 코드 구현
+        return SummaryMapper.toResponse(summary);
+    }
 
-        return openAiPort.createWorkSummary(request);
+    private Summary getOrCreateDcaWorkSummary(Long workId) {
+        return summaryRepository.findByWorkId(workId)
+                .orElseGet(() -> {
+                    Work work = workRepository.findById(workId)
+                            .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+                    WorkSummaryResponse response = openAiPort.createWorkSummary(
+                            openAiFactory.buildDcaOpenAiRequest(workId)
+                    );
+
+                    try {
+                        return summaryRepository.saveAndFlush(SummaryMapper.toEntity(work, response));
+                    } catch (DataIntegrityViolationException e) {
+                        return summaryRepository.findByWorkId(workId)
+                                .orElseThrow(() -> e);
+                    }
+                });
+    }
+
+    private Summary getOrCreateYccWorkSummary(Long workId) {
+        return summaryRepository.findByWorkId(workId)
+                .orElseGet(() -> {
+                    Work work = workRepository.findById(workId)
+                            .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+                    WorkSummaryResponse response = openAiPort.createWorkSummary(
+                            openAiFactory.buildYccOpenAiRequest(workId)
+                    );
+
+                    try {
+                        return summaryRepository.saveAndFlush(SummaryMapper.toEntity(work, response));
+                    } catch (DataIntegrityViolationException e) {
+                        return summaryRepository.findByWorkId(workId)
+                                .orElseThrow(() -> e);
+                    }
+                });
     }
 }

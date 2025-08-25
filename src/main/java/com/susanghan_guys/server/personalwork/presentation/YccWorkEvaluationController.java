@@ -5,6 +5,7 @@ import com.susanghan_guys.server.personalwork.application.YccWorkEvaluationServi
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
 import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
+import com.susanghan_guys.server.personalwork.presentation.swagger.WorkEvaluationSwagger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,15 +18,17 @@ import static com.susanghan_guys.server.personalwork.presentation.response.Perso
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/personal-works")
-public class YccWorkEvaluationController {
+public class YccWorkEvaluationController implements WorkEvaluationSwagger {
 
     private final YccWorkEvaluationService yccWorkEvaluationService;
 
+    @Override
     @PostMapping("/ycc/{workId}/evaluation")
     public CommonResponse<YccWorkEvaluationResponse> createYccWorkEvaluation(@PathVariable Long workId) {
         return CommonResponse.success(YCC_WORK_EVALUATION_SUCCESS, yccWorkEvaluationService.createYccWorkEvaluation(workId));
     }
 
+    @Override
     @PostMapping("/ycc/{workId}/evaluation/{type}")
     public CommonResponse<YccDetailEvaluationResponse> createYccDetailEvaluation(
             @PathVariable Long workId,

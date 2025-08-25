@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 @Builder
-@Schema(description = "출품작 요약 생성")
+@Schema(description = "출품작 요약 생성 API")
 public record WorkSummaryResponse(
         @Schema(
                 description = "Target",
