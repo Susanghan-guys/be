@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ScoreCalculator {
 
-    public static Integer calculateTotalScore(List<Evaluation> evaluations) {
+    public static int calculateTotalScore(List<Evaluation> evaluations) {
         double total = evaluations.stream()
                 .mapToDouble(Evaluation::getScore)
                 .map(score -> score * 5)

@@ -62,7 +62,7 @@ public class WorkSummaryService {
                     );
 
                     try {
-                        return summaryRepository.save(SummaryMapper.toEntity(work, response));
+                        return summaryRepository.saveAndFlush(SummaryMapper.toEntity(work, response));
                     } catch (DataIntegrityViolationException e) {
                         return summaryRepository.findByWorkId(workId)
                                 .orElseThrow(() -> e);
@@ -81,7 +81,7 @@ public class WorkSummaryService {
                     );
 
                     try {
-                        return summaryRepository.save(SummaryMapper.toEntity(work, response));
+                        return summaryRepository.saveAndFlush(SummaryMapper.toEntity(work, response));
                     } catch (DataIntegrityViolationException e) {
                         return summaryRepository.findByWorkId(workId)
                                 .orElseThrow(() -> e);
