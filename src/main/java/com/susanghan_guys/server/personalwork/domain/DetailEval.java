@@ -18,11 +18,11 @@ public class DetailEval extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "detail_eval_type", nullable = false)
+    @Column(name = "detail_eval_type", nullable = false, length = 50)
     private DetailEvalType type;
 
     @Column(name = "score", nullable = false)

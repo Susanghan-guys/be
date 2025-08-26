@@ -43,6 +43,7 @@ public class YccWorkEvaluationPrompt {
                 1. Output "rationale": 1-3 sentences in Korean, informal ending (~임, ~였음), one continuous paragraph.
                 - Must directly reference at least one campaign concept, executional idea, or visual/strategic element from the submission.
                 - Do NOT copy the campaign title, slogans, or surface text.
+                - Do NOT simply repeat the sub-criterion label; provide a distinct and specific evaluation comment.
                 - The rationale should be short, concrete, and sound like an actual evaluation comment (similar in style to professional jury scoring), not vague feedback.
                 2. Output "score": INTEGER (0-10).
 

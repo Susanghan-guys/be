@@ -29,7 +29,7 @@ public class Evaluation extends BaseEntity {
     private double score;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "evaluation_type", nullable = false)
+    @Column(name = "evaluation_type", length = 50, nullable = false)
     private EvaluationType type;
 
     @OneToMany(mappedBy = "evaluation", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -55,5 +55,12 @@ public class Evaluation extends BaseEntity {
     public void addDetail(DetailEval detailEval) {
         this.details.add(detailEval);
         detailEval.associateEvaluation(this);
+    }
+
+    public void updateScore(List<DetailEval> detailEvals) {
+        this.score = detailEvals.stream()
+                .mapToDouble(DetailEval::getScore)
+                .average()
+                .orElse(0.0);
     }
 }

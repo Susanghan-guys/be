@@ -6,8 +6,6 @@ import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
 import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
 import com.susanghan_guys.server.personalwork.domain.BrandBrief;
-import com.susanghan_guys.server.personalwork.exception.PersonalWorkException;
-import com.susanghan_guys.server.personalwork.exception.code.PersonalWorkErrorCode;
 import com.susanghan_guys.server.personalwork.infrastructure.mapper.BrandBriefMapper;
 import com.susanghan_guys.server.personalwork.infrastructure.persistence.BrandBriefRepository;
 import com.susanghan_guys.server.work.domain.Work;
@@ -15,11 +13,9 @@ import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,10 +23,11 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class OpenAiFactory {
 
-    private final PdfFilePort pdfFilePort;
     private final WorkRepository workRepository;
+    private final PdfFilePort pdfFilePort;
     private final BrandBriefRepository brandBriefRepository;
     private final PersonalWorkValidator personalWorkValidator;
+
 
     public OpenAiRequest buildYccOpenAiRequest(Long workId) {
         List<String> imageUrls = pdfFilePort.convertYccPdfToImage(workId).stream()
@@ -43,8 +40,16 @@ public class OpenAiFactory {
         return new OpenAiRequest(imageUrls);
     }
 
+    // DCA - only 이미지(+기획안)
+    public OpenAiRequest buildDcaOpenAiRequest(Long workId) {
+
+        List<String> imageUrls = collectDcaImageUrls(workId);
+
+        return new OpenAiRequest(imageUrls);
+    }
+
     // DCA - 이미지 + 브랜드 브리프
-    public DcaOpenAiRequest buildDcaEvaluationRequest(Long workId) {
+    public DcaOpenAiRequest buildDcaOpenAiRequestWithBrief(Long workId) {
         List<String> imageUrls = collectDcaImageUrls(workId);
 
         Work work = workRepository.findById(workId)
@@ -57,6 +62,7 @@ public class OpenAiFactory {
     }
 
     private List<String> collectDcaImageUrls(Long workId) {
+        // FIXME: DIP 위반 -> 추후 수정 필수.
         List<String> imageUrls = new ArrayList<>(workRepository.findWorkContentByWorkId(workId));
 
         List<PdfImage> pdfImages = pdfFilePort.convertDcaPdfToImage(workId);
