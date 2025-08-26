@@ -72,7 +72,6 @@ public class DcaBriefEvaluationPrompt {
                 - "interpretation": exactly 2 sentences ([brief core] → [how reflected in campaign]).
                 - "consistency": 3–4 sentences with concrete examples of alignment.
                 - "weakness": **at least 1 sentence** (prefer 2), each naming a concrete element and its impact on brief/brand alignment; avoid design-only or time/place-specific remarks.
-                Submission Description: {submission_description}
                 """.formatted(briefBlock);
 
         return new OpenAiPrompt(system, user);
