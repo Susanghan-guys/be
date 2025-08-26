@@ -4,6 +4,7 @@ import com.susanghan_guys.server.file.domain.PdfImage;
 import com.susanghan_guys.server.global.client.openai.DcaOpenAiRequest;
 import com.susanghan_guys.server.global.client.openai.OpenAiRequest;
 import com.susanghan_guys.server.personalwork.application.port.PdfFilePort;
+import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
 import com.susanghan_guys.server.personalwork.domain.BrandBrief;
 import com.susanghan_guys.server.personalwork.exception.PersonalWorkException;
 import com.susanghan_guys.server.personalwork.exception.code.PersonalWorkErrorCode;
@@ -29,6 +30,7 @@ public class OpenAiFactory {
     private final PdfFilePort pdfFilePort;
     private final WorkRepository workRepository;
     private final BrandBriefRepository brandBriefRepository;
+    private final PersonalWorkValidator personalWorkValidator;
 
     public OpenAiRequest buildYccOpenAiRequest(Long workId) {
         List<String> imageUrls = pdfFilePort.convertYccPdfToImage(workId).stream()
@@ -36,9 +38,7 @@ public class OpenAiFactory {
                 .filter(Objects::nonNull)
                 .toList();
 
-        if (imageUrls.isEmpty()) {
-            throw new PersonalWorkException(PersonalWorkErrorCode.WORK_IMAGE_NOT_FOUND);
-        }
+        personalWorkValidator.validatePersonalWork(imageUrls);
 
         return new OpenAiRequest(imageUrls);
     }
@@ -67,9 +67,7 @@ public class OpenAiFactory {
                         .toList()
         );
 
-        if (imageUrls.isEmpty()) {
-            throw new PersonalWorkException(PersonalWorkErrorCode.WORK_IMAGE_NOT_FOUND);
-        }
+        personalWorkValidator.validatePersonalWork(imageUrls);
 
         return imageUrls;
     }

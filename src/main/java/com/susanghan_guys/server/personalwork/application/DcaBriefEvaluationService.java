@@ -25,7 +25,6 @@ public class DcaBriefEvaluationService {
     private final CurrentUserProvider currentUserProvider;
     private final OpenAiPort openAiPort;
     private final OpenAiFactory openAiFactory;
-    private final WorkRepository workRepository;
     private final PersonalWorkValidator personalWorkValidator;
 
     public DcaBriefEvaluationResponse createDcaBriefEvaluation(Long workId) {
@@ -33,15 +32,10 @@ public class DcaBriefEvaluationService {
 
         personalWorkValidator.validatePersonalWorkOwner(workId, user);
 
-        List<String> imageUrls = new ArrayList<>(workRepository.findWorkContentByWorkId(workId));
-
-        personalWorkValidator.validatePersonalWork(imageUrls);
-
         DcaOpenAiRequest request = openAiFactory.buildDcaEvaluationRequest(workId);
 
         // TODO: DB 저장 코드 구현
 
         return openAiPort.createDcaBriefEvaluation(request);
     }
-
 }
