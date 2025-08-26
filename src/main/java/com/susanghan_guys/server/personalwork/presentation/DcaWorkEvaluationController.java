@@ -5,6 +5,7 @@ import com.susanghan_guys.server.personalwork.application.DcaWorkEvaluationServi
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
 import com.susanghan_guys.server.personalwork.dto.response.DcaWorkEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.DetailEvaluationResponse;
+import com.susanghan_guys.server.personalwork.presentation.swagger.DcaWorkEvaluationSwagger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,17 +16,19 @@ import static com.susanghan_guys.server.personalwork.presentation.response.Perso
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/personal-works/dca")
-public class DcaWorkEvaluationController {
+@RequestMapping("/v1/personal-works")
+public class DcaWorkEvaluationController implements DcaWorkEvaluationSwagger {
 
     private final DcaWorkEvaluationService dcaWorkEvaluationService;
 
-    @PostMapping("/{workId}/evaluation")
+    @Override
+    @PostMapping("/dca/{workId}/evaluation")
     public CommonResponse<DcaWorkEvaluationResponse> createDcaWorkEvaluation(@PathVariable Long workId) {
         return CommonResponse.success(DCA_WORK_EVALUATION_SUCCESS, dcaWorkEvaluationService.createDcaWorkEvaluation(workId));
     }
 
-    @PostMapping("/{workId}/evaluation/{type}")
+    @Override
+    @PostMapping("/dca/{workId}/evaluation/{type}")
     public CommonResponse<DetailEvaluationResponse> createDcaDetailEvaluation(
             @PathVariable Long workId,
             @PathVariable EvaluationType type
