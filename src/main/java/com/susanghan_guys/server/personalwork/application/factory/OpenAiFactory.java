@@ -55,8 +55,12 @@ public class OpenAiFactory {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
-        BrandBrief brief = brandBriefRepository.findByBrand(work.getBrand()).orElse(null);
-        DcaOpenAiRequest.BrandBriefPayload payload = BrandBriefMapper.toPayload(brief);
+        DcaOpenAiRequest.BrandBriefPayload payload = null;
+        var brand = work.getBrand();
+        if (brand != null) {
+            BrandBrief brief = brandBriefRepository.findByBrand(brand).orElse(null);
+            payload = BrandBriefMapper.toPayload(brief);
+        }
 
         return new DcaOpenAiRequest(imageUrls, payload);
     }

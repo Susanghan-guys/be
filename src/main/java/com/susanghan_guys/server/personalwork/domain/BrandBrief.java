@@ -2,11 +2,14 @@ package com.susanghan_guys.server.personalwork.domain;
 
 import com.susanghan_guys.server.work.domain.type.Brand;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "brand_brief")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "brand_brief", uniqueConstraints = @UniqueConstraint(columnNames = "brand"))
 public class BrandBrief {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
