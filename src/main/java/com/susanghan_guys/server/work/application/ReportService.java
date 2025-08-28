@@ -1,6 +1,5 @@
 package com.susanghan_guys.server.work.application;
 
-import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.application.validator.ReportValidator;
