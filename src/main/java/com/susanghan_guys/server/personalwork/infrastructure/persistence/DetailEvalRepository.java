@@ -27,7 +27,7 @@ public interface DetailEvalRepository extends JpaRepository<DetailEval, Long> {
            where e.work.id = :workId
            order by d.score desc, e.score desc, d.id asc
            """)
-    List<DetailEval> findTopStrengths(Long workId, Pageable pageable);
+    List<DetailEval> findTopStrengths(@Param("workId")Long workId, Pageable pageable);
 
     @Query("""
            select d
@@ -36,5 +36,5 @@ public interface DetailEvalRepository extends JpaRepository<DetailEval, Long> {
            where e.work.id = :workId
            order by d.score asc, e.score asc, d.id asc
            """)
-    List<DetailEval> findBottomWeaknesses(Long workId, Pageable pageable);
+    List<DetailEval> findBottomWeaknesses(@Param("workId")Long workId, Pageable pageable);
 }
