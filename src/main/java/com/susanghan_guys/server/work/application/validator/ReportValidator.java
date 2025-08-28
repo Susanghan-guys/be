@@ -18,6 +18,12 @@ public class ReportValidator {
     private final WorkRepository workRepository;
     private final WorkVisibilityRepository workVisibilityRepository;
 
+    public void validateReportInfo(User user, Work work) {
+        if (work.getUser().getId().equals(user.getId())) {
+            throw new WorkException(WorkErrorCode.REPORT_UNAUTHORIZED);
+        }
+    }
+
     public void validateReportCode(User user, Work work, ReportCodeRequest request) {
         if (work.getUser().getId().equals(user.getId())) {
             throw new WorkException(WorkErrorCode.APPLICANTS_NOT_CODE_VERIFIED);

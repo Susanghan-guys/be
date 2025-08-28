@@ -33,6 +33,7 @@ public enum WorkErrorCode implements BaseCode {
     APPLICANTS_NOT_CODE_VERIFIED(HttpStatus.FORBIDDEN, 403, "신청자는 리포트 코드 인증이 불가능합니다."),
     APPLICANTS_NOT_DELETED(HttpStatus.FORBIDDEN, 403, "신청자는 리포트를 삭제할 수 없습니다."),
     DELETABLE_WORK_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "삭제 가능한 리포트가 존재하지 않습니다."),
+    REPORT_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, 401, "리포트 열람 권한이 없습니다."),
     ;
 
     private final HttpStatus httpStatus;

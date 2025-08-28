@@ -56,10 +56,12 @@ public class ReportService {
     }
 
     public ReportInfoResponse getReportInfo(Long workId) {
-        currentUserProvider.getCurrentUser();
+        User user = currentUserProvider.getCurrentUser();
 
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+        reportValidator.validateReportInfo(user, work);
 
         return ReportInfoResponse.from(work);
     }
