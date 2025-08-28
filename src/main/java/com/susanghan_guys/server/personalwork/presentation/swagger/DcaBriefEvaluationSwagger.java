@@ -31,4 +31,24 @@ public interface DcaBriefEvaluationSwagger {
             )
     })
     CommonResponse<DcaBriefEvaluationResponse> createDcaBriefEvaluation(@PathVariable Long workId);
+
+    @Operation(
+            summary = "DCA 출품작 브리프 해석 API",
+            description = """
+            ### PathVariable
+            - `workId` : 작품 고유 ID
+            
+            ### Response
+            - interpretation : 브리프 해석
+            - consistency    : 반영 일관성
+            - weakness       : 보완점
+            """
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "DCA 출품작에 대한 브리프 해석이 성공적으로 생성되었습니다."
+            )
+    })
+    CommonResponse<DcaBriefEvaluationResponse> getDcaBriefEvaluation(@PathVariable Long workId);
 }

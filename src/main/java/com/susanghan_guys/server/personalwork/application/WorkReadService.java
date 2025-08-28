@@ -11,6 +11,7 @@ import com.susanghan_guys.server.personalwork.infrastructure.mapper.DetailEvalMa
 import com.susanghan_guys.server.personalwork.infrastructure.persistence.DetailEvalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class WorkReadService {
     private final PersonalWorkValidator personalWorkValidator;
     private final DetailEvalRepository detailEvalRepository;
 
+    @Transactional(readOnly = true)
     public DetailEvaluationResponse getDetailEvaluation(Long workId, EvaluationType type) {
         personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
         personalWorkValidator.validateEvaluationExists(workId);

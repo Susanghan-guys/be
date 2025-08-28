@@ -10,6 +10,7 @@ import com.susanghan_guys.server.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class StrengthWeaknessService {
     private final PersonalWorkValidator personalWorkValidator;
     private final DetailEvalRepository detailEvalRepository;
 
+    @Transactional(readOnly = true)
     public List<DetailEvaluationResponse.DetailEvaluation> getStrengths(Long workId) {
         User user = currentUserProvider.getCurrentUser();
         personalWorkValidator.validatePersonalWorkOwner(workId, user);
@@ -32,6 +34,7 @@ public class StrengthWeaknessService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<DetailEvaluationResponse.DetailEvaluation> getWeaknesses(Long workId) {
         User currentUser = currentUserProvider.getCurrentUser();
         personalWorkValidator.validatePersonalWorkOwner(workId, currentUser);

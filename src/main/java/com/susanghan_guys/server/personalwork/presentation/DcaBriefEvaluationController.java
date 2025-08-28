@@ -5,10 +5,7 @@ import com.susanghan_guys.server.personalwork.application.DcaBriefEvaluationServ
 import com.susanghan_guys.server.personalwork.dto.response.DcaBriefEvaluationResponse;
 import com.susanghan_guys.server.personalwork.presentation.swagger.DcaBriefEvaluationSwagger;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.DCA_BRIEF_EVALUATION_SUCCESS;
 
@@ -23,5 +20,11 @@ public class DcaBriefEvaluationController implements DcaBriefEvaluationSwagger {
     @PostMapping("/{workId}/brief-evaluation")
     public CommonResponse<DcaBriefEvaluationResponse> createDcaBriefEvaluation(@PathVariable Long workId) {
         return CommonResponse.success(DCA_BRIEF_EVALUATION_SUCCESS, dcaBriefEvaluationService.createDcaBriefEvaluation(workId));
+    }
+
+    @Override
+    @GetMapping("/{workId}/brief-evaluation")
+    public CommonResponse<DcaBriefEvaluationResponse> getDcaBriefEvaluation(@PathVariable Long workId) {
+        return CommonResponse.success(DCA_BRIEF_EVALUATION_SUCCESS, dcaBriefEvaluationService.getDcaBriefEvaluation(workId));
     }
 }

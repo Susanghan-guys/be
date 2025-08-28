@@ -61,6 +61,21 @@ public class YccWorkEvaluationService {
         return DetailEvalMapper.toResponse(detailEvals);
     }
 
+    @Transactional(readOnly = true)
+    public YccWorkEvaluationResponse getYccWorkEvaluation(Long workId) {
+
+        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
+
+        List<Evaluation> yccEvals = evaluationRepository
+                .findAllByWorkIdAndTypeIn(workId, EvaluationType.yccTypes());
+
+        if (yccEvals.isEmpty()) {
+            throw new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND);
+        }
+
+        return EvaluationMapper.toYccResponse(yccEvals);
+    }
+
     private List<Evaluation> getOrCreateEvaluation(Long workId) {
         List<Evaluation> existing = evaluationRepository.findAllByWorkId(workId);
         if (!existing.isEmpty()) {
@@ -105,19 +120,5 @@ public class YccWorkEvaluationService {
         evaluation.updateScore(detailEvals);
 
         return detailEvals;
-    }
-
-    public YccWorkEvaluationResponse getYccWorkEvaluation(Long workId) {
-
-        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
-
-        List<Evaluation> yccEvals = evaluationRepository
-                .findAllByWorkIdAndTypeIn(workId, EvaluationType.yccTypes());
-
-        if (yccEvals.isEmpty()) {
-            throw new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND);
-        }
-
-        return EvaluationMapper.toYccResponse(yccEvals);
     }
 }

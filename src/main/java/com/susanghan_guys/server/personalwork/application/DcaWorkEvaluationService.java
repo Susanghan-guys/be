@@ -23,6 +23,7 @@ import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class DcaWorkEvaluationService {
     private final DetailEvalRepository detailEvalRepository;
     private final WorkRepository workRepository;
 
+    @Transactional
     public DcaWorkEvaluationResponse createDcaWorkEvaluation(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
@@ -50,6 +52,7 @@ public class DcaWorkEvaluationService {
         return EvaluationMapper.toDcaResponse(evaluations);
     }
 
+    @Transactional
     public DetailEvaluationResponse createDcaDetailEvaluation(Long workId, EvaluationType type) {
         User user = currentUserProvider.getCurrentUser();
 
@@ -58,6 +61,21 @@ public class DcaWorkEvaluationService {
         List<DetailEval> detailEvals = getOrCreateDetailEvaluation(workId, type);
 
         return DetailEvalMapper.toResponse(detailEvals);
+    }
+
+    @Transactional(readOnly = true)
+    public DcaWorkEvaluationResponse getDcaWorkEvaluation(Long workId) {
+
+        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
+
+        List<Evaluation> dcaEvals = evaluationRepository
+                .findAllByWorkIdAndTypeIn(workId, EvaluationType.dcaTypes());
+
+        if (dcaEvals.isEmpty()) {
+            throw new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND);
+        }
+
+        return EvaluationMapper.toDcaResponse(dcaEvals);
     }
 
     private List<Evaluation> getOrCreateEvaluation(Long workId) {
@@ -106,17 +124,4 @@ public class DcaWorkEvaluationService {
         return detailEvals;
     }
 
-    public DcaWorkEvaluationResponse getDcaWorkEvaluation(Long workId) {
-
-        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
-
-        List<Evaluation> dcaEvals = evaluationRepository
-                .findAllByWorkIdAndTypeIn(workId, EvaluationType.dcaTypes());
-
-        if (dcaEvals.isEmpty()) {
-            throw new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND);
-        }
-
-        return EvaluationMapper.toDcaResponse(dcaEvals);
-    }
 }
