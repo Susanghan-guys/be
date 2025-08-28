@@ -4,6 +4,7 @@ import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
 import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
+import com.susanghan_guys.server.work.dto.response.ReportInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -29,6 +30,20 @@ public interface ReportSwagger {
     CommonResponse<MyReportListResponse> getMyReports(
             @RequestParam(name = "page") @Min(0) Integer page,
             @RequestParam(required = false) String name
+    );
+
+    @Operation(
+            summary = "리포트 정보 조회 API",
+            description = "분석 완료된 출품작에 대한 리포트 정보를 조회합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "리포트 정보에 대한 조회가 성공적으로 실행되었습니다."
+            )
+    })
+    CommonResponse<ReportInfoResponse> getReportInfo(
+            @PathVariable(name = "workId") Long workId
     );
 
     @Operation(

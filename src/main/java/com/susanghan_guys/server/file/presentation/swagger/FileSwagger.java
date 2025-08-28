@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Tag(name = "[파일 변환]", description = "DCA, YCC 작품 내 PDF -> IMAGE 변환 관련 API")
+@Tag(name = "[백엔드 내부 - 파일 변환]", description = "DCA, YCC 작품 내 PDF -> IMAGE 변환 관련 API")
 public interface FileSwagger {
     @Operation(
             summary = "DCA 작품 PDF -> IMAGE 변환 API",

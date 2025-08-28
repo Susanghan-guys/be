@@ -1,6 +1,5 @@
 package com.susanghan_guys.server.work.application;
 
-import com.susanghan_guys.server.global.exception.BusinessException;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.application.validator.ReportValidator;
@@ -9,6 +8,7 @@ import com.susanghan_guys.server.work.domain.WorkVisibility;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
 import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
+import com.susanghan_guys.server.work.dto.response.ReportInfoResponse;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
@@ -53,6 +53,17 @@ public class ReportService {
                 : workRepository.findDeletableWorks(workIds, user.getId());
 
         return MyReportListResponse.of(works, deletableWorks);
+    }
+
+    public ReportInfoResponse getReportInfo(Long workId) {
+        User user = currentUserProvider.getCurrentUser();
+
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+        reportValidator.validateReportInfo(user, work);
+
+        return ReportInfoResponse.from(work);
     }
 
     @Transactional
