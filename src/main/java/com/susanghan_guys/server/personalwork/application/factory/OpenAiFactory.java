@@ -9,6 +9,7 @@ import com.susanghan_guys.server.personalwork.domain.BrandBrief;
 import com.susanghan_guys.server.personalwork.infrastructure.mapper.BrandBriefMapper;
 import com.susanghan_guys.server.personalwork.infrastructure.persistence.BrandBriefRepository;
 import com.susanghan_guys.server.work.domain.Work;
+import com.susanghan_guys.server.work.domain.type.Brand;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
@@ -56,7 +57,7 @@ public class OpenAiFactory {
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
         DcaOpenAiRequest.BrandBriefPayload payload = null;
-        var brand = work.getBrand();
+        Brand brand = work.getBrand();
         if (brand != null) {
             BrandBrief brief = brandBriefRepository.findByBrand(brand).orElse(null);
             payload = BrandBriefMapper.toPayload(brief);
@@ -69,6 +70,7 @@ public class OpenAiFactory {
         // FIXME: DIP 위반 -> 추후 수정 필수.
         List<String> imageUrls = new ArrayList<>(workRepository.findWorkContentByWorkId(workId));
 
+        // 추가 파일(기획안)이 존재할 경우, 브리프 보드 + 추가 파일(기획안) 함께 전송
         List<PdfImage> pdfImages = pdfFilePort.convertDcaPdfToImage(workId);
         imageUrls.addAll(
                 pdfImages.stream()
