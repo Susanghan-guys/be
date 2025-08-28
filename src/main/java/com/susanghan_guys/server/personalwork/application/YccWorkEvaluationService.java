@@ -21,6 +21,7 @@ import com.susanghan_guys.server.work.domain.type.ReportStatus;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
+import com.susanghan_guys.server.work.infrastructure.persistence.WorkVisibilityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ public class YccWorkEvaluationService {
     private final OpenAiPort openAiPort;
     private final OpenAiFactory openAiFactory;
     private final WorkRepository workRepository;
+    private final WorkVisibilityRepository workVisibilityRepository;
     private final EvaluationRepository evaluationRepository;
     private final DetailEvalRepository detailEvalRepository;
     private final PersonalWorkValidator personalWorkValidator;
@@ -43,9 +45,14 @@ public class YccWorkEvaluationService {
     public YccWorkEvaluationResponse createYccWorkEvaluation(Long workId) {
         User user = currentUserProvider.getCurrentUser();
 
-        personalWorkValidator.validatePersonalWorkOwner(workId, user);
-
-        List<Evaluation> evaluations = getOrCreateEvaluation(workId);
+        List<Evaluation> evaluations;
+        if (personalWorkValidator.isOwner(workId, user.getId())) {
+            evaluations = getOrCreateEvaluation(workId);
+        } else if (workVisibilityRepository.existsByWorkIdAndUserIdAndVisibleTrue(workId, user.getId())) {
+            evaluations = evaluationRepository.findAllByWorkId(workId);
+        } else {
+            throw new WorkException(WorkErrorCode.REPORT_UNAUTHORIZED);
+        }
 
         return EvaluationMapper.toResponse(evaluations);
     }
@@ -54,9 +61,14 @@ public class YccWorkEvaluationService {
     public DetailEvaluationResponse createYccDetailEvaluation(Long workId, EvaluationType type) {
         User user = currentUserProvider.getCurrentUser();
 
-        personalWorkValidator.validatePersonalWorkOwner(workId, user);
-
-        List<DetailEval> detailEvals = getOrCreateDetailEvaluation(workId, type);
+        List<DetailEval> detailEvals;
+        if (personalWorkValidator.isOwner(workId, user.getId())) {
+            detailEvals = getOrCreateDetailEvaluation(workId, type);
+        } else if (workVisibilityRepository.existsByWorkIdAndUserIdAndVisibleTrue(workId, user.getId())) {
+            detailEvals = detailEvalRepository.findByWorkIdAndEvaluationType(workId, type);
+        } else {
+            throw new WorkException(WorkErrorCode.REPORT_UNAUTHORIZED);
+        }
 
         return DetailEvalMapper.toResponse(detailEvals);
     }

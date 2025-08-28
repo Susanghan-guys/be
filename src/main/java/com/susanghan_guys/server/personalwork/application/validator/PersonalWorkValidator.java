@@ -16,6 +16,13 @@ public class PersonalWorkValidator {
 
     private final WorkRepository workRepository;
 
+    public boolean isOwner(Long workId, Long userId) {
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.WORK_NOT_FOUND));
+
+        return work.getUser().getId().equals(userId);
+    }
+
     public void validatePersonalWorkOwner(Long workId, User user) {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.WORK_NOT_FOUND));
