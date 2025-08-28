@@ -19,7 +19,7 @@ public class ReportValidator {
     private final WorkVisibilityRepository workVisibilityRepository;
 
     public void validateReportInfo(User user, Work work) {
-        if (work.getUser().getId().equals(user.getId())) {
+        if (!work.getUser().getId().equals(user.getId())) {
             throw new WorkException(WorkErrorCode.REPORT_UNAUTHORIZED);
         }
     }
