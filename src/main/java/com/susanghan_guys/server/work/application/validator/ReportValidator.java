@@ -19,7 +19,8 @@ public class ReportValidator {
     private final WorkVisibilityRepository workVisibilityRepository;
 
     public void validateReportInfo(User user, Work work) {
-        if (!work.getUser().getId().equals(user.getId())) {
+        boolean isVisible = workVisibilityRepository.existsByWorkIdAndUserIdAndVisibleTrue(work.getId(), user.getId());
+        if (!work.getUser().getId().equals(user.getId()) && !isVisible) {
             throw new WorkException(WorkErrorCode.REPORT_UNAUTHORIZED);
         }
     }
