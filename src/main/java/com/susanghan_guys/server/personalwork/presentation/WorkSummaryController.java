@@ -7,8 +7,7 @@ import com.susanghan_guys.server.personalwork.presentation.swagger.WorkSummarySw
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.DCA_WORK_SUMMARY_SUCCESS;
-import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.YCC_WORK_SUMMARY_SUCCESS;
+import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +26,11 @@ public class WorkSummaryController implements WorkSummarySwagger {
     @PostMapping("/ycc/{workId}/summary")
     public CommonResponse<WorkSummaryResponse> createYccWorkSummary(@PathVariable(name = "workId") Long workId) {
         return CommonResponse.success(YCC_WORK_SUMMARY_SUCCESS, workSummaryService.createYccWorkSummary(workId));
+    }
+
+    @Override
+    @GetMapping("/{workId}/summary")
+    public CommonResponse<WorkSummaryResponse> getWorkSummary(@PathVariable Long workId) {
+        return CommonResponse.success(WORK_SUMMARY_SUCCESS, workSummaryService.getWorkSummary(workId));
     }
 }

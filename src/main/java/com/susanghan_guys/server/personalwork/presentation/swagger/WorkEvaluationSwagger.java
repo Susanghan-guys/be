@@ -97,4 +97,14 @@ public interface WorkEvaluationSwagger {
             @PathVariable EvaluationType type
     );
 
+    @Operation(summary = "DCA 전체 총평 조회")
+    CommonResponse<DcaWorkEvaluationResponse> getDcaWorkEvaluation(@PathVariable Long workId);
+
+    @Operation(summary = "YCC 전체 총평 조회")
+    CommonResponse<YccWorkEvaluationResponse> getYccWorkEvaluation(@PathVariable Long workId);
+
+    @Operation(summary = "세부 총평 조회")
+    CommonResponse<DetailEvaluationResponse> getDetailEvaluation(@PathVariable Long workId, @PathVariable EvaluationType type);
+
+
 }

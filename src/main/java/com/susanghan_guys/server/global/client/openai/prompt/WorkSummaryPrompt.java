@@ -14,6 +14,7 @@ public class WorkSummaryPrompt {
                 - Insight: One sentence revealing the unique perspective or interpretation of the problem.
                 - Solution: One sentence explaining how the idea works to solve the problem, including execution and intended audience reaction.
                 Respond in Korean.
+                End sentence with "~한다", "~이다", "~하고 있다" (avoid "~습니다", "~임", "~했음").
                 """;
 
         String user = """

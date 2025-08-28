@@ -106,4 +106,18 @@ public class YccWorkEvaluationService {
 
         return detailEvals;
     }
+
+    public YccWorkEvaluationResponse getYccWorkEvaluation(Long workId) {
+
+        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
+
+        List<Evaluation> yccEvals = evaluationRepository
+                .findAllByWorkIdAndTypeIn(workId, EvaluationType.yccTypes());
+
+        if (yccEvals.isEmpty()) {
+            throw new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND);
+        }
+
+        return EvaluationMapper.toYccResponse(yccEvals);
+    }
 }

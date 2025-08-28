@@ -20,8 +20,12 @@ public enum PersonalWorkSuccessCode implements BaseCode {
     DCA_BRIEF_EVALUATION_SUCCESS(HttpStatus.OK, 200, "Dca Brief Evaluation Success"),
 
     WORK_STRENGTHS_SUCCESS(HttpStatus.OK, 200, "Work Strengths Retrieval Success"),
-    WORK_WEAKNESSES_SUCCESS(HttpStatus.OK, 200, "Work Weaknesses Retrieval Success")
-    ;
+    WORK_WEAKNESSES_SUCCESS(HttpStatus.OK, 200, "Work Weaknesses Retrieval Success"),
+
+    WORK_DETAILS_FETCH_SUCCESS(HttpStatus.OK, 200, "Work Detail Evaluation Success"),
+    WORK_SUMMARY_SUCCESS(HttpStatus.OK, 200, "Work Summary Retrieval Success")
+
+            ;
 
     private final HttpStatus httpStatus;
     private final int status;

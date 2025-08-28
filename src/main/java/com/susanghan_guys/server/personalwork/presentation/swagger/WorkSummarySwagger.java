@@ -45,4 +45,8 @@ public interface WorkSummarySwagger {
     CommonResponse<WorkSummaryResponse> createYccWorkSummary(
             @PathVariable(name = "workId") Long workId
     );
+
+    @Operation(summary = "요약(Summary) 조회")
+    CommonResponse<WorkSummaryResponse> getWorkSummary(@PathVariable Long workId);
+
 }

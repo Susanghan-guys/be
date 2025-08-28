@@ -3,6 +3,8 @@ package com.susanghan_guys.server.personalwork.domain.type;
 import com.susanghan_guys.server.work.domain.type.WorkType;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public enum EvaluationType {
     TARGET_FITNESS("타겟 적합성", WorkType.DCA_ALL),
@@ -24,5 +26,25 @@ public enum EvaluationType {
     EvaluationType(String label, WorkType type) {
         this.label = label;
         this.type = type;
+    }
+
+    public static List<EvaluationType> yccTypes() {
+        return List.of(
+                YCC_FEASIBILITY,
+                YCC_MEDIA_SELECTION,
+                AGENDA_SELECTION,
+                INFLUENCE,
+                DELIVERY
+        );
+    }
+
+    public static List<EvaluationType> dcaTypes() {
+        return List.of(
+                TARGET_FITNESS,
+                BRAND_UNDERSTANDING,
+                DCA_MEDIA_SELECTION,
+                PROBLEM_DEFINITION,
+                DCA_FEASIBILITY
+        );
     }
 }

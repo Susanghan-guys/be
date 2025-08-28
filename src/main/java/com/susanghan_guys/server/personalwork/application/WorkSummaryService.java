@@ -6,6 +6,8 @@ import com.susanghan_guys.server.personalwork.application.port.OpenAiPort;
 import com.susanghan_guys.server.personalwork.application.validator.PersonalWorkValidator;
 import com.susanghan_guys.server.personalwork.domain.Summary;
 import com.susanghan_guys.server.personalwork.dto.response.WorkSummaryResponse;
+import com.susanghan_guys.server.personalwork.exception.PersonalWorkException;
+import com.susanghan_guys.server.personalwork.exception.code.PersonalWorkErrorCode;
 import com.susanghan_guys.server.personalwork.infrastructure.mapper.SummaryMapper;
 import com.susanghan_guys.server.personalwork.infrastructure.persistence.SummaryRepository;
 import com.susanghan_guys.server.user.domain.User;
@@ -87,5 +89,16 @@ public class WorkSummaryService {
                                 .orElseThrow(() -> e);
                     }
                 });
+    }
+
+    public WorkSummaryResponse getWorkSummary(Long workId) {
+        personalWorkValidator.validatePersonalWorkOwner(
+                workId, currentUserProvider.getCurrentUser()
+        );
+
+        Summary summary = summaryRepository.findByWorkId(workId)
+                .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.SUMMARY_NOT_FOUND));
+
+        return SummaryMapper.toResponse(summary);
     }
 }

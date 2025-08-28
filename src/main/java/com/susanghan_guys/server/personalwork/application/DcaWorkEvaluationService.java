@@ -26,6 +26,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.susanghan_guys.server.personalwork.exception.code.PersonalWorkErrorCode.EVALUATION_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class DcaWorkEvaluationService {
@@ -90,7 +92,7 @@ public class DcaWorkEvaluationService {
         }
 
         Evaluation evaluation = evaluationRepository.findByWorkIdAndType(workId, type)
-                .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND));
+                .orElseThrow(() -> new PersonalWorkException(EVALUATION_NOT_FOUND));
 
         DetailEvaluationResponse response = openAiPort.createDcaDetailEvaluation(
                 openAiFactory.buildDcaOpenAiRequestWithBrief(workId), type
@@ -102,5 +104,19 @@ public class DcaWorkEvaluationService {
         evaluation.updateScore(detailEvals);
 
         return detailEvals;
+    }
+
+    public DcaWorkEvaluationResponse getDcaWorkEvaluation(Long workId) {
+
+        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
+
+        List<Evaluation> dcaEvals = evaluationRepository
+                .findAllByWorkIdAndTypeIn(workId, EvaluationType.dcaTypes());
+
+        if (dcaEvals.isEmpty()) {
+            throw new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND);
+        }
+
+        return EvaluationMapper.toDcaResponse(dcaEvals);
     }
 }
