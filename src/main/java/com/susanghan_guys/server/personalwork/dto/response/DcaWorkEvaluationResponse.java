@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 @Builder
+@Schema(description = "출품작 전체 총평 API")
 public record DcaWorkEvaluationResponse(
 
         @Schema(description = "작품 총점", example = "72")

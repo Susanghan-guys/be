@@ -54,7 +54,7 @@ public class YccWorkEvaluationService {
             throw new WorkException(WorkErrorCode.REPORT_UNAUTHORIZED);
         }
 
-        return EvaluationMapper.toResponse(evaluations);
+        return EvaluationMapper.toYccResponse(evaluations);
     }
 
     @Transactional
@@ -73,6 +73,21 @@ public class YccWorkEvaluationService {
         return DetailEvalMapper.toResponse(detailEvals);
     }
 
+    @Transactional(readOnly = true)
+    public YccWorkEvaluationResponse getYccWorkEvaluation(Long workId) {
+
+        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
+
+        List<Evaluation> yccEvals = evaluationRepository
+                .findAllByWorkIdAndTypeIn(workId, EvaluationType.yccTypes());
+
+        if (yccEvals.isEmpty()) {
+            throw new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND);
+        }
+
+        return EvaluationMapper.toYccResponse(yccEvals);
+    }
+
     private List<Evaluation> getOrCreateEvaluation(Long workId) {
         List<Evaluation> existing = evaluationRepository.findAllByWorkId(workId);
         if (!existing.isEmpty()) {
@@ -86,7 +101,7 @@ public class YccWorkEvaluationService {
                 openAiFactory.buildYccOpenAiRequest(workId)
         );
 
-        List<Evaluation> evaluations = EvaluationMapper.toEntities(work, response);
+        List<Evaluation> evaluations = EvaluationMapper.toYccEntities(work, response);
         evaluationRepository.saveAll(evaluations);
 
         for (Evaluation evaluation : evaluations) {

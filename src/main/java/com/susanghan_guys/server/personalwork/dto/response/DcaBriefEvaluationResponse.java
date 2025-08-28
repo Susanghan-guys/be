@@ -1,7 +1,10 @@
 package com.susanghan_guys.server.personalwork.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
+@Builder
+@Schema(description = "브리프 해석 조회 API")
 public record DcaBriefEvaluationResponse(
 
         @Schema(

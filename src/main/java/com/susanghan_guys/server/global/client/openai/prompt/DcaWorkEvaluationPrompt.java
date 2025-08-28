@@ -100,7 +100,8 @@ public class DcaWorkEvaluationPrompt {
                 - 10-8 points: The work fully and clearly meets the criterion, going beyond expectations with concrete and persuasive execution. (e.g. a heavy theme reframed into a light participatory idea that feels fresh and positive)
                 - 7-6 points: The work sufficiently meets the criterion but shows some lack of clarity, specificity, or persuasiveness. (e.g. a perception shift is attempted but remains limited or predictable)
                 - 5 or below: The work fails to meet the core requirement of the criterion. (e.g. participation exists but the structure lacks potential to expand into a true public campaign)
-                - If the score is 7 or below, include at least one clear limitation, weakness, or risk factor that justifies why the score was lowered.
+                - If the score is 7 or below, and there is a clear reason for the lower score, add at least one limitation, weakness, or risk factor to justify it. \s
+                - If no meaningful reason is apparent, you may omit this part instead of forcing a generic remark.
 
                 Conservativeness:
                 - Do NOT inflate scores without clear evidence.
