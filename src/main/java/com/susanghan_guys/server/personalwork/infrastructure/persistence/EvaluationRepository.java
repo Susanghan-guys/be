@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
     List<Evaluation> findAllByWorkId(Long workId);
     Optional<Evaluation> findByWorkIdAndType(Long workId, EvaluationType type);
+    boolean existsByWorkId(Long workId);
 }
