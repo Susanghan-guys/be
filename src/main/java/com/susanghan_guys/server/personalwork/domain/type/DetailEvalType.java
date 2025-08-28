@@ -7,39 +7,39 @@ import java.util.Arrays;
 @Getter
 public enum DetailEvalType {
     // DCA - 타겟 적합성
-    TARGET_INSIGHT("타겟 인사이트 도출 여부", "prompt", EvaluationType.TARGET_FITNESS),
-    TARGET_LINK("아이디어의 타겟 연계성", "prompt", EvaluationType.TARGET_FITNESS),
-    TARGET_BEHAVIORAL("행동 유도 전략의 타겟화 여부", "prompt", EvaluationType.TARGET_FITNESS),
-    TARGET_TOUCH_POINT("타겟과의 접점 고려 여부", "prompt", EvaluationType.TARGET_FITNESS),
-    TARGET_LIFESTYLE("타겟의 라이프스타일과의 접점 여부", "prompt", EvaluationType.TARGET_FITNESS),
+    TARGET_INSIGHT("타겟 인사이트 도출 여부", "Whether the submission goes beyond the brief’s basic info to derive additional insights or problem awareness about the target audience.", EvaluationType.TARGET_FITNESS),
+    TARGET_LINK("아이디어의 타겟 연계성", "Whether the campaign idea is logically connected to the target’s traits, effectively reflecting their motivations, emotions, and behaviors.", EvaluationType.TARGET_FITNESS),
+    TARGET_BEHAVIORAL("행동 유도 전략의 타겟화 여부", "Whether the campaign includes concrete strategies to drive actions (e.g., participation, sharing, purchase) that are tailored to the target’s characteristics.", EvaluationType.TARGET_FITNESS),
+    TARGET_TOUCH_POINT("타겟과의 접점 고려 여부", "Whether the campaign considers the media channels or physical touchpoints that the target frequently encounters in daily life.", EvaluationType.TARGET_FITNESS),
+    TARGET_LIFESTYLE("타겟의 라이프스타일과의 접점 여부", "Whether the campaign idea naturally aligns with the target’s lifestyle, preferences, and consumption habits.", EvaluationType.TARGET_FITNESS),
 
     // DCA - 브랜드 이해도
-    BRAND_INTENT("브랜드 의도성 파악", "prompt", EvaluationType.BRAND_UNDERSTANDING),
-    BRAND_ASSET("브랜드 고유 자산 반영 여부", "prompt", EvaluationType.BRAND_UNDERSTANDING),
-    BRAND_ONLY_IDEA("해당 브랜드만이 가능한 아이디어인지 여부", "prompt", EvaluationType.BRAND_UNDERSTANDING),
-    CATEGORY_UNDERSTANDING("브랜드가 속한 카테고리에 대한 이해", "prompt", EvaluationType.BRAND_UNDERSTANDING),
-    MARKET_TIMELINESS("시장 및 브랜드 시의성 반영 여부", "prompt", EvaluationType.BRAND_UNDERSTANDING),
+    BRAND_INTENT("브랜드 의도성 파악", "Whether the submission deeply interprets the brand’s true intent from the brief and consistently reflects that interpretation throughout the campaign.", EvaluationType.BRAND_UNDERSTANDING),
+    BRAND_ASSET("브랜드 고유 자산 반영 여부", "Whether the campaign respects and incorporates the brand’s unique identity such as mission, history, heritage, and product philosophy without undermining it.", EvaluationType.BRAND_UNDERSTANDING),
+    BRAND_ONLY_IDEA("해당 브랜드만이 가능한 아이디어인지 여부", "Whether the campaign idea is inseparable from the brand itself, meaning it could not be substituted by another brand without losing its essence.", EvaluationType.BRAND_UNDERSTANDING),
+    CATEGORY_UNDERSTANDING("브랜드가 속한 카테고리에 대한 이해", "Whether the campaign takes into account the specific characteristics of the brand’s product or industry category (e.g., automotive, food & beverage, financial services).", EvaluationType.BRAND_UNDERSTANDING),
+    MARKET_TIMELINESS("시장 및 브랜드 시의성 반영 여부", "Whether the campaign acknowledges current market changes or brand image shifts and actively interprets or addresses them in a timely manner.", EvaluationType.BRAND_UNDERSTANDING),
 
     // DCA - 매체 선정
     DCA_MEDIA_STRATEGY_FIT("캠페인 목적에 적합한 매체 전략 선정 여부", "Whether the chosen media type and format strategically align with the campaign’s main objectives (e.g., awareness, prevention, engagement, or brand experience), ensuring that the medium itself reinforces the campaign’s purpose.", EvaluationType.DCA_MEDIA_SELECTION),
     DCA_MEDIA_CREATIVITY("매체 활용의 창의성 및 확장성", "Whether the campaign redefines or extends the meaning of existing media in a creative way, or discovers new opportunities for expansion beyond conventional usage.", EvaluationType.DCA_MEDIA_SELECTION),
     DCA_MEDIA_CONTEXTUALITY("맥락 및 상황에 기반한 매체 활용 여부", "Whether media placement and usage are contextually relevant, integrating naturally into the target’s daily life, behaviors, and environments so the message feels timely and situationally appropriate.", EvaluationType.DCA_MEDIA_SELECTION),
-    DCA_MEDIA_SYNERGY("채널 간 유기성 및 시너지 구조 (기획서 형식만)", "prompt", EvaluationType.DCA_MEDIA_SELECTION),
+    DCA_MEDIA_VALIDITY("매체 선정 이유의 타당성", "Whether the rationale for selecting the media is clearly explained and justified in relation to the campaign’s intent, expected effects, and strategic alignment.", EvaluationType.DCA_MEDIA_SELECTION),
     DCA_MESSAGE_CLARITY("메시지 전달 방식의 직관성", "Whether the message delivered through the chosen media is simple, instantly understandable, and directly prompts recognition or action from the target without confusion.", EvaluationType.DCA_MEDIA_SELECTION),
 
     // DCA - 문제 정의
-    PROBLEM_CLARITY("문제 정의의 명확성과 설득력", "prompt", EvaluationType.PROBLEM_DEFINITION),
-    DATA_ALIGNMENT("자료와 문제 정의 간의 일관성 연계성", "prompt", EvaluationType.PROBLEM_DEFINITION),
-    TASK_FIDELITY("과제 해석의 충실성", "prompt", EvaluationType.PROBLEM_DEFINITION),
-    PROBLEM_PRACTICALITY("문제 정의의 실질성", "prompt", EvaluationType.PROBLEM_DEFINITION),
-    PROBLEM_DIFFERENTIATION("문제 정의의 차별성", "prompt", EvaluationType.PROBLEM_DEFINITION),
+    PROBLEM_CLARITY("문제 정의의 명확성과 설득력", "Whether the campaign defines the core problem in a clear, specific, and persuasive way that serves as the guiding axis for the overall planning.", EvaluationType.PROBLEM_DEFINITION),
+    DATA_ALIGNMENT("자료와 문제 정의 간의 일관성 연계성", "Whether the referenced data and insights are logically and consistently tied to the defined problem, forming a coherent narrative instead of fragmented statements.", EvaluationType.PROBLEM_DEFINITION),
+    TASK_FIDELITY("과제 해석의 충실성", "Whether the defined problem faithfully reflects the issue outlined in the brief without deviating from the intended scope.", EvaluationType.PROBLEM_DEFINITION),
+    PROBLEM_PRACTICALITY("문제 정의의 실질성", "Whether the problem definition goes beyond surface-level diagnosis to identify the critical pain points that truly need resolution, grounded in brand, target, and market understanding.", EvaluationType.PROBLEM_DEFINITION),
+    PROBLEM_DIFFERENTIATION("문제 정의의 차별성", "Whether the problem is defined with a unique perspective and expressed in an original way that distinguishes the campaign’s approach.", EvaluationType.PROBLEM_DEFINITION),
 
     // DCA - 실현 가능성
     DCA_FEAS_TECH("기술적/제작적 실현 가능성", "Whether the campaign idea can be realistically implemented with existing technology and production conditions, considering durability, usability, and potential technical limitations.", EvaluationType.DCA_FEASIBILITY),
     DCA_FEAS_CONCRETENESS("실행의 구체성", "Whether the campaign idea provides a clear step-by-step execution plan that logically connects actions (e.g., object use, media flow, registration process) without ambiguity.", EvaluationType.DCA_FEASIBILITY),
     DCA_FEAS_EFFECT_PERSUASION("기대 효과의 설득력", "Whether the expected outcomes, such as increased participation or behavioral change, are presented in a realistic and convincing way, beyond abstract or overly long-term assumptions.", EvaluationType.DCA_FEASIBILITY),
     DCA_FEAS_ASSUMPTION_VALIDITY("전제의 합리성", "Whether the conditions required for the campaign are practical and not overly idealized, ensuring that the target environment and audience scope make sense without unrealistic expectations.", EvaluationType.DCA_FEASIBILITY),
-    DCA_FEAS_VISUAL_PLAN("실행 방안의 시각적 표현", "prompt", EvaluationType.DCA_FEASIBILITY),
+    DCA_FEAS_VISUAL_PLAN("실행 방안의 시각적 표현", "Whether the execution plan is effectively visualized so the real-world run-through is immediately imaginable—using concrete artifacts (e.g., user journey maps, screen/OOH mockups, on-site layouts, device interactions) that clarify steps, roles, and constraints.", EvaluationType.DCA_FEASIBILITY),
 
     // DCA_FILM - 스토리텔링
     ALIGNMENT_WITH_INTENT("기획 의도 일치 여부", "prompt", EvaluationType.STORYTELLING),

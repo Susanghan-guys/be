@@ -7,7 +7,7 @@ import com.susanghan_guys.server.personalwork.application.validator.PersonalWork
 import com.susanghan_guys.server.personalwork.domain.DetailEval;
 import com.susanghan_guys.server.personalwork.domain.Evaluation;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
-import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
+import com.susanghan_guys.server.personalwork.dto.response.DetailEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
 import com.susanghan_guys.server.personalwork.exception.PersonalWorkException;
 import com.susanghan_guys.server.personalwork.exception.code.PersonalWorkErrorCode;
@@ -50,7 +50,7 @@ public class YccWorkEvaluationService {
     }
 
     @Transactional
-    public YccDetailEvaluationResponse createYccDetailEvaluation(Long workId, EvaluationType type) {
+    public DetailEvaluationResponse createYccDetailEvaluation(Long workId, EvaluationType type) {
         User user = currentUserProvider.getCurrentUser();
 
         personalWorkValidator.validatePersonalWorkOwner(workId, user);
@@ -69,7 +69,7 @@ public class YccWorkEvaluationService {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
-        YccWorkEvaluationResponse response = openAiPort.createWorkEvaluation(
+        YccWorkEvaluationResponse response = openAiPort.createYccWorkEvaluation(
                 openAiFactory.buildYccOpenAiRequest(workId)
         );
 
@@ -93,7 +93,7 @@ public class YccWorkEvaluationService {
         Evaluation evaluation = evaluationRepository.findByWorkIdAndType(workId, type)
                 .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.EVALUATION_NOT_FOUND));
 
-        YccDetailEvaluationResponse response = openAiPort.createDetailEvaluation(
+        DetailEvaluationResponse response = openAiPort.createYccDetailEvaluation(
                 openAiFactory.buildYccOpenAiRequest(workId), type
         );
 

@@ -7,14 +7,14 @@ import java.util.List;
 
 @Builder
 @Schema(description = "출품작 세부 총평 API")
-public record YccDetailEvaluationResponse(
+public record DetailEvaluationResponse(
         @Schema(description = "출품작 세부 총평")
-        List<YccDetailEvaluation> detailEvaluations
+        List<DetailEvaluation> detailEvaluations
 ) {
 
     @Builder
     @Schema(description = "출품작 세부 총평")
-    public record YccDetailEvaluation(
+    public record DetailEvaluation(
             @Schema(description = "세부 총평 타입", example = "YCC_FEAS_TECH")
             String code,
 

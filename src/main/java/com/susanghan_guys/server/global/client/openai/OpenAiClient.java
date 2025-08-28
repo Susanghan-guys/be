@@ -21,7 +21,7 @@ public class OpenAiClient {
     private final ChatClient chatClient;
 
     public <T> T callWithStructuredOutput(
-            OpenAiRequest request,
+            AiRequest request,
             OpenAiPrompt prompt,
             Class<T> clazz
     ) {

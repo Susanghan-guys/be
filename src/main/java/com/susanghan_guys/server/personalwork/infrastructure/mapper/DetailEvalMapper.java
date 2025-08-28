@@ -3,7 +3,7 @@ package com.susanghan_guys.server.personalwork.infrastructure.mapper;
 import com.susanghan_guys.server.personalwork.domain.DetailEval;
 import com.susanghan_guys.server.personalwork.domain.Evaluation;
 import com.susanghan_guys.server.personalwork.domain.type.DetailEvalType;
-import com.susanghan_guys.server.personalwork.dto.response.YccDetailEvaluationResponse;
+import com.susanghan_guys.server.personalwork.dto.response.DetailEvaluationResponse;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class DetailEvalMapper {
                 .build();
     }
 
-    public static List<DetailEval> toEntities(Evaluation evaluation, YccDetailEvaluationResponse response) {
+    public static List<DetailEval> toEntities(Evaluation evaluation, DetailEvaluationResponse response) {
         return response.detailEvaluations().stream()
                 .map(d -> toEntity(
                         evaluation,
@@ -29,10 +29,10 @@ public class DetailEvalMapper {
                 .toList();
     }
 
-    public static YccDetailEvaluationResponse toResponse(List<DetailEval> detailEvals) {
-        return YccDetailEvaluationResponse.builder()
+    public static DetailEvaluationResponse toResponse(List<DetailEval> detailEvals) {
+        return DetailEvaluationResponse.builder()
                 .detailEvaluations(detailEvals.stream()
-                        .map(e -> YccDetailEvaluationResponse.YccDetailEvaluation.builder()
+                        .map(e -> DetailEvaluationResponse.DetailEvaluation.builder()
                                 .code(e.getType().name())
                                 .label(e.getType().getLabel())
                                 .score(e.getScore())
