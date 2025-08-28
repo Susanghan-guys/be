@@ -27,7 +27,7 @@ public interface StrengthWeaknessSwagger {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "강점 조회가 성공적으로 처리되었습니다."
+                    description = "출품작에 대한 강점 조회가 성공적으로 처리되었습니다."
             )
     })
     CommonResponse<List<DetailEvaluationResponse.DetailEvaluation>> getStrengths(
@@ -48,7 +48,7 @@ public interface StrengthWeaknessSwagger {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "보완점 조회가 성공적으로 처리되었습니다."
+                    description = "출품작에 대한 보완점 조회가 성공적으로 처리되었습니다."
             )
     })
     CommonResponse<List<DetailEvaluationResponse.DetailEvaluation>> getWeaknesses(

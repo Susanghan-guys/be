@@ -33,7 +33,7 @@ public interface DcaBriefEvaluationSwagger {
     CommonResponse<DcaBriefEvaluationResponse> createDcaBriefEvaluation(@PathVariable Long workId);
 
     @Operation(
-            summary = "DCA 출품작 브리프 해석 API",
+            summary = "DCA 출품작 브리프 해석 조회 API",
             description = """
             ### PathVariable
             - `workId` : 작품 고유 ID

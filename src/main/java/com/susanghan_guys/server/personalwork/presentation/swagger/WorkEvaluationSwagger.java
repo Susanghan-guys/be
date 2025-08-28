@@ -97,13 +97,68 @@ public interface WorkEvaluationSwagger {
             @PathVariable EvaluationType type
     );
 
-    @Operation(summary = "DCA 전체 총평 조회")
+    @Operation(
+            summary = "DCA 출품작 전체 총평 조회 API",
+            description = """
+                    ### Pathvariable
+                    ---
+                    `workId` : 작품 고유 ID
+                    """
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "DCA 출품작에 대한 전체 총평이 성공적으로 조회되었습니다."
+            )
+    })
     CommonResponse<DcaWorkEvaluationResponse> getDcaWorkEvaluation(@PathVariable Long workId);
 
-    @Operation(summary = "YCC 전체 총평 조회")
+    @Operation(
+            summary = "YCC 출품작 전체 총평 조회 API",
+            description = """
+                    ### Pathvariable
+                    ---
+                    `workId` : 작품 고유 ID
+                    """
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "YCC 출품작에 대한 전체 총평이 성공적으로 조회되었습니다."
+            )
+    })
     CommonResponse<YccWorkEvaluationResponse> getYccWorkEvaluation(@PathVariable Long workId);
 
-    @Operation(summary = "세부 총평 조회")
+    @Operation(
+            summary = "출품작 세부 총평 조회 API",
+            description = """
+                    ### Pathvariable
+                    ---
+                    `workId` : 작품 고유 ID \n
+                    
+                    `type`: 전체 총평 카테고리
+                    
+                    DCA
+                    - `TARGET_FITNESS`: 타겟 적합성
+                    - `BRAND_UNDERSTANDING`: 브랜드 이해도
+                    - `DCA_MEDIA_SELECTION`: 매체 선정
+                    - `PROBLEM_DEFINITION`: 문제 정의
+                    - `DCA_FEASIBILITY`: 실현 가능성
+                    
+                    YCC
+                    - `YCC_FEASIBILITY`: 실현 가능성
+                    - `YCC_MEDIA_SELECTION`: 매체 선정
+                    - `AGENDA_SELECTION`: 아젠다 선정
+                    - `INFLUENCE`: 영향력
+                    - `DELIVERY`: 전달력
+                    """
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "출품작에 대한 세부 총평이 성공적으로 조회되었습니다."
+            )
+    })
     CommonResponse<DetailEvaluationResponse> getDetailEvaluation(@PathVariable Long workId, @PathVariable EvaluationType type);
 
 

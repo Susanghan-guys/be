@@ -46,7 +46,20 @@ public interface WorkSummarySwagger {
             @PathVariable(name = "workId") Long workId
     );
 
-    @Operation(summary = "요약(Summary) 조회")
+    @Operation(
+            summary = "개인 출품작 요약 조회 API",
+            description = """
+                    ### Pathvariable
+                    ---
+                    `workId` : 작품 고유 ID
+                    """
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "개인 출품작에 대한 요약이 성공적으로 조회되었습니다."
+            )
+    })
     CommonResponse<WorkSummaryResponse> getWorkSummary(@PathVariable Long workId);
 
 }
