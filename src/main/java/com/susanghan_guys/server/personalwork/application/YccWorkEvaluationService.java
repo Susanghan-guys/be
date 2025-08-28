@@ -47,7 +47,7 @@ public class YccWorkEvaluationService {
 
         List<Evaluation> evaluations = getOrCreateEvaluation(workId);
 
-        return EvaluationMapper.toResponse(evaluations);
+        return EvaluationMapper.toYccResponse(evaluations);
     }
 
     @Transactional
@@ -74,7 +74,7 @@ public class YccWorkEvaluationService {
                 openAiFactory.buildYccOpenAiRequest(workId)
         );
 
-        List<Evaluation> evaluations = EvaluationMapper.toEntities(work, response);
+        List<Evaluation> evaluations = EvaluationMapper.toYccEntities(work, response);
         evaluationRepository.saveAll(evaluations);
 
         for (Evaluation evaluation : evaluations) {

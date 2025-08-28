@@ -3,6 +3,7 @@ package com.susanghan_guys.server.personalwork.infrastructure.mapper;
 import com.susanghan_guys.server.personalwork.domain.Evaluation;
 import com.susanghan_guys.server.personalwork.domain.support.ScoreCalculator;
 import com.susanghan_guys.server.personalwork.domain.type.EvaluationType;
+import com.susanghan_guys.server.personalwork.dto.response.DcaWorkEvaluationResponse;
 import com.susanghan_guys.server.personalwork.dto.response.YccWorkEvaluationResponse;
 import com.susanghan_guys.server.work.domain.Work;
 
@@ -22,7 +23,7 @@ public class EvaluationMapper {
                 .build();
     }
 
-    public static List<Evaluation> toEntities(Work work, YccWorkEvaluationResponse response) {
+    public static List<Evaluation> toYccEntities(Work work, YccWorkEvaluationResponse response) {
         return List.of(
                 toEntity(work, response.feasibility(), response.feasibilityScore(), EvaluationType.YCC_FEASIBILITY),
                 toEntity(work, response.media(), response.mediaScore(), EvaluationType.YCC_MEDIA_SELECTION),
@@ -32,7 +33,17 @@ public class EvaluationMapper {
         );
     }
 
-    public static YccWorkEvaluationResponse toResponse(List<Evaluation> evaluations) {
+    public static List<Evaluation> toDcaEntities(Work work, DcaWorkEvaluationResponse response) {
+        return List.of(
+                toEntity(work, response.target(), response.targetScore(), EvaluationType.TARGET_FITNESS),
+                toEntity(work, response.brand(), response.brandScore(), EvaluationType.BRAND_UNDERSTANDING),
+                toEntity(work, response.media(), response.mediaScore(), EvaluationType.DCA_MEDIA_SELECTION),
+                toEntity(work, response.problem(), response.problemScore(), EvaluationType.PROBLEM_DEFINITION),
+                toEntity(work, response.feasibility(), response.feasibilityScore(), EvaluationType.DCA_FEASIBILITY)
+        );
+    }
+
+    public static YccWorkEvaluationResponse toYccResponse(List<Evaluation> evaluations) {
         Map<EvaluationType, Evaluation> map = evaluations.stream()
                 .collect(Collectors.toMap(Evaluation::getType, e -> e));
 
@@ -48,6 +59,25 @@ public class EvaluationMapper {
                 getContent(map, EvaluationType.INFLUENCE),
                 getScore(map, EvaluationType.DELIVERY),
                 getContent(map, EvaluationType.DELIVERY)
+        );
+    }
+
+    public static DcaWorkEvaluationResponse toDcaResponse(List<Evaluation> evaluations) {
+        Map<EvaluationType, Evaluation> map = evaluations.stream()
+                .collect(Collectors.toMap(Evaluation::getType, e -> e));
+
+        return new DcaWorkEvaluationResponse(
+                ScoreCalculator.calculateTotalScore(evaluations),
+                getScore(map, EvaluationType.TARGET_FITNESS),
+                getContent(map, EvaluationType.TARGET_FITNESS),
+                getScore(map, EvaluationType.BRAND_UNDERSTANDING),
+                getContent(map, EvaluationType.BRAND_UNDERSTANDING),
+                getScore(map, EvaluationType.DCA_MEDIA_SELECTION),
+                getContent(map, EvaluationType.DCA_MEDIA_SELECTION),
+                getScore(map, EvaluationType.PROBLEM_DEFINITION),
+                getContent(map, EvaluationType.PROBLEM_DEFINITION),
+                getScore(map, EvaluationType.DCA_FEASIBILITY),
+                getContent(map, EvaluationType.DCA_FEASIBILITY)
         );
     }
 
