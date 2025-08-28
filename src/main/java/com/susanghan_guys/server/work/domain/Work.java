@@ -115,4 +115,8 @@ public class Work extends BaseEntity {
     public void markMailSent() {
         this.mailSentAt = LocalDateTime.now();
     }
+
+    public void updateReportStatus(ReportStatus reportStatus) {
+        this.reportStatus = reportStatus;
+    }
 }
