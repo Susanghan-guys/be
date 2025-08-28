@@ -8,7 +8,11 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
+@Schema(description = "내 리포트 정보 조회 API")
 public record ReportInfoResponse(
+        @Schema(description = "출품작 이름", example = "너에게서 나를 보다")
+        String workName,
+
         @Schema(description = "공모전 이름", example = "YCC")
         String contestName,
 
@@ -20,6 +24,7 @@ public record ReportInfoResponse(
 ) {
     public static ReportInfoResponse from(Work work) {
         return ReportInfoResponse.builder()
+                .workName(work.getTitle())
                 .contestName(work.getContest().getTitle())
                 .brand(work.getBrand())
                 .workMembers(
