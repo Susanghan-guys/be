@@ -61,9 +61,14 @@ public class YccWorkEvaluationService {
     public DetailEvaluationResponse createYccDetailEvaluation(Long workId, EvaluationType type) {
         User user = currentUserProvider.getCurrentUser();
 
-        personalWorkValidator.validatePersonalWorkOwner(workId, user);
-
-        List<DetailEval> detailEvals = getOrCreateDetailEvaluation(workId, type);
+        List<DetailEval> detailEvals;
+        if (personalWorkValidator.isOwner(workId, user.getId())) {
+            detailEvals = getOrCreateDetailEvaluation(workId, type);
+        } else if (workVisibilityRepository.existsByWorkIdAndUserIdAndVisibleTrue(workId, user.getId())) {
+            detailEvals = detailEvalRepository.findByWorkIdAndEvaluationType(workId, type);
+        } else {
+            throw new WorkException(WorkErrorCode.REPORT_UNAUTHORIZED);
+        }
 
         return DetailEvalMapper.toResponse(detailEvals);
     }
