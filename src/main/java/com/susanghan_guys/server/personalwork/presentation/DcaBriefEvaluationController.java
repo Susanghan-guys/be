@@ -18,13 +18,13 @@ public class DcaBriefEvaluationController implements DcaBriefEvaluationSwagger {
 
     @Override
     @PostMapping("/{workId}/brief-evaluation")
-    public CommonResponse<DcaBriefEvaluationResponse> createDcaBriefEvaluation(@PathVariable Long workId) {
+    public CommonResponse<DcaBriefEvaluationResponse> createDcaBriefEvaluation(@PathVariable(name = "workId") Long workId) {
         return CommonResponse.success(DCA_BRIEF_EVALUATION_SUCCESS, dcaBriefEvaluationService.createDcaBriefEvaluation(workId));
     }
 
     @Override
     @GetMapping("/{workId}/brief-evaluation")
-    public CommonResponse<DcaBriefEvaluationResponse> getDcaBriefEvaluation(@PathVariable Long workId) {
+    public CommonResponse<DcaBriefEvaluationResponse> getDcaBriefEvaluation(@PathVariable(name = "workId") Long workId) {
         return CommonResponse.success(DCA_BRIEF_EVALUATION_SUCCESS, dcaBriefEvaluationService.getDcaBriefEvaluation(workId));
     }
 }

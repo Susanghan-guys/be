@@ -20,8 +20,8 @@ public class BriefAnalysisMapper {
     public static DcaBriefEvaluationResponse toResponse(BriefAnalysis e) {
         return DcaBriefEvaluationResponse.builder()
                 .interpretation(e.getInterpretation())
-                .consistency(e.getConsistency())
-                .weakness(e.getWeakness())
+                .consistency(safeTrim(e.getConsistency(), MAX_LEN))
+                .weakness(safeTrim(e.getWeakness(), MAX_LEN))
                 .build();
     }
 

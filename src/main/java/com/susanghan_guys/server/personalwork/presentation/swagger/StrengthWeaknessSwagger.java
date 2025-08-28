@@ -16,7 +16,7 @@ public interface StrengthWeaknessSwagger {
     @Operation(
             summary = "개인 출품작 강점 조회 API",
             description = """
-                    ### Pathvariable
+                    ### PathVariable
                     ---
                     `workId` : 작품 고유 ID
                     
@@ -37,7 +37,7 @@ public interface StrengthWeaknessSwagger {
     @Operation(
             summary = "개인 출품작 보완점 조회 API",
             description = """
-                    ### Pathvariable
+                    ### PathVariable
                     ---
                     `workId` : 작품 고유 ID
                     

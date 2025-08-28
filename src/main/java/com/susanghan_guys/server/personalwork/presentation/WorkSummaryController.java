@@ -30,7 +30,7 @@ public class WorkSummaryController implements WorkSummarySwagger {
 
     @Override
     @GetMapping("/{workId}/summary")
-    public CommonResponse<WorkSummaryResponse> getWorkSummary(@PathVariable Long workId) {
+    public CommonResponse<WorkSummaryResponse> getWorkSummary(@PathVariable(name = "workId") Long workId) {
         return CommonResponse.success(WORK_SUMMARY_SUCCESS, workSummaryService.getWorkSummary(workId));
     }
 }

@@ -47,7 +47,7 @@ public interface DcaBriefEvaluationSwagger {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "DCA 출품작에 대한 브리프 해석이 성공적으로 생성되었습니다."
+                    description = "DCA 출품작에 대한 브리프 해석이 성공적으로 조회되었습니다."
             )
     })
     CommonResponse<DcaBriefEvaluationResponse> getDcaBriefEvaluation(@PathVariable Long workId);

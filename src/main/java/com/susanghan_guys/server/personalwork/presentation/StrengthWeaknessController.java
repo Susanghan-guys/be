@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.*;
+import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.WORK_STRENGTHS_SUCCESS;
+import static com.susanghan_guys.server.personalwork.presentation.response.PersonalWorkSuccessCode.WORK_WEAKNESSES_SUCCESS;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,12 +23,12 @@ public class StrengthWeaknessController implements StrengthWeaknessSwagger {
     private final StrengthWeaknessService strengthWeaknessService;
 
     @GetMapping("/{workId}/strengths")
-    public CommonResponse<List<DetailEvaluationResponse.DetailEvaluation>> getStrengths(@PathVariable Long workId) {
+    public CommonResponse<List<DetailEvaluationResponse.DetailEvaluation>> getStrengths(@PathVariable(name = "workId") Long workId) {
         return CommonResponse.success(WORK_STRENGTHS_SUCCESS, strengthWeaknessService.getStrengths(workId));
     }
 
     @GetMapping("/{workId}/weaknesses")
-    public CommonResponse<List<DetailEvaluationResponse.DetailEvaluation>> getWeaknesses(@PathVariable Long workId) {
+    public CommonResponse<List<DetailEvaluationResponse.DetailEvaluation>> getWeaknesses(@PathVariable(name = "workId") Long workId) {
         return CommonResponse.success(WORK_WEAKNESSES_SUCCESS, strengthWeaknessService.getWeaknesses(workId));
     }
 }

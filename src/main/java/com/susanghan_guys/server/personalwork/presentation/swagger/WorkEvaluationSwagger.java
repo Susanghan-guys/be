@@ -132,7 +132,7 @@ public interface WorkEvaluationSwagger {
     @Operation(
             summary = "출품작 세부 총평 조회 API",
             description = """
-                    ### Pathvariable
+                    ### PathVariable
                     ---
                     `workId` : 작품 고유 ID \n
                     
