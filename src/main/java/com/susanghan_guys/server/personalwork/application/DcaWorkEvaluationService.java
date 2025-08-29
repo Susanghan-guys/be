@@ -124,4 +124,9 @@ public class DcaWorkEvaluationService {
         return detailEvals;
     }
 
+    @Transactional
+    public void runDcaEvaluationInternal(Long workId) {
+        getOrCreateEvaluation(workId);
+    }
+
 }
