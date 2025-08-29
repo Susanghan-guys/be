@@ -69,4 +69,9 @@ public class DcaBriefEvaluationService {
                 });
     }
 
+    @Transactional
+    public void runBriefInternal(Long workId) {
+        getOrCreateBriefAnalysis(workId);
+    }
+
 }

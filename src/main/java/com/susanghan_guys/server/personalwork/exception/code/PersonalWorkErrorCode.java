@@ -16,6 +16,7 @@ public enum PersonalWorkErrorCode implements BaseCode {
     SUMMARY_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "출품작 요약을 찾을 수 없습니다."),
     DETAIL_EVALUATION_TYPE_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "해당 타입의 세부 총평을 찾을 수 없습니다."),
     BRIEF_ANALYSIS_NOT_FOUND(HttpStatus.NOT_FOUND, 404, "브리프 해석을 찾을 수 없습니다."),
+    UNSUPPORTED_WORK_TYPE(HttpStatus.BAD_REQUEST, 400, "실행할 수 없는 타입의 출품작입니다."),
     ;
 
     private final HttpStatus httpStatus;

@@ -103,4 +103,16 @@ public class WorkSummaryService {
                 });
     }
 
+    @Transactional
+    public void runSummaryInternal(Long workId) {
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+        Summary summary = switch (work.getType()) {
+            case DCA -> getOrCreateDcaWorkSummary(workId);
+            case YCC -> getOrCreateYccWorkSummary(workId);
+            default   -> throw new PersonalWorkException(PersonalWorkErrorCode.UNSUPPORTED_WORK_TYPE);
+        };
+    }
+
 }

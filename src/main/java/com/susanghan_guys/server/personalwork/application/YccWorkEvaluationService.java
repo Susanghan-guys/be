@@ -133,4 +133,9 @@ public class YccWorkEvaluationService {
 
         return detailEvals;
     }
+
+    @Transactional
+    public void runYccEvaluationInternal(Long workId) {
+        getOrCreateEvaluation(workId);
+    }
 }
