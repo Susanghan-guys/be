@@ -10,7 +10,7 @@ public record ReportSharingResponse(
         @Schema(description = "작품 ID", defaultValue = "1")
         Long workId,
 
-        @Schema(description = "리포트 링크", defaultValue = "https://www.soosanghan.site/v1/reports/22")
+        @Schema(description = "리포트 링크", defaultValue = "https://www.soosanghan.site/reports/22/verify-code")
         String link,
 
         @Schema(description = "리포트 코드", defaultValue = "64E8E8")
@@ -19,7 +19,7 @@ public record ReportSharingResponse(
     public static ReportSharingResponse from(Work work) {
         return ReportSharingResponse.builder()
                 .workId(work.getId())
-                .link("https://www.soosanghan.site/v1/reports/" + work.getId())
+                .link("https://www.soosanghan.site/reports/" + work.getId() + "/verify-code")
                 .code(work.getCode())
                 .build();
     }
