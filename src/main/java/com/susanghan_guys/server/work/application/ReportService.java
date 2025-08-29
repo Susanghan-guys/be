@@ -74,10 +74,6 @@ public class ReportService {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
-        if (work.getCode() == null) {
-            work.updateCode(UUID.randomUUID().toString().substring(0, 6).toUpperCase());
-        }
-
         return ReportSharingResponse.from(work);
     }
 
