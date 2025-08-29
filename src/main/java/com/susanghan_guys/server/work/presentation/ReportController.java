@@ -6,6 +6,7 @@ import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
 import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import com.susanghan_guys.server.work.dto.response.ReportCodeResponse;
+import com.susanghan_guys.server.work.dto.response.ReportSharingResponse;
 import com.susanghan_guys.server.work.dto.response.ReportInfoResponse;
 import com.susanghan_guys.server.work.presentation.swagger.ReportSwagger;
 import jakarta.validation.Valid;
@@ -39,18 +40,14 @@ public class ReportController implements ReportSwagger {
 
     @Override
     @PostMapping("/{workId}")
-    public CommonResponse<ReportCodeResponse> shareReport(@PathVariable(name = "workId") Long workId) {
+    public CommonResponse<ReportSharingResponse> shareReport(@PathVariable(name = "workId") Long workId) {
         return CommonResponse.success(REPORTS_SHARE_SUCCESS, reportService.shareReport(workId));
     }
 
     @Override
-    @PostMapping("/{workId}/verify-code")
-    public CommonResponse<String> verifyReportCode(
-            @PathVariable(name = "workId") Long workId,
-            @RequestBody @Valid ReportCodeRequest request
-    ) {
-        reportService.verifyReportCode(workId, request);
-        return CommonResponse.success(REPORTS_CODE_VERIFY_SUCCESS, "OK");
+    @PostMapping("/verify-code")
+    public CommonResponse<ReportCodeResponse> verifyReportCode(@RequestBody @Valid ReportCodeRequest request) {
+        return CommonResponse.success(REPORTS_CODE_VERIFY_SUCCESS, reportService.verifyReportCode(request));
     }
 
     @Override

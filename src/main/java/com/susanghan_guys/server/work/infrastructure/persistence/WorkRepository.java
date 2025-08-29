@@ -37,5 +37,6 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
         AND wv.work.user.id <> :userId
     """)
     Set<Long> findDeletableWorks(@Param("workIds") Collection<Long> workIds, @Param("userId") Long userId);
+    Optional<Work> findByCode(String code);
 }
 

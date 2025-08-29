@@ -5,6 +5,7 @@ import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
 import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import com.susanghan_guys.server.work.dto.response.ReportCodeResponse;
+import com.susanghan_guys.server.work.dto.response.ReportSharingResponse;
 import com.susanghan_guys.server.work.dto.response.ReportInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -57,7 +58,7 @@ public interface ReportSwagger {
                     description = "리포트 공유가 성공적으로 실행되었습니다."
             )
     })
-    CommonResponse<ReportCodeResponse> shareReport(
+    CommonResponse<ReportSharingResponse> shareReport(
             @PathVariable(name = "workId") Long workId
     );
 
@@ -71,8 +72,7 @@ public interface ReportSwagger {
                     description = "리포트 코드 인증이 성공적으로 실행되었습니다."
             )
     })
-    CommonResponse<String> verifyReportCode(
-            @PathVariable(name = "workId") Long workId,
+    CommonResponse<ReportCodeResponse> verifyReportCode(
             @RequestBody @Valid ReportCodeRequest request
     );
 

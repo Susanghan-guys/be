@@ -9,6 +9,7 @@ import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
 import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
 import com.susanghan_guys.server.work.dto.response.ReportCodeResponse;
+import com.susanghan_guys.server.work.dto.response.ReportSharingResponse;
 import com.susanghan_guys.server.work.dto.response.ReportInfoResponse;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
@@ -69,7 +70,7 @@ public class ReportService {
     }
 
     @Transactional
-    public ReportCodeResponse shareReport(Long workId) {
+    public ReportSharingResponse shareReport(Long workId) {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
@@ -77,22 +78,22 @@ public class ReportService {
             work.updateCode(UUID.randomUUID().toString().substring(0, 6).toUpperCase());
         }
 
-        return ReportCodeResponse.from(work);
+        return ReportSharingResponse.from(work);
     }
 
     @Transactional
-    public void verifyReportCode(Long workId, ReportCodeRequest request) {
+    public ReportCodeResponse verifyReportCode(ReportCodeRequest request) {
         User user = currentUserProvider.getCurrentUser();
 
-        Work work = workRepository.findById(workId)
+        Work work = workRepository.findByCode(request.code())
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
         reportValidator.validateReportCode(user, work, request);
 
-        if (workVisibilityRepository.findByWorkIdAndUserId(workId, user.getId()).isPresent()) {
-            return;
+        if (workVisibilityRepository.findByWorkIdAndUserId(work.getId(), user.getId()).isEmpty()) {
+            workVisibilityRepository.save(WorkVisibility.of(user, work, true));
         }
-        workVisibilityRepository.save(WorkVisibility.of(user, work, true));
+        return ReportCodeResponse.from(work);
     }
 
     @Transactional
