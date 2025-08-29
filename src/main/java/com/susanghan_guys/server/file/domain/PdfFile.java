@@ -14,6 +14,9 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"source_type", "source_id"})
+})
 public class PdfFile extends BaseEntity {
 
     @Id

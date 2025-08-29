@@ -6,6 +6,7 @@ import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.type.Brand;
 import com.susanghan_guys.server.work.domain.type.Category;
 import com.susanghan_guys.server.work.domain.type.ReportStatus;
+import com.susanghan_guys.server.work.domain.type.WorkType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -43,6 +44,10 @@ public class Work extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category; // DCA
 
+    @Column(name = "work_type")
+    @Enumerated(EnumType.STRING)
+    private WorkType type;
+
     @Column(name = "report_status")
     @Enumerated(EnumType.STRING)
     private ReportStatus reportStatus;
@@ -73,6 +78,7 @@ public class Work extends BaseEntity {
             String number,
             Brand brand,
             Category category,
+            WorkType type,
             String code,
             LocalDateTime mailSentAt,
             ReportStatus reportStatus,
@@ -84,6 +90,7 @@ public class Work extends BaseEntity {
         this.number = number;
         this.brand = brand;
         this.category = category;
+        this.type = type;
         this.code = code;
         this.mailSentAt = mailSentAt;
         this.reportStatus = reportStatus;
@@ -107,5 +114,9 @@ public class Work extends BaseEntity {
 
     public void markMailSent() {
         this.mailSentAt = LocalDateTime.now();
+    }
+
+    public void updateReportStatus(ReportStatus reportStatus) {
+        this.reportStatus = reportStatus;
     }
 }

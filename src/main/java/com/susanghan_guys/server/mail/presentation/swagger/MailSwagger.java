@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "[메일]", description = "메일 전송 관련 API")
+@Tag(name = "[백엔드 내부 - 메일]", description = "메일 전송 관련 API")
 public interface MailSwagger {
     @Operation(
             summary = "완료된 리포트 메일 전송 API",

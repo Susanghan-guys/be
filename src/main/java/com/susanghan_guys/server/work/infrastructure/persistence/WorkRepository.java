@@ -1,6 +1,5 @@
 package com.susanghan_guys.server.work.infrastructure.persistence;
 
-import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.domain.type.ReportStatus;
 import org.springframework.data.domain.Pageable;
@@ -38,5 +37,6 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
         AND wv.work.user.id <> :userId
     """)
     Set<Long> findDeletableWorks(@Param("workIds") Collection<Long> workIds, @Param("userId") Long userId);
+    Optional<Work> findByCode(String code);
 }
 
