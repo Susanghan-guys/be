@@ -14,6 +14,7 @@ public enum WorkSuccessCode implements BaseCode {
     MY_REPORTS_RETRIEVED_SUCCESS(HttpStatus.OK, 200, "My Reports Retrieved Success"),
     REPORTS_CODE_VERIFY_SUCCESS(HttpStatus.OK, 200, "Reports Code Verify Success"),
     MY_REPORTS_DELETED_SUCCESS(HttpStatus.OK, 200, "My Reports Deleted Success"),
+    REPORTS_SHARE_SUCCESS(HttpStatus.OK, 200, "Reports Share Success"),
     ;
 
     private final HttpStatus httpStatus;

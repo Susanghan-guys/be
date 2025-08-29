@@ -8,6 +8,7 @@ import com.susanghan_guys.server.work.domain.WorkVisibility;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
 import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
+import com.susanghan_guys.server.work.dto.response.ReportCodeResponse;
 import com.susanghan_guys.server.work.dto.response.ReportInfoResponse;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +81,18 @@ public class ReportService {
             return;
         }
         workVisibilityRepository.save(WorkVisibility.of(user, work, true));
+    }
+
+    @Transactional
+    public ReportCodeResponse shareReport(Long workId) {
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+        if (work.getCode() == null) {
+            work.updateCode(UUID.randomUUID().toString().substring(0, 6).toUpperCase());
+        }
+
+        return ReportCodeResponse.from(work);
     }
 
     @Transactional
