@@ -69,6 +69,18 @@ public class ReportService {
     }
 
     @Transactional
+    public ReportCodeResponse shareReport(Long workId) {
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+        if (work.getCode() == null) {
+            work.updateCode(UUID.randomUUID().toString().substring(0, 6).toUpperCase());
+        }
+
+        return ReportCodeResponse.from(work);
+    }
+
+    @Transactional
     public void verifyReportCode(Long workId, ReportCodeRequest request) {
         User user = currentUserProvider.getCurrentUser();
 
@@ -81,18 +93,6 @@ public class ReportService {
             return;
         }
         workVisibilityRepository.save(WorkVisibility.of(user, work, true));
-    }
-
-    @Transactional
-    public ReportCodeResponse shareReport(Long workId) {
-        Work work = workRepository.findById(workId)
-                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
-
-        if (work.getCode() == null) {
-            work.updateCode(UUID.randomUUID().toString().substring(0, 6).toUpperCase());
-        }
-
-        return ReportCodeResponse.from(work);
     }
 
     @Transactional

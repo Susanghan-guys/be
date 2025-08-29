@@ -4,6 +4,7 @@ import com.susanghan_guys.server.global.common.CommonResponse;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
 import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
+import com.susanghan_guys.server.work.dto.response.ReportCodeResponse;
 import com.susanghan_guys.server.work.dto.response.ReportInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,6 +44,20 @@ public interface ReportSwagger {
             )
     })
     CommonResponse<ReportInfoResponse> getReportInfo(
+            @PathVariable(name = "workId") Long workId
+    );
+
+    @Operation(
+            summary = "리포트 공유 API",
+            description = "리포트 링크와 코드를 타인에게 공유합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "리포트 공유가 성공적으로 실행되었습니다."
+            )
+    })
+    CommonResponse<ReportCodeResponse> shareReport(
             @PathVariable(name = "workId") Long workId
     );
 

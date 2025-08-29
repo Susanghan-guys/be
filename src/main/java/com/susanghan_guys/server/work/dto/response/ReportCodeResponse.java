@@ -7,8 +7,13 @@ import lombok.Builder;
 @Builder
 @Schema(description = "리포트 공유 API")
 public record ReportCodeResponse(
+        @Schema(description = "작품 ID", defaultValue = "1")
         Long workId,
+
+        @Schema(description = "리포트 링크", defaultValue = "https://www.soosanghan.site/v1/reports/22")
         String link,
+
+        @Schema(description = "리포트 코드", defaultValue = "64E8E8")
         String code
 ) {
     public static ReportCodeResponse from(Work work) {

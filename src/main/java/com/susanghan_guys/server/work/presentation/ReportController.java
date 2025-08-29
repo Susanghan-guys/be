@@ -37,6 +37,7 @@ public class ReportController implements ReportSwagger {
         return CommonResponse.success(MY_REPORTS_RETRIEVED_SUCCESS, reportService.getReportInfo(workId));
     }
 
+    @Override
     @PostMapping("/{workId}")
     public CommonResponse<ReportCodeResponse> shareReport(@PathVariable(name = "workId") Long workId) {
         return CommonResponse.success(REPORTS_SHARE_SUCCESS, reportService.shareReport(workId));
