@@ -19,7 +19,7 @@ public record ReportSharingResponse(
     public static ReportSharingResponse from(Work work) {
         return ReportSharingResponse.builder()
                 .workId(work.getId())
-                .link("https://www.soosanghan.site/v1/reports/" + work.getId())
+                .link("https://www.soosanghan.site/reports/" + work.getId() + "/verify-code")
                 .code(work.getCode())
                 .build();
     }
