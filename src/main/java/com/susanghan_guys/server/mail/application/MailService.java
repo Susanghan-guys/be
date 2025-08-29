@@ -31,11 +31,8 @@ public class MailService {
     private final JavaMailSender javaMailSender;
     private final WorkRepository workRepository;
 
-    @Value("${mail.user.redirect-uri}")
-    private String userRedirectUri;
-
-    @Value("${mail.work-member.redirect-uri}")
-    private String workMemberRedirectUri;
+    @Value("${mail.redirect-uri}")
+    private String redirectUri;
 
     @Transactional
     public void sendMail() {
@@ -49,7 +46,7 @@ public class MailService {
 
             for (Work work : works) {
                 if (work.getCode() == null) {
-                    throw new MailException(MailErrorCode.WORK_CODE_NOT_FOUND);
+                    work.updateCode(generateCode());
                 }
                 sendWorkMembers(work, template);
                 work.markMailSent();
@@ -65,7 +62,7 @@ public class MailService {
                 work.getUser().getEmail(),
                 work.getUser().getName(),
                 work.getTitle(),
-                userRedirectUri,
+                generateUserLink(work),
                 work.getCode(),
                 "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
         ), template);
@@ -104,7 +101,15 @@ public class MailService {
         }
     }
 
+    private String generateUserLink(Work work) {
+        return redirectUri + work.getId();
+    }
+
     private String generateWorkMemberLink(Work work) {
-        return workMemberRedirectUri + work.getId() + "/verify-code";
+        return redirectUri + work.getId() + "/verify-code";
+    }
+
+    private String generateCode() {
+        return UUID.randomUUID().toString().substring(0, 6).toUpperCase();
     }
 }
