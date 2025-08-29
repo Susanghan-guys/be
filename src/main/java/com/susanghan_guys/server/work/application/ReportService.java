@@ -8,6 +8,8 @@ import com.susanghan_guys.server.work.domain.WorkVisibility;
 import com.susanghan_guys.server.work.dto.request.ReportCodeRequest;
 import com.susanghan_guys.server.work.dto.request.ReportDeletionRequest;
 import com.susanghan_guys.server.work.dto.response.MyReportListResponse;
+import com.susanghan_guys.server.work.dto.response.ReportCodeResponse;
+import com.susanghan_guys.server.work.dto.response.ReportSharingResponse;
 import com.susanghan_guys.server.work.dto.response.ReportInfoResponse;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
@@ -24,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -67,18 +70,30 @@ public class ReportService {
     }
 
     @Transactional
-    public void verifyReportCode(Long workId, ReportCodeRequest request) {
+    public ReportSharingResponse shareReport(Long workId) {
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
+
+        if (work.getCode() == null) {
+            work.updateCode(UUID.randomUUID().toString().substring(0, 6).toUpperCase());
+        }
+
+        return ReportSharingResponse.from(work);
+    }
+
+    @Transactional
+    public ReportCodeResponse verifyReportCode(ReportCodeRequest request) {
         User user = currentUserProvider.getCurrentUser();
 
-        Work work = workRepository.findById(workId)
+        Work work = workRepository.findByCode(request.code())
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
         reportValidator.validateReportCode(user, work, request);
 
-        if (workVisibilityRepository.findByWorkIdAndUserId(workId, user.getId()).isPresent()) {
-            return;
+        if (workVisibilityRepository.findByWorkIdAndUserId(work.getId(), user.getId()).isEmpty()) {
+            workVisibilityRepository.save(WorkVisibility.of(user, work, true));
         }
-        workVisibilityRepository.save(WorkVisibility.of(user, work, true));
+        return ReportCodeResponse.from(work);
     }
 
     @Transactional

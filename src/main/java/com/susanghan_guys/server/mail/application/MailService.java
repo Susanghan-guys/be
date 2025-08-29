@@ -49,7 +49,7 @@ public class MailService {
 
             for (Work work : works) {
                 if (work.getCode() == null) {
-                    work.updateCode(generateCode());
+                    throw new MailException(MailErrorCode.WORK_CODE_NOT_FOUND);
                 }
                 sendWorkMembers(work, template);
                 work.markMailSent();
@@ -106,9 +106,5 @@ public class MailService {
 
     private String generateWorkMemberLink(Work work) {
         return workMemberRedirectUri + work.getId() + "/verify-code";
-    }
-
-    private String generateCode() {
-        return UUID.randomUUID().toString().substring(0, 6).toUpperCase();
     }
 }
