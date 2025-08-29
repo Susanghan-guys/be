@@ -46,7 +46,8 @@ public class SecurityConfig {
                                 "/global/health-check",
                                 "/login/oauth2/**",
                                 "/v1/auth/refresh-token",
-                                "/v1/auth/exchange"
+                                "/v1/auth/exchange",
+                                "/v1/mail"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptions -> exceptions
