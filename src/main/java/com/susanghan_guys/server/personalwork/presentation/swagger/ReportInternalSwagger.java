@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Tag(name = "[백엔드 내부 - 리포트 일괄 및 삭제]", description = "요약/브리프/총평을 일괄 생성 API")
+@Tag(name = "[백엔드 내부 - 리포트 생성 및 삭제]", description = "요약/브리프/총평을 일괄 생성 API")
 public interface ReportInternalSwagger {
 
     @Operation(
