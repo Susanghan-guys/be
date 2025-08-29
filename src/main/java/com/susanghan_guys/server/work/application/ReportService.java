@@ -82,15 +82,15 @@ public class ReportService {
     }
 
     @Transactional
-    public ReportCodeResponse verifyReportCode(ReportCodeRequest request) {
+    public ReportCodeResponse verifyReportCode(Long workId, ReportCodeRequest request) {
         User user = currentUserProvider.getCurrentUser();
 
-        Work work = workRepository.findByCode(request.code())
+        Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
         reportValidator.validateReportCode(user, work, request);
 
-        if (workVisibilityRepository.findByWorkIdAndUserId(work.getId(), user.getId()).isEmpty()) {
+        if (workVisibilityRepository.findByWorkIdAndUserId(workId, user.getId()).isEmpty()) {
             workVisibilityRepository.save(WorkVisibility.of(user, work, true));
         }
         return ReportCodeResponse.from(work);

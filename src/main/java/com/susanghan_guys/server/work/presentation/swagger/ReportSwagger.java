@@ -73,6 +73,7 @@ public interface ReportSwagger {
             )
     })
     CommonResponse<ReportCodeResponse> verifyReportCode(
+            @PathVariable(name = "workId") Long workId,
             @RequestBody @Valid ReportCodeRequest request
     );
 
