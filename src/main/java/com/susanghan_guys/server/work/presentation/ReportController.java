@@ -45,9 +45,12 @@ public class ReportController implements ReportSwagger {
     }
 
     @Override
-    @PostMapping("/verify-code")
-    public CommonResponse<ReportCodeResponse> verifyReportCode(@RequestBody @Valid ReportCodeRequest request) {
-        return CommonResponse.success(REPORTS_CODE_VERIFY_SUCCESS, reportService.verifyReportCode(request));
+    @PostMapping("/{workId}/verify-code")
+    public CommonResponse<ReportCodeResponse> verifyReportCode(
+            @PathVariable(name = "workId") Long workId,
+            @RequestBody @Valid ReportCodeRequest request
+    ) {
+        return CommonResponse.success(REPORTS_CODE_VERIFY_SUCCESS, reportService.verifyReportCode(workId, request));
     }
 
     @Override
