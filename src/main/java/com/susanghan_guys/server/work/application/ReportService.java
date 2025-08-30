@@ -1,5 +1,6 @@
 package com.susanghan_guys.server.work.application;
 
+import com.susanghan_guys.server.feedback.infrastructure.persistence.FeedbackRepository;
 import com.susanghan_guys.server.global.security.CurrentUserProvider;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.application.validator.ReportValidator;
@@ -26,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +35,7 @@ public class ReportService {
 
     private final CurrentUserProvider currentUserProvider;
     private final WorkRepository workRepository;
+    private final FeedbackRepository feedbackRepository;
     private final WorkVisibilityRepository workVisibilityRepository;
     private final ReportValidator reportValidator;
 
@@ -64,9 +65,11 @@ public class ReportService {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
+        boolean hasFeedback = feedbackRepository.existsByWorkAndUser(work, user);
+
         reportValidator.validateReportInfo(user, work);
 
-        return ReportInfoResponse.from(work);
+        return ReportInfoResponse.from(work, hasFeedback);
     }
 
     @Transactional
