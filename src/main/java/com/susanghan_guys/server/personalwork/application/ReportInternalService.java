@@ -8,6 +8,7 @@ import com.susanghan_guys.server.personalwork.exception.code.PersonalWorkErrorCo
 import com.susanghan_guys.server.personalwork.infrastructure.persistence.DetailEvalRepository;
 import com.susanghan_guys.server.personalwork.infrastructure.persistence.EvaluationRepository;
 import com.susanghan_guys.server.work.domain.Work;
+import com.susanghan_guys.server.work.domain.type.ReportStatus;
 import com.susanghan_guys.server.work.domain.type.WorkType;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
@@ -30,7 +31,6 @@ public class ReportInternalService {
     private final YccWorkEvaluationService yccWorkEvaluationService;
     private final EvaluationRepository evaluationRepository;
     private final DetailEvalRepository detailEvalRepository;
-
 
     @Transactional
     public ReportPipelineResponse runPipeline(Long workId) {
@@ -55,6 +55,7 @@ public class ReportInternalService {
         if (work.getCode() == null) {
             work.updateCode(UUID.randomUUID().toString().substring(0, 6).toUpperCase());
         }
+        work.updateReportStatus(ReportStatus.COMPLETED);
 
         return ReportPipelineResponse.builder()
                 .summaryDone(summaryDone)
