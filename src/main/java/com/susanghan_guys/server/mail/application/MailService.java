@@ -68,6 +68,9 @@ public class MailService {
         ), template);
 
         for (WorkMember workMember : work.getWorkMembers()) {
+            if (work.getUser().getEmail().equals(workMember.getTeamMember().getEmail())) {
+                continue;
+            }
             personalizeMail(new MailRequest(
                     workMember.getTeamMember().getEmail(),
                     workMember.getTeamMember().getName(),

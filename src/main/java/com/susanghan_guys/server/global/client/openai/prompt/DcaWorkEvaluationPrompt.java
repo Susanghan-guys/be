@@ -96,13 +96,16 @@ public class DcaWorkEvaluationPrompt {
                 2. Output "score": INTEGER (0-10).
 
                 Scoring rule:
-                - Baseline: 4 points
-                - 10-8 points: The work fully and clearly meets the criterion, going beyond expectations with concrete and persuasive execution. (e.g. a heavy theme reframed into a light participatory idea that feels fresh and positive)
-                - 7-6 points: The work sufficiently meets the criterion but shows some lack of clarity, specificity, or persuasiveness. (e.g. a perception shift is attempted but remains limited or predictable)
-                - 5 or below: The work fails to meet the core requirement of the criterion. (e.g. participation exists but the structure lacks potential to expand into a true public campaign)
-                - If the score is 7 or below, and there is a clear reason for the lower score, add at least one limitation, weakness, or risk factor to justify it. \s
-                - If no meaningful reason is apparent, you may omit this part instead of forcing a generic remark.
-
+                - Baseline guideline: 6 points
+                - 9 points: Allowed, but only if the rationale is very specific, concrete, and clearly persuasive.\s
+                  → Do NOT overuse; should be rare, but possible.
+                - 10 points: Practically impossible. Use only in extraordinary, near-perfect cases.
+                - 7–8 points: Solid and well-justified executions.
+                - 6 points: Baseline / average quality. If you assign 6, you must provide one clear weakness/limitation.
+                - 5 points or below: Strongly discouraged. Only use if the campaign is clearly and fundamentally flawed.
+                  If you assign ≤5, you must justify with one clear weakness/risk factor (do not list more than one).
+                - Below 5: Not allowed.
+                
                 Conservativeness:
                 - Do NOT inflate scores without clear evidence.
                 - Be conservative: most scores should be 8 or below.

@@ -1,8 +1,10 @@
 package com.susanghan_guys.server.feedback.infrastructure.persistence;
 
 import com.susanghan_guys.server.feedback.domain.Feedback;
+import com.susanghan_guys.server.user.domain.User;
+import com.susanghan_guys.server.work.domain.Work;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
-    boolean existsByWorkId(Long workId);
+    boolean existsByWorkAndUser(Work work, User user);
 }

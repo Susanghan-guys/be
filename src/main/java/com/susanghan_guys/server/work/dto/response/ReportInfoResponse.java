@@ -20,9 +20,11 @@ public record ReportInfoResponse(
         Brand brand,
 
         @Schema(description = "공모전 팀원", example = "[\"김철수\", \"주정빈\", \"강수진\"]")
-        List<String> workMembers
+        List<String> workMembers,
+
+        boolean hasFeedback
 ) {
-    public static ReportInfoResponse from(Work work) {
+    public static ReportInfoResponse from(Work work, boolean hasFeedback) {
         return ReportInfoResponse.builder()
                 .workName(work.getTitle())
                 .contestName(work.getContest().getTitle())
@@ -32,6 +34,7 @@ public record ReportInfoResponse(
                                 .map(workMember -> workMember.getTeamMember().getName())
                                 .toList()
                 )
+                .hasFeedback(hasFeedback)
                 .build();
     }
 }
