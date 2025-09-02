@@ -13,6 +13,7 @@ import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +33,12 @@ public class FeedbackService {
         Work work = workRepository.findById(workId)
                 .orElseThrow(() -> new WorkException(WorkErrorCode.WORK_NOT_FOUND));
 
-        if (feedbackRepository.existsByWorkAndUser(work, user)) {
-            throw new FeedbackException(FeedbackErrorCode.FEEDBACK_ALREADY_EXIST);
-        }
-
         Feedback feedback = FeedbackMapper.toEntity(request.score(), request.content(), user, work);
 
-        feedbackRepository.save(feedback);
+        try {
+            feedbackRepository.save(feedback);
+        } catch (DataIntegrityViolationException e) {
+            throw new FeedbackException(FeedbackErrorCode.FEEDBACK_ALREADY_EXIST);
+        }
     }
 }

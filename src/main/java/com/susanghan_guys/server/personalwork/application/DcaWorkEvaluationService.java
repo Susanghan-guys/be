@@ -17,7 +17,6 @@ import com.susanghan_guys.server.personalwork.infrastructure.persistence.DetailE
 import com.susanghan_guys.server.personalwork.infrastructure.persistence.EvaluationRepository;
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.Work;
-import com.susanghan_guys.server.work.domain.type.ReportStatus;
 import com.susanghan_guys.server.work.exception.WorkException;
 import com.susanghan_guys.server.work.exception.code.WorkErrorCode;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
@@ -98,7 +97,6 @@ public class DcaWorkEvaluationService {
             List<DetailEval> detailEvals = getOrCreateDetailEvaluation(workId, evaluation.getType());
             evaluation.updateScore(detailEvals);
         }
-        work.updateReportStatus(ReportStatus.COMPLETED);
 
         return evaluations;
     }
