@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +51,10 @@ public class ReportInternalService {
 
         runEvaluationInternal(workId);
         evaluationDone = true;
+
+        if (work.getCode() == null) {
+            work.updateCode(UUID.randomUUID().toString().substring(0, 6).toUpperCase());
+        }
 
         return ReportPipelineResponse.builder()
                 .summaryDone(summaryDone)
