@@ -24,9 +24,6 @@ public class BriefAnalysis extends BaseEntity {
     @Column(name = "consistency", nullable = false, length = 300)
     private String consistency;
 
-    @Column(name = "weakness", nullable = false, length = 300)
-    private String weakness;
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "work_id", nullable = false, unique = true)
     private Work work;
@@ -35,12 +32,10 @@ public class BriefAnalysis extends BaseEntity {
     public BriefAnalysis(
             String interpretation,
             String consistency,
-            String weakness,
             Work work
     ) {
         this.interpretation = interpretation;
         this.consistency = consistency;
-        this.weakness = weakness;
         this.work = work;
     }
 }
