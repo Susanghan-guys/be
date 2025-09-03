@@ -58,7 +58,19 @@ public class MailService {
     }
 
     private void sendWorkMembers(Work work, String template) {
+        personalizeMail(MailRequest.of(
+                work.getUser().getEmail(),
+                work.getUser().getName(),
+                work.getTitle(),
+                generateLink(work),
+                work.getCode(),
+                "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
+        ), template);
+
         for (WorkMember workMember : work.getWorkMembers()) {
+            if (work.getUser().getEmail().equals(workMember.getTeamMember().getEmail())) {
+                continue;
+            }
             personalizeMail(MailRequest.of(
                     workMember.getTeamMember().getEmail(),
                     workMember.getTeamMember().getName(),
