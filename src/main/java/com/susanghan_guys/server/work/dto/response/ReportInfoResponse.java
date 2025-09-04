@@ -22,6 +22,7 @@ public record ReportInfoResponse(
         @Schema(description = "공모전 팀원", example = "[\"김철수\", \"주정빈\", \"강수진\"]")
         List<String> workMembers,
 
+        @Schema(description = "피드백 여부", example = "false")
         boolean hasFeedback
 ) {
     public static ReportInfoResponse from(Work work, boolean hasFeedback) {

@@ -58,11 +58,11 @@ public class MailService {
     }
 
     private void sendWorkMembers(Work work, String template) {
-        personalizeMail(new MailRequest(
+        personalizeMail(MailRequest.of(
                 work.getUser().getEmail(),
                 work.getUser().getName(),
                 work.getTitle(),
-                generateUserLink(work),
+                generateLink(work),
                 work.getCode(),
                 "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
         ), template);
@@ -71,11 +71,11 @@ public class MailService {
             if (work.getUser().getEmail().equals(workMember.getTeamMember().getEmail())) {
                 continue;
             }
-            personalizeMail(new MailRequest(
+            personalizeMail(MailRequest.of(
                     workMember.getTeamMember().getEmail(),
                     workMember.getTeamMember().getName(),
                     work.getTitle(),
-                    generateWorkMemberLink(work),
+                    generateLink(work),
                     work.getCode(),
                     "[%s] 수상 리포트 완성 안내".formatted(work.getTitle())
             ), template);
@@ -104,12 +104,8 @@ public class MailService {
         }
     }
 
-    private String generateUserLink(Work work) {
+    private String generateLink(Work work) {
         return redirectUri + work.getId();
-    }
-
-    private String generateWorkMemberLink(Work work) {
-        return redirectUri + work.getId() + "/verify-code";
     }
 
     private String generateCode() {
