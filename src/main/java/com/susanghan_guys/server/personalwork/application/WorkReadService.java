@@ -25,7 +25,7 @@ public class WorkReadService {
 
     @Transactional(readOnly = true)
     public DetailEvaluationResponse getDetailEvaluation(Long workId, EvaluationType type) {
-        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
+        personalWorkValidator.validatePersonalWorkAccessible(workId, currentUserProvider.getCurrentUser());
         personalWorkValidator.validateEvaluationExists(workId);
 
         List<DetailEval> detailEvals = detailEvalRepository.findByWorkIdAndEvaluationType(workId, type);

@@ -64,8 +64,7 @@ public class DcaWorkEvaluationService {
 
     @Transactional(readOnly = true)
     public DcaWorkEvaluationResponse getDcaWorkEvaluation(Long workId) {
-
-        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
+        personalWorkValidator.validatePersonalWorkAccessible(workId, currentUserProvider.getCurrentUser());
 
         List<Evaluation> dcaEvals = evaluationRepository
                 .findAllByWorkIdAndTypeIn(workId, EvaluationType.dcaTypes());

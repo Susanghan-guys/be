@@ -6,6 +6,7 @@ import com.susanghan_guys.server.personalwork.infrastructure.persistence.Evaluat
 import com.susanghan_guys.server.user.domain.User;
 import com.susanghan_guys.server.work.domain.Work;
 import com.susanghan_guys.server.work.infrastructure.persistence.WorkRepository;
+import com.susanghan_guys.server.work.infrastructure.persistence.WorkVisibilityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ public class PersonalWorkValidator {
 
     private final WorkRepository workRepository;
     private final EvaluationRepository evaluationRepository;
+    private final WorkVisibilityRepository workVisibilityRepository;
 
     public boolean isOwner(Long workId, Long userId) {
         Work work = workRepository.findById(workId)
@@ -31,6 +33,18 @@ public class PersonalWorkValidator {
 
         if (!work.getUser().equals(user)) {
             throw new PersonalWorkException(PersonalWorkErrorCode.WORK_OWNER_MISMATCH);
+        }
+    }
+
+    public void validatePersonalWorkAccessible(Long workId, User user) {
+        Work work = workRepository.findById(workId)
+                .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.WORK_NOT_FOUND));
+
+        boolean isOwner = work.getUser().equals(user);
+        boolean isVerifiedCode = workVisibilityRepository.existsByWorkIdAndUserIdAndVisibleTrue(workId, user.getId());
+
+        if (!isOwner && !isVerifiedCode) {
+            throw new PersonalWorkException(PersonalWorkErrorCode.WORK_ACCESS_DENIED);
         }
     }
 

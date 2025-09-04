@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DcaBriefEvaluationService {
 
-
     private final CurrentUserProvider currentUserProvider;
     private final OpenAiPort openAiPort;
     private final OpenAiFactory openAiFactory;
