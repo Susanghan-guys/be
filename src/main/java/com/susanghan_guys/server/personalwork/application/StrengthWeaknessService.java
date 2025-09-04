@@ -28,9 +28,10 @@ public class StrengthWeaknessService {
         personalWorkValidator.validatePersonalWorkOwner(workId, user);
         personalWorkValidator.validateEvaluationExists(workId);
 
-        List<DetailEval> strengths = detailEvalRepository.findTopStrengths(workId, PageRequest.of(0, 3));
+        List<DetailEval> strengths = detailEvalRepository.findTopStrengths(workId, PageRequest.of(0, 6));
+        List<DetailEval> selected = adjustIfSameEvalTop3(strengths);
 
-        return strengths.stream().map(StrengthWeaknessMapper::toResponse).toList();
+        return selected.stream().map(StrengthWeaknessMapper::toResponse).toList();
 
     }
 
@@ -40,23 +41,70 @@ public class StrengthWeaknessService {
         personalWorkValidator.validatePersonalWorkOwner(workId, currentUser);
         personalWorkValidator.validateEvaluationExists(workId);
 
-        List<DetailEval> weaknesses = detailEvalRepository.findBottomWeaknesses(workId, PageRequest.of(0, 3));
-        List<DetailEval> bounded = applyBoundaryRule(weaknesses);
+        List<DetailEval> weaknesses = detailEvalRepository.findBottomWeaknesses(workId, PageRequest.of(0, 6));
+        List<DetailEval> selected = applyBoundaryThenReplaceIfSameEval(weaknesses);
 
-        return bounded.stream().map(StrengthWeaknessMapper::toResponse).toList();
-}
+        return selected.stream().map(StrengthWeaknessMapper::toResponse).toList();
+    }
 
-    private List<DetailEval> applyBoundaryRule(List<DetailEval> sortedAscTop3) {
-        int n = sortedAscTop3.size();
-        if (n <= 2) return sortedAscTop3;
 
-        int s2 = sortedAscTop3.get(1).getScore();
-        int s3 = sortedAscTop3.get(2).getScore();
+    private List<DetailEval> adjustIfSameEvalTop3(List<DetailEval> top6) {
 
-        if (s2 != s3) {
-            return sortedAscTop3.subList(0, 2);
+        List<DetailEval> first3 = top6.subList(0, 3);
+        Long e1 = first3.get(0).getEvaluation().getId();
+        Long e2 = first3.get(1).getEvaluation().getId();
+        Long e3 = first3.get(2).getEvaluation().getId();
+
+        // 셋 다 같은 evaluation이면 교체
+        if (e1.equals(e2) && e2.equals(e3)) {
+            for (int i = 3; i < Math.min(6, top6.size()); i++) {
+                DetailEval cand = top6.get(i);
+                if (!cand.getEvaluation().getId().equals(e1)) {
+                    List<DetailEval> adjusted = new java.util.ArrayList<>(first3);
+                    adjusted.set(2, cand);
+                    return adjusted;
+                }
+            }
+            return first3;
+        }
+        return first3;
+    }
+
+    private List<DetailEval> applyBoundaryThenReplaceIfSameEval(List<DetailEval> bottom6) {
+
+        // 경계 규칙 적용
+        List<DetailEval> top3Slice = bottom6.subList(0, 3);
+        List<DetailEval> base = applyBoundaryRule(top3Slice);
+
+        if (base.size() < 3) return base;
+
+        Long e1 = base.get(0).getEvaluation().getId();
+        Long e2 = base.get(1).getEvaluation().getId();
+        Long e3 = base.get(2).getEvaluation().getId();
+
+        boolean allSameEval = e1.equals(e2) && e2.equals(e3);
+        if (!allSameEval) return base;
+
+        int s3 = base.get(2).getScore();
+
+        for (int i = 3; i < Math.min(6, bottom6.size()); i++) {
+            DetailEval cand = bottom6.get(i);
+            if (cand.getScore() == s3 && !cand.getEvaluation().getId().equals(e1)) {
+                List<DetailEval> adjusted = new java.util.ArrayList<>(base);
+                adjusted.set(2, cand);
+                return adjusted;
+            }
         }
 
-        return sortedAscTop3;
+        return base.subList(0, 2);
+    }
+
+    private List<DetailEval> applyBoundaryRule(List<DetailEval> top3) {
+        int s2 = top3.get(1).getScore();
+        int s3 = top3.get(2).getScore();
+
+        if (s2 != s3) return top3.subList(0, 2);
+
+        return top3;
     }
 }
