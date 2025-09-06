@@ -55,9 +55,7 @@ public class WorkSummaryService {
 
     @Transactional(readOnly = true)
     public WorkSummaryResponse getWorkSummary(Long workId) {
-        personalWorkValidator.validatePersonalWorkOwner(
-                workId, currentUserProvider.getCurrentUser()
-        );
+        personalWorkValidator.validatePersonalWorkAccessible(workId, currentUserProvider.getCurrentUser());
 
         Summary summary = summaryRepository.findByWorkId(workId)
                 .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.SUMMARY_NOT_FOUND));
