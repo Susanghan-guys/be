@@ -24,8 +24,7 @@ public class StrengthWeaknessService {
 
     @Transactional(readOnly = true)
     public List<DetailEvaluationResponse.DetailEvaluation> getStrengths(Long workId) {
-        User user = currentUserProvider.getCurrentUser();
-        personalWorkValidator.validatePersonalWorkOwner(workId, user);
+        personalWorkValidator.validatePersonalWorkAccessible(workId, currentUserProvider.getCurrentUser());
         personalWorkValidator.validateEvaluationExists(workId);
 
         List<DetailEval> strengths = detailEvalRepository.findTopStrengths(workId, PageRequest.of(0, 3));
@@ -36,8 +35,7 @@ public class StrengthWeaknessService {
 
     @Transactional(readOnly = true)
     public List<DetailEvaluationResponse.DetailEvaluation> getWeaknesses(Long workId) {
-        User currentUser = currentUserProvider.getCurrentUser();
-        personalWorkValidator.validatePersonalWorkOwner(workId, currentUser);
+        personalWorkValidator.validatePersonalWorkAccessible(workId, currentUserProvider.getCurrentUser());
         personalWorkValidator.validateEvaluationExists(workId);
 
         List<DetailEval> weaknesses = detailEvalRepository.findBottomWeaknesses(workId, PageRequest.of(0, 3));

@@ -74,8 +74,7 @@ public class YccWorkEvaluationService {
 
     @Transactional(readOnly = true)
     public YccWorkEvaluationResponse getYccWorkEvaluation(Long workId) {
-
-        personalWorkValidator.validatePersonalWorkOwner(workId, currentUserProvider.getCurrentUser());
+        personalWorkValidator.validatePersonalWorkAccessible(workId, currentUserProvider.getCurrentUser());
 
         List<Evaluation> yccEvals = evaluationRepository
                 .findAllByWorkIdAndTypeIn(workId, EvaluationType.yccTypes());
