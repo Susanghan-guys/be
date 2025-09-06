@@ -41,8 +41,7 @@ public class DcaBriefEvaluationService {
 
     @Transactional(readOnly = true)
     public DcaBriefEvaluationResponse getDcaBriefEvaluation(Long workId) {
-        User user = currentUserProvider.getCurrentUser();
-        personalWorkValidator.validatePersonalWorkOwner(workId, user);
+        personalWorkValidator.validatePersonalWorkAccessible(workId, currentUserProvider.getCurrentUser());
 
         BriefAnalysis briefAnalysis = briefAnalysisRepository.findByWorkId(workId)
                 .orElseThrow(() -> new PersonalWorkException(PersonalWorkErrorCode.BRIEF_ANALYSIS_NOT_FOUND));
