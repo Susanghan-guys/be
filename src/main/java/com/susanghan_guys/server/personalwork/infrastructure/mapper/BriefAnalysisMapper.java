@@ -12,7 +12,6 @@ public class BriefAnalysisMapper {
         return BriefAnalysis.builder()
                 .interpretation(resp.interpretation())
                 .consistency(safeTrim(resp.consistency(), MAX_LEN))
-                .weakness(safeTrim(resp.weakness(), MAX_LEN))
                 .work(work)
                 .build();
     }
@@ -21,7 +20,6 @@ public class BriefAnalysisMapper {
         return DcaBriefEvaluationResponse.builder()
                 .interpretation(e.getInterpretation())
                 .consistency(safeTrim(e.getConsistency(), MAX_LEN))
-                .weakness(safeTrim(e.getWeakness(), MAX_LEN))
                 .build();
     }
 

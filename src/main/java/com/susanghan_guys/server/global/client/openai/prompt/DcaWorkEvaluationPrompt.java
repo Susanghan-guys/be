@@ -106,6 +106,10 @@ public class DcaWorkEvaluationPrompt {
                   If you assign ≤5, you must justify with one clear weakness/risk factor (do not list more than one).
                 - Below 5: Not allowed.
                 
+                Rationale rule:
+                - If score == 6 → add exactly one short weakness.
+                - If score ≥ 7 → no weaknesses, no “그러나/하지만/다만” style contrast.
+                
                 Conservativeness:
                 - Do NOT inflate scores without clear evidence.
                 - Be conservative: most scores should be 8 or below.
