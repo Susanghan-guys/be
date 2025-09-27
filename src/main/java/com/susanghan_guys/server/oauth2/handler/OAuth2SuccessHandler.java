@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.Map;
@@ -28,8 +29,11 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper objectMapper;
     private final RedisUtil redisUtil;
 
-    @Value("${frontend.oauth2.redirect-uri}")
-    private String redirectUri;
+    @Value("${frontend.oauth2.base-redirect-uri}")
+    private String baseRedirectUri;
+
+    @Value("${frontend.oauth2.report-redirect-uri}")
+    private String reportRedirectUri;
 
     @Override
     public void onAuthenticationSuccess(
@@ -59,7 +63,21 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                         "isSignUp", String.valueOf(isSignUp)
                 )), 1000 * 60L);
 
-        String callbackUri = redirectUri + tempCode;
+        String requestParam = request.getParameter("redirect");
+
+        String redirectUri;
+        if (requestParam != null && requestParam.startsWith("/reports")) {
+            redirectUri = reportRedirectUri + requestParam;
+        } else {
+            redirectUri = baseRedirectUri;
+        }
+
+        String callbackUri = UriComponentsBuilder
+                .fromUriString(redirectUri)
+                .queryParam("code", tempCode)
+                .build(true)
+                .toUriString();
+
         response.sendRedirect(callbackUri);
     }
 }
