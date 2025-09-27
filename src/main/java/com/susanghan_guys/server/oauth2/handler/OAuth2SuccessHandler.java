@@ -28,8 +28,11 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper objectMapper;
     private final RedisUtil redisUtil;
 
-    @Value("${frontend.oauth2.redirect-uri}")
-    private String redirectUri;
+    @Value("${frontend.oauth2.base-redirect-uri}")
+    private String baseRedirectUri;
+
+    @Value("${frontend.oauth2.report-redirect-uri}")
+    private String reportRedirectUri;
 
     @Override
     public void onAuthenticationSuccess(
@@ -59,7 +62,16 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                         "isSignUp", String.valueOf(isSignUp)
                 )), 1000 * 60L);
 
-        String callbackUri = redirectUri + tempCode;
+        String requestParam = request.getParameter("redirect");
+
+        String redirectUri;
+        if (requestParam != null && requestParam.startsWith("/reports")) {
+            redirectUri = reportRedirectUri + requestParam;
+        } else {
+            redirectUri = baseRedirectUri;
+        }
+
+        String callbackUri = redirectUri + "?code=" + tempCode;
         response.sendRedirect(callbackUri);
     }
 }
