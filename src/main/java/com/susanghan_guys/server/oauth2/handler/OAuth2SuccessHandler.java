@@ -7,6 +7,7 @@ import com.susanghan_guys.server.oauth2.infrastructure.persistence.RefreshTokenR
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.global.util.RedisUtil;
 import com.susanghan_guys.server.user.domain.User;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -33,9 +38,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     @Value("${frontend.oauth2.base-redirect-uri}")
     private String baseRedirectUri;
-
-    @Value("${frontend.oauth2.report-redirect-uri}")
-    private String reportRedirectUri;
 
     @Override
     public void onAuthenticationSuccess(
@@ -65,24 +67,19 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                         "isSignUp", String.valueOf(isSignUp)
                 )), 1000 * 60L);
 
-        String requestParam = request.getParameter("state");
+        String redirectPath = Arrays.stream(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
+                .filter(c -> "redirect".equals(c.getName()))
+                .findFirst()
+                .map(c -> URLDecoder.decode(c.getValue(), StandardCharsets.UTF_8))
+                .orElse("/oauth/callback");
 
-        String redirectUri;
-        if (requestParam != null && requestParam.startsWith("/reports")) {
-            redirectUri = reportRedirectUri + requestParam;
-        } else {
-            redirectUri = baseRedirectUri;
-        }
+        String targetUri = baseRedirectUri + redirectPath;
 
         String callbackUri = UriComponentsBuilder
-                .fromUriString(redirectUri)
+                .fromUriString(targetUri)
                 .queryParam("code", tempCode)
-                .build(true)
+                .build()
                 .toUriString();
-
-        log.info("requestParam = {}", requestParam);
-        log.info("redirectUri = {}", redirectUri);
-        log.info("callbackUri = {}", callbackUri);
 
         response.sendRedirect(callbackUri);
     }
