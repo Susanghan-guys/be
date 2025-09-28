@@ -65,7 +65,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                         "isSignUp", String.valueOf(isSignUp)
                 )), 1000 * 60L);
 
-        String requestParam = request.getParameter("redirect");
+        String requestParam = request.getParameter("state");
 
         String redirectUri;
         if (requestParam != null && requestParam.startsWith("/reports")) {
