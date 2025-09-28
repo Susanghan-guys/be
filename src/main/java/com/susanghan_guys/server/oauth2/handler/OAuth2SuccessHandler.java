@@ -10,6 +10,7 @@ import com.susanghan_guys.server.user.domain.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
@@ -77,6 +79,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .queryParam("code", tempCode)
                 .build(true)
                 .toUriString();
+
+        log.info("requestParam = {}", requestParam);
+        log.info("redirectUri = {}", redirectUri);
+        log.info("callbackUri = {}", callbackUri);
 
         response.sendRedirect(callbackUri);
     }
