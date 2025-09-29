@@ -3,6 +3,7 @@ package com.susanghan_guys.server.oauth2.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.susanghan_guys.server.global.security.jwt.JwtProvider;
 import com.susanghan_guys.server.oauth2.domain.RefreshToken;
+import com.susanghan_guys.server.oauth2.domain.validator.RedirectValidator;
 import com.susanghan_guys.server.oauth2.infrastructure.persistence.RefreshTokenRepository;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.global.util.RedisUtil;
@@ -36,8 +37,13 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper objectMapper;
     private final RedisUtil redisUtil;
 
-    @Value("${frontend.oauth2.base-redirect-uri}")
-    private String baseRedirectUri;
+    @Value("${frontend.oauth2.allowed-redirect-origin}")
+    private String allowedOrigin;
+
+    @Value("${frontend.oauth2.base-redirect-path}")
+    private String baseRedirectPath;
+
+    private final RedirectValidator redirectValidator;
 
     @Override
     public void onAuthenticationSuccess(
@@ -67,16 +73,15 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                         "isSignUp", String.valueOf(isSignUp)
                 )), 1000 * 60L);
 
-        String redirectPath = Arrays.stream(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
+        String redirectUri = Arrays.stream(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
                 .filter(c -> "redirect".equals(c.getName()))
                 .findFirst()
                 .map(c -> URLDecoder.decode(c.getValue(), StandardCharsets.UTF_8))
-                .orElse("/oauth/callback");
-
-        String targetUri = baseRedirectUri + redirectPath;
+                .filter(redirectValidator::isAuthorized)
+                .orElse(allowedOrigin + baseRedirectPath);
 
         String callbackUri = UriComponentsBuilder
-                .fromUriString(targetUri)
+                .fromUriString(redirectUri)
                 .queryParam("code", tempCode)
                 .build()
                 .toUriString();
