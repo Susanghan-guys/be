@@ -1,6 +1,6 @@
 package com.susanghan_guys.server.global.config;
 
-import com.susanghan_guys.server.global.filter.RedirectUriFilter;
+import com.susanghan_guys.server.oauth2.filter.RedirectUriFilter;
 import com.susanghan_guys.server.global.security.handler.JwtAccessDeniedHandler;
 import com.susanghan_guys.server.global.security.handler.JwtAuthenticationEntryPoint;
 import com.susanghan_guys.server.global.security.jwt.JwtAuthenticationFilter;

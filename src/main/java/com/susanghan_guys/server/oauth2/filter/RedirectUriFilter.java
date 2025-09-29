@@ -1,4 +1,4 @@
-package com.susanghan_guys.server.global.filter;
+package com.susanghan_guys.server.oauth2.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
