@@ -30,7 +30,10 @@ public class RedirectUriFilter extends OncePerRequestFilter {
         String redirectUri = request.getParameter("redirect");
 
         if (redirectUri != null && !redirectUri.isBlank()) {
-            Cookie cookie = new Cookie("redirect", URLEncoder.encode(redirectUri, StandardCharsets.UTF_8));
+            String requestUri = request.getRequestURI();
+            String provider = requestUri.substring(requestUri.lastIndexOf("/") + 1);
+
+            Cookie cookie = new Cookie("redirect_" + provider, URLEncoder.encode(redirectUri, StandardCharsets.UTF_8));
 
             cookie.setHttpOnly(true);
             cookie.setPath("/");

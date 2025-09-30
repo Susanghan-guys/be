@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,9 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -36,14 +35,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final RefreshTokenRepository refreshTokenRepository;
     private final ObjectMapper objectMapper;
     private final RedisUtil redisUtil;
-
-    @Value("${frontend.oauth2.allowed-redirect-origin}")
-    private String allowedOrigin;
-
-    @Value("${frontend.oauth2.base-redirect-path}")
-    private String baseRedirectPath;
-
     private final RedirectValidator redirectValidator;
+
+    @Value("${frontend.oauth2.base-redirect-uri}")
+    private String baseRedirectUri;
 
     @Override
     public void onAuthenticationSuccess(
@@ -73,19 +68,40 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                         "isSignUp", String.valueOf(isSignUp)
                 )), 1000 * 60L);
 
-        String redirectUri = Arrays.stream(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
-                .filter(c -> "redirect".equals(c.getName()))
-                .findFirst()
-                .map(c -> URLDecoder.decode(c.getValue(), StandardCharsets.UTF_8))
-                .filter(redirectValidator::isAuthorized)
-                .orElse(allowedOrigin + baseRedirectPath);
+        String provider = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
 
-        String callbackUri = UriComponentsBuilder
-                .fromUriString(redirectUri)
-                .queryParam("code", tempCode)
-                .build()
-                .toUriString();
+        String redirectParam = extractAndDeleteCookie(request, response, "redirect_" + provider);
+
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromUriString(baseRedirectUri)
+                .queryParam("code", tempCode);
+
+        if (redirectParam != null && !redirectParam.isBlank() && redirectValidator.isAuthorized(redirectParam)) {
+            builder.queryParam("redirect", redirectParam);
+        }
+
+        String callbackUri = builder.build().toUriString();
 
         response.sendRedirect(callbackUri);
+    }
+
+    private String extractAndDeleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
+        if (request.getCookies() == null) {
+            return null;
+        }
+
+        for (Cookie cookie : request.getCookies()) {
+            if (name.equals(cookie.getName())) {
+                String param = URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8);
+
+                Cookie expired = new Cookie(name, null);
+                expired.setPath("/");
+                expired.setMaxAge(0);
+                response.addCookie(expired);
+
+                return param;
+            }
+        }
+        return null;
     }
 }
