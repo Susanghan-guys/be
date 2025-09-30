@@ -3,6 +3,7 @@ package com.susanghan_guys.server.oauth2.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.susanghan_guys.server.global.security.jwt.JwtProvider;
 import com.susanghan_guys.server.oauth2.domain.RefreshToken;
+import com.susanghan_guys.server.oauth2.domain.validator.RedirectValidator;
 import com.susanghan_guys.server.oauth2.infrastructure.persistence.RefreshTokenRepository;
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.global.util.RedisUtil;
@@ -34,6 +35,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final RefreshTokenRepository refreshTokenRepository;
     private final ObjectMapper objectMapper;
     private final RedisUtil redisUtil;
+    private final RedirectValidator redirectValidator;
 
     @Value("${frontend.oauth2.base-redirect-uri}")
     private String baseRedirectUri;
@@ -74,7 +76,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .fromUriString(baseRedirectUri)
                 .queryParam("code", tempCode);
 
-        if (redirectParam != null && !redirectParam.isBlank()) {
+        if (redirectParam != null && !redirectParam.isBlank()&& !redirectValidator.isAuthorized(redirectParam)) {
             builder.queryParam("redirect", redirectParam);
         }
 
