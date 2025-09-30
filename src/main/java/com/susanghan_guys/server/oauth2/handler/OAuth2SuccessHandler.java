@@ -76,7 +76,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .fromUriString(baseRedirectUri)
                 .queryParam("code", tempCode);
 
-        if (redirectParam != null && !redirectParam.isBlank()&& !redirectValidator.isAuthorized(redirectParam)) {
+        if (redirectParam != null && !redirectParam.isBlank() && redirectValidator.isAuthorized(redirectParam)) {
             builder.queryParam("redirect", redirectParam);
         }
 
