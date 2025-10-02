@@ -1,16 +1,18 @@
 package com.susanghan_guys.server.oauth2.domain.validator;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.susanghan_guys.server.oauth2.domain.proterties.RedirectProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class RedirectValidator {
 
-    @Value("${frontend.oauth2.allowed-redirect-origin}")
-    private String allowedOrigin;
+    private final RedirectProperties redirectProperties;
 
     public boolean isAuthorized(String redirect) {
         try {
@@ -21,7 +23,8 @@ public class RedirectValidator {
                 origin += ":" + uri.getPort();
             }
 
-            return allowedOrigin.equalsIgnoreCase(origin);
+            List<String> allowedOrigins = redirectProperties.allowedRedirectOrigins();
+            return allowedOrigins != null && allowedOrigins.contains(origin);
         } catch (URISyntaxException e) {
             return false;
         }
