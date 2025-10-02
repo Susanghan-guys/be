@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +23,8 @@ public class RedirectValidator {
                 origin += ":" + uri.getPort();
             }
 
-            return redirectProperties.allowedRedirectOrigins().contains(origin);
+            List<String> allowedOrigins = redirectProperties.allowedRedirectOrigins();
+            return allowedOrigins != null && allowedOrigins.contains(origin);
         } catch (URISyntaxException e) {
             return false;
         }
