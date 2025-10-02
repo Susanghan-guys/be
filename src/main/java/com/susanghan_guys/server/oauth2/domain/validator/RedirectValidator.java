@@ -2,12 +2,14 @@ package com.susanghan_guys.server.oauth2.domain.validator;
 
 import com.susanghan_guys.server.oauth2.domain.proterties.RedirectProperties;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RedirectValidator {
@@ -24,6 +26,10 @@ public class RedirectValidator {
             }
 
             List<String> allowedOrigins = redirectProperties.allowedRedirectOrigins();
+
+            log.info("parsed origin = {}", origin);
+            log.info("allowed origins from yml = {}", allowedOrigins);
+
             return allowedOrigins != null && allowedOrigins.contains(origin);
         } catch (URISyntaxException e) {
             return false;
