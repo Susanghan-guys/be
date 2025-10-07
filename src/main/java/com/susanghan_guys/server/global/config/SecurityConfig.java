@@ -1,6 +1,5 @@
 package com.susanghan_guys.server.global.config;
 
-import com.susanghan_guys.server.oauth2.filter.RedirectUriFilter;
 import com.susanghan_guys.server.global.security.handler.JwtAccessDeniedHandler;
 import com.susanghan_guys.server.global.security.handler.JwtAuthenticationEntryPoint;
 import com.susanghan_guys.server.global.security.jwt.JwtAuthenticationFilter;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -28,7 +26,6 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-    private final RedirectUriFilter redirectUriFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -62,7 +59,6 @@ public class SecurityConfig {
                                 .userService(customOAuth2UserService))
                         .successHandler(oAuth2SuccessHandler)
                 )
-                .addFilterBefore(redirectUriFilter, OAuth2AuthorizationRequestRedirectFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
