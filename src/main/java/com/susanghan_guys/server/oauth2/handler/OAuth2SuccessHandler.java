@@ -7,21 +7,16 @@ import com.susanghan_guys.server.oauth2.infrastructure.persistence.RefreshTokenR
 import com.susanghan_guys.server.global.security.CustomUserDetails;
 import com.susanghan_guys.server.global.util.RedisUtil;
 import com.susanghan_guys.server.user.domain.User;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,7 +31,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final RedisUtil redisUtil;
 
     @Value("${frontend.oauth2.base-redirect-uri}")
-    private String baseRedirectUri;
+    private String redirectUri;
 
     @Override
     public void onAuthenticationSuccess(
@@ -68,40 +63,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 1000 * 60L
         );
 
-        String provider = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
-
-        String redirectParam = extractAndDeleteCookie(request, response, "redirect_" + provider);
-
-        UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(baseRedirectUri)
-                .queryParam("code", tempCode);
-
-        if (redirectParam != null && !redirectParam.isBlank()) {
-            builder.queryParam("redirect", redirectParam);
-        }
-
-        String callbackUri = builder.build().toUriString();
+        String callbackUri = redirectUri + tempCode;
 
         response.sendRedirect(callbackUri);
-    }
-
-    private String extractAndDeleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
-        if (request.getCookies() == null) {
-            return null;
-        }
-
-        for (Cookie cookie : request.getCookies()) {
-            if (name.equals(cookie.getName())) {
-                String param = URLDecoder.decode(cookie.getValue(), StandardCharsets.UTF_8);
-
-                Cookie expired = new Cookie(name, null);
-                expired.setPath("/");
-                expired.setMaxAge(0);
-                response.addCookie(expired);
-
-                return param;
-            }
-        }
-        return null;
     }
 }
